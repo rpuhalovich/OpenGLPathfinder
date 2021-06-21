@@ -4,6 +4,8 @@
  * A facade class that ties together the system.
  */
 
+#pragma once
+
 #include "Renderer.hpp"
 
 /**
