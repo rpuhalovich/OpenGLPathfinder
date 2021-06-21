@@ -15,5 +15,9 @@ void Application::run()
     while (!window->shouldWindowClose())
     {
         window->beginFrame();
+
+        // Add code.
+
+        window->endFrame();
     }
 }
