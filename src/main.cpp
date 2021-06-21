@@ -9,6 +9,7 @@ int main(void)
     apphints->winTitle = std::string("Application");
 
     Application* a = new Application(apphints);
+    delete apphints;
     a->run();
     delete a;
     return 0;
