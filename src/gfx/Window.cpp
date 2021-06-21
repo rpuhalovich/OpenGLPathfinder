@@ -38,16 +38,16 @@ GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std:
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 #endif
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_MAXIMIZED, maximised ? GLFW_TRUE : GLFW_FALSE);
-    glfwWindowHint(GLFW_RESIZABLE, resizable ? GLFW_TRUE : GLFW_FALSE);
+    glfwWindowHint(GLFW_MAXIMIZED, maximised);
+    glfwWindowHint(GLFW_RESIZABLE, resizable);
 
     if (!glfwInit()) errorExit("Failed to initialize GLFW!", -1);
-    GLFWwindow* w = glfwCreateWindow(widthpx, heightpx, winTitle.c_str(), NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(widthpx, heightpx, winTitle.c_str(), NULL, NULL);
     if (!window)
     {
         glfwTerminate();
         errorExit("Failed to load window!", -1);
     }
 
-    return w;
+    return window;
 }

@@ -6,6 +6,8 @@ int main(void)
     apphints->winWidth = 1280;
     apphints->winHeight = 720;
     apphints->winTitle = std::string("Application");
+    apphints->maximised = false;
+    apphints->resizable = false;
 
     Application* a = new Application(apphints);
     delete apphints;
