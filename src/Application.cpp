@@ -1,8 +1,8 @@
 #include "Application.hpp"
 
-Application::Application(const ApplicationHints& ah)
+Application::Application(ApplicationHints* ah)
 {
-    window = new Window(ah.winWidth, ah.winHeight, ah.winTitle, ah.maximised, ah.resizable);
+    window = new Window(ah->winWidth, ah->winHeight, ah->winTitle, ah->maximised, ah->resizable);
 }
 
 Application::~Application()
@@ -12,7 +12,7 @@ Application::~Application()
 
 void Application::run()
 {
-    while (window->shouldWindowClose())
+    while (!window->shouldWindowClose())
     {
         window->beginFrame();
     }

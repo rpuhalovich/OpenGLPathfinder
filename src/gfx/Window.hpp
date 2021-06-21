@@ -16,7 +16,7 @@ private:
     // --- methods ---
     GLFWwindow* makeWindow(unsigned int widthpx, unsigned int heightpx, std::string& winTitle, bool maximised, bool resizable);
 
-    // --- member variables ---
+    // --- members ---
     unsigned int widthpx;
     unsigned int heightpx;
     std::string winTitle;

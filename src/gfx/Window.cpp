@@ -1,6 +1,6 @@
 #include "Window.hpp"
 
-Window::Window(unsigned int widthpx, unsigned int heightpx, std::string winTitle, bool maximised, bool resizable) : 
+Window::Window(unsigned int widthpx, unsigned int heightpx, std::string winTitle, bool maximised, bool resizable) :
     widthpx(widthpx), heightpx(heightpx), winTitle(winTitle), maximised(maximised), resizable(resizable)
 {
     window = makeWindow(widthpx, heightpx, winTitle, maximised, resizable);

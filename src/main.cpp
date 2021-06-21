@@ -3,12 +3,12 @@
 
 int main(void)
 {
-    ApplicationHints* ah = new ApplicationHints();
-    ah->winWidth = 1280;
-    ah->winHeight = 720;
-    ah->winTitle = std::string("Application");
+    ApplicationHints* apphints = new ApplicationHints();
+    apphints->winWidth = 1280;
+    apphints->winHeight = 720;
+    apphints->winTitle = std::string("Application");
 
-    Application* a = new Application(*ah);
+    Application* a = new Application(apphints);
     a->run();
     delete a;
     return 0;

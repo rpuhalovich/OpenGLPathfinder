@@ -1,7 +1,7 @@
 # written by Ryan Puhalovich - github.com/rpuhalovich
 
 cmake_minimum_required(VERSION 3.17.1)
-project(LearningOpenGL CXX)
+project(OpenGLPathfinder CXX)
 set(CMAKE_CXX_STANDARD 17)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER Predefined)
@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DREL")
 # --- src ------------------------------------------
 set(SHADER_DIR "${CMAKE_SOURCE_DIR}/src/gfx/shaders/")
 set(RES_DIR "${CMAKE_SOURCE_DIR}/res/")
-set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
 
 file(GLOB_RECURSE src
     ${SRC_DIR}/*.cpp

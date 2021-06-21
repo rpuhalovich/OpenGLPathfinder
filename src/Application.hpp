@@ -28,7 +28,7 @@ struct ApplicationHints {
 
 class Application {
 public:
-    Application(const ApplicationHints& ah);
+    Application(ApplicationHints* ah);
     ~Application();
 
     void run();
