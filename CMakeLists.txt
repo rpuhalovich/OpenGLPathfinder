@@ -26,6 +26,7 @@ source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${src})
 
 set(tgt_inc
     ${SRC_DIR}/gfx
+    ${SRC_DIR}/util
 )
 
 # --- lib ------------------------------------------
