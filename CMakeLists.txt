@@ -73,7 +73,7 @@ target_precompile_headers(${PROJECT_NAME} PUBLIC
     <iostream>
     <fstream>
     <sstream>
-    
+
     <glm/glm.hpp>
     <glm/gtc/matrix_transform.hpp>
     <glm/gtc/type_ptr.hpp>
