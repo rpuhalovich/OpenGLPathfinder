@@ -24,15 +24,15 @@ bool Window::shouldWindowClose() {
 void Window::beginFrame() {
     glc(glClear(GL_COLOR_BUFFER_BIT));
     glfwSwapBuffers(window);
+    processInput();
     glfwPollEvents();
 }
 
 void Window::endFrame() {
-    processInput();
 }
 
 void Window::processInput() {
-    if (GLFW_KEY_ESCAPE == GLFW_KEY_DOWN) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }
 }
