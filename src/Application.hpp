@@ -1,12 +1,11 @@
 /**
  * This is the class that will handle the run loop.
- * 
+ *
  * A facade class that ties together the system.
  */
 
 #pragma once
 
-#include <glad/glad.h>
 #include "Renderer.hpp"
 
 /**
@@ -19,8 +18,7 @@ struct ApplicationHints {
     bool maximised;
     bool resizable;
 
-    ApplicationHints()
-    {
+    ApplicationHints() {
         winHeight = 0;
         winWidth = 0;
         winTitle = std::string("Hello World");

@@ -1,7 +1,6 @@
 #include "Application.hpp"
 
-int main(void)
-{
+int main(void) {
     ApplicationHints* apphints = new ApplicationHints();
     apphints->winWidth = 1280;
     apphints->winHeight = 720;
