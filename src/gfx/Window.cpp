@@ -6,8 +6,10 @@ Window::Window(unsigned int widthpx, unsigned int heightpx, std::string winTitle
     glfwInit();
     window = makeWindow(widthpx, heightpx, winTitle, maximised, resizable);
     glfwMakeContextCurrent(window);
-    int version = gladLoadGL();
-    if (version == 0) errorExit("Failed to load OpenGL.", EXIT_FAILURE);
+
+    //if (gladLoadGL() == 0) errorExit("Failed to load OpenGL.", EXIT_FAILURE);
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) errorExit("Failed to load OpenGL.", EXIT_FAILURE);
+
     std::cout << glGetString(GL_VERSION) << std::endl;
 
     stbi_set_flip_vertically_on_load(true);

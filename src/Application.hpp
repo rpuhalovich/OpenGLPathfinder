@@ -27,6 +27,10 @@ struct ApplicationHints {
     }
 };
 
+/**
+ * Ideally this class wouldn't make direct reference to 
+ * the renderer.
+ */
 class Application {
 public:
     Application(ApplicationHints* ah);
