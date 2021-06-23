@@ -1,7 +1,8 @@
 #pragma once
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <string>
+#include <stb_image.h>
 #include "util.hpp"
 
 class Window {
@@ -12,6 +13,8 @@ public:
     bool shouldWindowClose();
     void beginFrame();
     void endFrame();
+
+    void processInput();
 private:
     // --- methods ---
     GLFWwindow* makeWindow(unsigned int widthpx, unsigned int heightpx, std::string& winTitle, bool maximised, bool resizable);

@@ -17,6 +17,8 @@ void Application::run()
         window->beginFrame();
 
         // Add code.
+        unsigned int vbo;
+        glGenBuffers(1, &vbo);
 
         window->endFrame();
     }
