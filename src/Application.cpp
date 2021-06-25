@@ -17,7 +17,7 @@ void Application::run() {
          0.0f,  0.5f, 0.0f
     };
 
-    // Generate buffers (VAO, VBO, EBO)
+    // Generate buffers (VAO, VBO)
     unsigned int VBO, VAO;
     glc(glGenVertexArrays(1, &VAO)); 
     glc(glGenBuffers(1, &VBO));
@@ -42,6 +42,7 @@ void Application::run() {
         glc(glClearColor(0.1f, 0.1f, 0.1f, 1.0f));
         glc(glClear(GL_COLOR_BUFFER_BIT));
 
+        // triangle
         sp->use();
 
         glc(glBindVertexArray(VAO));
@@ -50,4 +51,7 @@ void Application::run() {
 
         window->endFrame();
     }
+
+    glc(glDeleteVertexArrays(1, &VAO));
+    glc(glDeleteBuffers(1, &VBO));
 }

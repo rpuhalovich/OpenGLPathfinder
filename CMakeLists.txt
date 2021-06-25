@@ -3,6 +3,7 @@
 cmake_minimum_required(VERSION 3.17.1)
 project(OpenGLPathfinder CXX)
 set(CMAKE_CXX_STANDARD 17)
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER Predefined)
 
@@ -54,6 +55,8 @@ set(lib ${lib} stb_image)
 
 include_directories(${inc})
 
+set_target_properties(${lib} uninstall PROPERTIES FOLDER "Libraries")
+
 # --- exe ------------------------------------------
 add_executable(${PROJECT_NAME} ${src})
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
@@ -71,6 +74,7 @@ target_precompile_headers(${PROJECT_NAME} PUBLIC
     <unordered_map>
     <memory>
     <iostream>
+    <stdio.h>
     <fstream>
     <sstream>
 
@@ -78,7 +82,7 @@ target_precompile_headers(${PROJECT_NAME} PUBLIC
     <glm/gtc/matrix_transform.hpp>
     <glm/gtc/type_ptr.hpp>
 )
-source_group("Precompile Header File" FILES ${CMAKE_SOURCE_DIR}/build/CMakeFiles/${PROJECT_NAME}.dir/cmake_pch.cxx)
+source_group("Precompile Header File" FILES "${CMAKE_SOURCE_DIR}/build/CMakeFiles/${PROJECT_NAME}.dir/cmake_pch.cxx")
 
 if(MSVC)
     target_link_libraries(${PROJECT_NAME} ${lib} opengl32)
@@ -86,11 +90,3 @@ elseif(APPLE)
     add_compile_definitions(GL_SILENCE_DEPRECATION)
     target_link_libraries(${PROJECT_NAME} ${lib} "-framework OpenGL -framework IOKit -framework CoreVideo -framework Cocoa")
 endif()
-
-set_target_properties(
-    glad
-    glfw
-    uninstall
-    stb_image
-    PROPERTIES FOLDER "Libraries"
-)

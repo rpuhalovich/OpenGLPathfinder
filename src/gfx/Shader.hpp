@@ -11,6 +11,7 @@ public:
     ~Shader();
 
     static std::string readShader(const char* filename);
+    void printShader();
 
     unsigned int getId() { return id; }
 private:

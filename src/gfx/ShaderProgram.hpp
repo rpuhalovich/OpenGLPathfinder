@@ -10,6 +10,7 @@ public:
     ~ShaderProgram();
 
     void use();
+    void printSource(Shader* vertex, Shader* fragment);
 
     unsigned int getId() { return id; }
 private:

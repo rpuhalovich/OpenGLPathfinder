@@ -32,3 +32,7 @@ std::string Shader::readShader(const char* filename) {
     std::string s((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
     return s;
 }
+
+void Shader::printShader() {
+    std::cout << this->shaderSource << std::endl;
+}

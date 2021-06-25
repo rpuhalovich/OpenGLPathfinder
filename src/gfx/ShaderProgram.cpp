@@ -19,6 +19,8 @@ ShaderProgram::ShaderProgram(const char* vertname, const char* fragname) {
         std::cout << "Error: shader program compilation failed.\n" << infoLog << std::endl;
     }
 
+    // printSource(vertex, fragment);
+
     delete vertex;
     delete fragment;
 }
@@ -29,4 +31,9 @@ ShaderProgram::~ShaderProgram() {
 
 void ShaderProgram::use() {
     glc(glUseProgram(id));
+}
+
+void ShaderProgram::printSource(Shader* vertex, Shader* fragment) {
+    vertex->printShader();
+    fragment->printShader();
 }

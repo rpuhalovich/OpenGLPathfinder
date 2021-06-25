@@ -3,11 +3,8 @@
 Window::Window(unsigned int widthpx, unsigned int heightpx, std::string winTitle, bool maximised, bool resizable) :
     widthpx(widthpx), heightpx(heightpx), winTitle(winTitle), maximised(maximised), resizable(resizable)
 {
-    glfwInit();
     window = makeWindow(widthpx, heightpx, winTitle, maximised, resizable);
-    glfwMakeContextCurrent(window);
 
-    //if (gladLoadGL() == 0) errorExit("Failed to load OpenGL.", EXIT_FAILURE);
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) errorExit("Failed to load OpenGL.", EXIT_FAILURE);
 
     std::cout << glGetString(GL_VERSION) << std::endl;
@@ -25,12 +22,12 @@ bool Window::shouldWindowClose() {
 
 void Window::beginFrame() {
     glc(glClear(GL_COLOR_BUFFER_BIT));
-    glfwSwapBuffers(window);
     processInput();
-    glfwPollEvents();
 }
 
 void Window::endFrame() {
+    glfwSwapBuffers(window);
+    glfwPollEvents();
 }
 
 void Window::processInput() {
@@ -40,6 +37,7 @@ void Window::processInput() {
 }
 
 GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std::string& winTitle, bool maximised, bool resizable) {
+    glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 #ifdef __APPLE__
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -51,12 +49,13 @@ GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std:
     glfwWindowHint(GLFW_MAXIMIZED, maximised);
     glfwWindowHint(GLFW_RESIZABLE, resizable);
 
-    if (!glfwInit()) errorExit("Failed to initialize GLFW!", -1);
     GLFWwindow* window = glfwCreateWindow(widthpx, heightpx, winTitle.c_str(), NULL, NULL);
     if (!window) {
         glfwTerminate();
         errorExit("Failed to load window!", EXIT_FAILURE);
     }
+
+    glfwMakeContextCurrent(window);
 
     return window;
 }

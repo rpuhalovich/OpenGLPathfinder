@@ -19,11 +19,11 @@ struct ApplicationHints {
     bool resizable;
 
     ApplicationHints() {
-        winHeight = 0;
-        winWidth = 0;
+        winWidth = 1280;
+        winHeight = 720;
         winTitle = std::string("Hello World");
-        maximised = false;
-        resizable = false;
+        maximised = true;
+        resizable = true;
     }
 };
 
