@@ -78,6 +78,7 @@ target_precompile_headers(${PROJECT_NAME} PUBLIC
     <glm/gtc/matrix_transform.hpp>
     <glm/gtc/type_ptr.hpp>
 )
+source_group("Precompile Header File" FILES ${CMAKE_SOURCE_DIR}/build/CMakeFiles/${PROJECT_NAME}.dir/cmake_pch.cxx)
 
 if(MSVC)
     target_link_libraries(${PROJECT_NAME} ${lib} opengl32)
