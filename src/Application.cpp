@@ -17,6 +17,52 @@ void Application::run() {
          0.0f,  0.5f, 0.0f
     };
 
+    // --- copied -------------------------------------------------------------
+    // build and compile our shader program
+    // ------------------------------------
+    // vertex shader
+    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    std::string temp = Shader::readShader("vs.vert").c_str();
+    const char* vs = temp.c_str();
+    glShaderSource(vertexShader, 1, &vs, NULL);
+    glCompileShader(vertexShader);
+    // check for shader compile errors
+    int success;
+    char infoLog[512];
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+    // fragment shader
+    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    temp = Shader::readShader("fs.frag").c_str();
+    const char* fs = temp.c_str();
+    glShaderSource(fragmentShader, 1, &fs, NULL);
+    glCompileShader(fragmentShader);
+    // check for shader compile errors
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+    // link shaders
+    unsigned int shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
+    // check for linking errors
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if (!success) {
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+    }
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+    // ------------------------------------------------------------------------
+
     // Generate buffers (VAO, VBO)
     unsigned int VBO, VAO;
     glc(glGenVertexArrays(1, &VAO)); 
@@ -43,11 +89,13 @@ void Application::run() {
         glc(glClear(GL_COLOR_BUFFER_BIT));
 
         // triangle
-        sp->use();
+        //sp->use();
+        //glc(glUseProgram(sp->getId()));
+        glc(glUseProgram(shaderProgram));
 
         glc(glBindVertexArray(VAO));
         glc(glDrawArrays(GL_TRIANGLES, 0, 3));
-        glc(glBindVertexArray(0));
+        //glc(glBindVertexArray(0));
 
         window->endFrame();
     }
