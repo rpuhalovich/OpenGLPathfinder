@@ -10,7 +10,7 @@ public:
     Shader(const std::string& filename, ShaderType type);
     ~Shader();
 
-    static std::string Shader::readShader(const std::string& filename);
+    static std::string readShader(const std::string& filename);
 
     unsigned int getId() { return id; }
 private:
