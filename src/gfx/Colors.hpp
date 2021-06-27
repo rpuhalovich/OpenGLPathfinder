@@ -16,8 +16,5 @@ private:
     /**
      * \brief Converts the inputted color range value to a normalized value for OpenGL.
      */
-    float normalize(unsigned int value) {
-        if (value > COLOR_RANGE) errorExit("Invalid color range.", EXIT_FAILURE);
-        return value / COLOR_RANGE;
-    }
+    float normalize(unsigned int value);
 };
