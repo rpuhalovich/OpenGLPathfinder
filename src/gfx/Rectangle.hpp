@@ -10,15 +10,16 @@
 
 #include "Colors.hpp"
 
-class Square : public IEntity {
+class Rectangle : public IEntity {
 public:
-    Square(Colors color);
-    ~Square();
+    Rectangle(Colors color);
+    ~Rectangle();
 
     void draw() override;
 private:
     Colors color;
-    float sideLength;
+    float width;
+    float height;
 
     unsigned int id;
     std::unique_ptr<VAO> vao;

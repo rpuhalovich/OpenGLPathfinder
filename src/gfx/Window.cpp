@@ -4,11 +4,8 @@ Window::Window(unsigned int widthpx, unsigned int heightpx, std::string winTitle
     widthpx(widthpx), heightpx(heightpx), winTitle(winTitle), maximised(maximised), resizable(resizable)
 {
     window = makeWindow(widthpx, heightpx, winTitle, maximised, resizable);
-
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) errorExit("Failed to load OpenGL.", EXIT_FAILURE);
-
     std::cout << glGetString(GL_VERSION) << std::endl;
-
     stbi_set_flip_vertically_on_load(true);
 }
 

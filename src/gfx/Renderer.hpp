@@ -6,3 +6,4 @@
 #include "Window.hpp"
 #include "Shader.hpp"
 #include "ShaderProgram.hpp"
+#include "Rectangle.hpp"
