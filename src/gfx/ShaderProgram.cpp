@@ -1,39 +1,32 @@
 #include "ShaderProgram.hpp"
 
-ShaderProgram::ShaderProgram(const char* vertname, const char* fragname) {
-    Shader* vertex = new Shader(vertname, ShaderType::vertex);
-    Shader* fragment = new Shader(fragname, ShaderType::fragment);
+ShaderProgram::ShaderProgram(const std::string& vertname, const std::string& fragname) {
+    Shader* vs = new Shader(vertname, ShaderType::vertex);
+    Shader* fs = new Shader(fragname, ShaderType::fragment);
 
-    glc(glEnable(GL_DEPTH_TEST));
+    // link shaders
+    id = glCreateProgram();
+    glAttachShader(id, vs->getId());
+    glAttachShader(id, fs->getId());
+    glLinkProgram(id);
 
-    glc(id = glCreateProgram());
-    glc(glAttachShader(id, vertex->getId()));
-    glc(glAttachShader(id, fragment->getId()));
-    glc(glLinkProgram(id));
-
+    // check for linking errors
     int success;
     char infoLog[512];
-    glc(glGetProgramiv(id, GL_LINK_STATUS, &success));
+    glGetProgramiv(id, GL_LINK_STATUS, &success);
     if (!success) {
-        glc(glGetShaderInfoLog(id, 512, NULL, infoLog));
-        std::cout << "Error: shader program compilation failed.\n" << infoLog << std::endl;
+        glGetProgramInfoLog(id, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
 
-    // printSource(vertex, fragment);
-
-    delete vertex;
-    delete fragment;
+    delete vs;
+    delete fs;
 }
 
 ShaderProgram::~ShaderProgram() {
-
+    glc(glDeleteProgram(id));
 }
 
 void ShaderProgram::use() {
     glc(glUseProgram(id));
-}
-
-void ShaderProgram::printSource(Shader* vertex, Shader* fragment) {
-    vertex->printShader();
-    fragment->printShader();
 }

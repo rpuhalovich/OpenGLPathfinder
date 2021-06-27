@@ -1,24 +1,27 @@
 #include "Shader.hpp"
 
-Shader::Shader(const char* filename, ShaderType type) {
-     shaderSource = readShader(filename);
-
+Shader::Shader(const std::string& filename, ShaderType type) :
+    type(type)
+{
     if (type == ShaderType::vertex) {
         glc(id = glCreateShader(GL_VERTEX_SHADER));
     } else if (type == ShaderType::fragment) {
         glc(id = glCreateShader(GL_FRAGMENT_SHADER));
     }
 
-    const char* src = shaderSource.c_str();
+    std::string temp = Shader::readShader(filename);
+    const char* src = temp.c_str();
+
     glc(glShaderSource(id, 1, &src, NULL));
     glc(glCompileShader(id));
 
+    // check for shader compile errors
     int success;
     char infoLog[512];
     glc(glGetShaderiv(id, GL_COMPILE_STATUS, &success));
     if (!success) {
         glc(glGetShaderInfoLog(id, 512, NULL, infoLog));
-        std::cout << "Error: shader compilation failed.\n" << infoLog << std::endl;
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 }
 
@@ -34,8 +37,4 @@ std::string Shader::readShader(const std::string& filename) {
     }
     std::string s((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
     return s;
-}
-
-void Shader::printShader() {
-    std::cout << this->shaderSource << std::endl;
 }

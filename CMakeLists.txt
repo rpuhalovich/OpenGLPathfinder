@@ -65,6 +65,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${tgt_inc})
 target_compile_definitions(${PROJECT_NAME} PUBLIC
     SHADER_DIR="${SHADER_DIR}"
     RES_DIR="${RES_DIR}"
+    PROJECT_ROOT_DIR="${CMAKE_SOURCE_DIR}"
 )
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC
