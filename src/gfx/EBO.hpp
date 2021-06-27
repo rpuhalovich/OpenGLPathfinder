@@ -4,7 +4,7 @@
 
 class EBO {
 public:
-    EBO(const int* indicies, unsigned int size);
+    EBO(const int* indices, unsigned int size);
     ~EBO();
 
     void bind();
