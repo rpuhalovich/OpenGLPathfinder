@@ -5,9 +5,11 @@
 
 class VBO {
 public:
-    VBO();
+    VBO(const float* verts, unsigned int size);
     ~VBO();
 
+    void bind();
+    void unbind();
 private:
     unsigned int id;
 };

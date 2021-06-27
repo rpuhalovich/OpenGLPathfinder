@@ -13,7 +13,7 @@ void Application::run() {
          1.0f,  1.0f, 0.0f,  // top right
          1.0f,  0.0f, 0.0f,  // bottom right
          0.0f,  0.0f, 0.0f,  // bottom left
-         0.0f,  1.0f, 0.0f   // top left 
+         0.0f,  1.0f, 0.0f   // top left
     };
 
     unsigned int indices[] = {  // note that we start from 0!
@@ -25,7 +25,7 @@ void Application::run() {
 
     // Generate buffers (VAO, VBO)
     unsigned int VBO, VAO, EBO;
-    glc(glGenVertexArrays(1, &VAO)); 
+    glc(glGenVertexArrays(1, &VAO));
     glc(glGenBuffers(1, &VBO));
     glc(glGenBuffers(1, &EBO));
 
