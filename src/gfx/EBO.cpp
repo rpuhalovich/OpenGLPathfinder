@@ -10,6 +10,5 @@ EBO::~EBO() {
 
 }
 
-void EBO::bind()
-{
+void EBO::bind() {
 }

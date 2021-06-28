@@ -5,7 +5,19 @@ Window::Window(unsigned int widthpx, unsigned int heightpx, std::string winTitle
 {
     window = makeWindow(widthpx, heightpx, winTitle, maximised, resizable);
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) errorExit("Failed to load OpenGL.", EXIT_FAILURE);
+
+#ifdef DEBUG
     std::cout << glGetString(GL_VERSION) << std::endl;
+
+    int flags; glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT) {
+        glEnable(GL_DEBUG_OUTPUT);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        glDebugMessageCallback(glDebugOutput, nullptr);
+        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+    }
+#endif // DEBUG
+
     stbi_set_flip_vertically_on_load(true);
 }
 
@@ -46,11 +58,16 @@ GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std:
     glfwWindowHint(GLFW_MAXIMIZED, maximised);
     glfwWindowHint(GLFW_RESIZABLE, resizable);
 
+#ifdef DEBUG
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+#endif // DEBUG
+
     GLFWwindow* window = glfwCreateWindow(widthpx, heightpx, winTitle.c_str(), NULL, NULL);
     if (!window) {
         glfwTerminate();
         errorExit("Failed to load window!", EXIT_FAILURE);
     }
+
 
     glfwMakeContextCurrent(window);
 

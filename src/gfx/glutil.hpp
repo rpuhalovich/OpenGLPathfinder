@@ -10,11 +10,17 @@
     #define ASSERT(x) x
 #endif
 
-#ifdef DEB
-    #define glc(x) glClearErrors(); x; ASSERT(glCheckError(#x, __FILE__, __LINE__))
-#elif REL
+#ifdef DEBUG
+    #ifdef __APPLE__
+        #define glc(x) glClearErrors(); x; ASSERT(glCheckError(#x, __FILE__, __LINE__))
+    #elif _MSC_VER
+        #define glc(x) x
+    #endif
+#elif RELEASE
     #define glc(x) x
 #endif
 
 void glClearErrors();
 bool glCheckError(const char* function, const char* file, int line);
+
+void APIENTRY glDebugOutput(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char* message, const void* userParam);

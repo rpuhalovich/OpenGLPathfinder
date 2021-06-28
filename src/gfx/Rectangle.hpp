@@ -12,12 +12,12 @@
 
 class Rectangle : public IEntity {
 public:
-    Rectangle(Colors color);
+    Rectangle();
     ~Rectangle();
 
     void draw() override;
 private:
-    Colors color;
+    // Colors color;
     float width;
     float height;
 
