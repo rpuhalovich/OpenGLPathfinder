@@ -16,11 +16,15 @@ public:
     void beginFrame();
     void endFrame();
     void processInput();
+    void setBgColor(glm::vec4 color);
+
+    unsigned int getWinWidth() { return widthpx; }
+    unsigned int getWinHeight() { return heightpx; }
 private:
     GLFWwindow* makeWindow(unsigned int widthpx, unsigned int heightpx, std::string& winTitle, bool maximised, bool resizable);
 
-    unsigned int widthpx;
-    unsigned int heightpx;
+    const unsigned int widthpx;
+    const unsigned int heightpx;
     std::string winTitle;
     bool maximised;
     bool resizable;

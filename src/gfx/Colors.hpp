@@ -7,14 +7,10 @@
 
 #define COLOR_RANGE 255
 
-struct Colors {
-public:
+namespace Colors {
+    float normalize(unsigned int value);
+
     const glm::vec4 WHITE = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     const glm::vec4 BLACK = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-
-private:
-    /**
-     * \brief Converts the inputted color range value to a normalized value for OpenGL.
-     */
-    float normalize(unsigned int value);
-};
+    const glm::vec4 PURPLE = glm::vec4(normalize(175), normalize(90), normalize(176), 1.0f);
+}

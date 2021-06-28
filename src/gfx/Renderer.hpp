@@ -7,3 +7,4 @@
 #include "Shader.hpp"
 #include "ShaderProgram.hpp"
 #include "Rectangle.hpp"
+#include "Colors.hpp"

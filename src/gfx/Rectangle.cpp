@@ -1,8 +1,8 @@
 #include "Rectangle.hpp"
 
-Rectangle::Rectangle() {
-    sp = std::make_unique<ShaderProgram>("Rectangle.vert", "Rectangle.frag");
-
+Rectangle::Rectangle(float width, float height, glm::vec4 color, std::shared_ptr<ShaderProgram> sp) :
+    sp(sp)
+{
     float vertices[] = {
          1.0f,  1.0f, 0.0f, // top right
          1.0f,  0.0f, 0.0f, // bottom right

@@ -9,16 +9,13 @@ Application::~Application() {
 }
 
 void Application::run() {
-    std::unique_ptr<Rectangle> r = std::make_unique<Rectangle>();
+    std::shared_ptr<ShaderProgram> sp = std::make_shared<ShaderProgram>("Rectangle.vert", "Rectangle.frag", window->getWinWidth(), window->getWinHeight());
+    std::unique_ptr<Rectangle> r = std::make_unique<Rectangle>(100.0f, 100.0f, Colors::PURPLE, sp);
 
-    // Run loop.
     while (!window->shouldWindowClose()) {
         window->beginFrame();
 
-        // bg colour
-        glc(glClearColor(0.1f, 0.1f, 0.1f, 1.0f));
-        glc(glClear(GL_COLOR_BUFFER_BIT));
-
+        //window->setBgColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
         r->draw();
 
         window->endFrame();

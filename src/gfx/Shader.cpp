@@ -21,7 +21,7 @@ Shader::Shader(const std::string& filename, ShaderType type) :
     glc(glGetShaderiv(id, GL_COMPILE_STATUS, &success));
     if (!success) {
         glc(glGetShaderInfoLog(id, 512, NULL, infoLog));
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        std::cout << "ERROR::SHADER::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 }
 

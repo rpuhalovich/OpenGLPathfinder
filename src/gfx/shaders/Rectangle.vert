@@ -1,7 +1,15 @@
 #version 410 core
 
 layout (location = 0) in vec3 ipos;
+layout (location = 1) in vec2 iTexCoord;
+
+out vec2 oTexCoord;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 void main() {
-    gl_Position = vec4(ipos.x, ipos.y, ipos.z, 1.0f);
+    gl_Position = projection * view * model * vec4(ipos, 1.0f);
+    oTexCoord = iTexCoord;
 }

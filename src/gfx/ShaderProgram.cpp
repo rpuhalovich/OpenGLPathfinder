@@ -1,6 +1,6 @@
 #include "ShaderProgram.hpp"
 
-ShaderProgram::ShaderProgram(const std::string& vertname, const std::string& fragname) {
+ShaderProgram::ShaderProgram(const std::string& vertname, const std::string& fragname, float winWidth, float winHeight) {
     Shader* vs = new Shader(vertname, ShaderType::vertex);
     Shader* fs = new Shader(fragname, ShaderType::fragment);
 
@@ -9,6 +9,9 @@ ShaderProgram::ShaderProgram(const std::string& vertname, const std::string& fra
     glAttachShader(id, vs->getId());
     glAttachShader(id, fs->getId());
     glLinkProgram(id);
+
+    delete vs;
+    delete fs;
 
     // check for linking errors
     int success;
@@ -19,8 +22,7 @@ ShaderProgram::ShaderProgram(const std::string& vertname, const std::string& fra
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
 
-    delete vs;
-    delete fs;
+    //setMat4(glm::ortho(0.0f, winWidth, 0.0f, winHeight, -1.0f, 1.0f), std::string("projection"));
 }
 
 ShaderProgram::~ShaderProgram() {
@@ -29,4 +31,11 @@ ShaderProgram::~ShaderProgram() {
 
 void ShaderProgram::use() {
     glc(glUseProgram(id));
+}
+
+void ShaderProgram::setMat4(const glm::mat4& mat, const std::string& type) {
+    glm::mat4 matrix = glm::mat4(1.0f);
+    matrix = mat;
+    glc(unsigned int uniformLoc = glGetUniformLocation(id, type.c_str()));
+    glc(glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(matrix)));
 }

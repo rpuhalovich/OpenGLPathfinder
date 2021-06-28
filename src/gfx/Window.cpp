@@ -45,6 +45,11 @@ void Window::processInput() {
     }
 }
 
+void Window::setBgColor(glm::vec4 color) {
+    glc(glClearColor(color.x, color.y, color.z, color.w));
+    glc(glClear(GL_COLOR_BUFFER_BIT));
+}
+
 GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std::string& winTitle, bool maximised, bool resizable) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -57,7 +62,6 @@ GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std:
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_MAXIMIZED, maximised);
     glfwWindowHint(GLFW_RESIZABLE, resizable);
-
 #ifdef DEBUG
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #endif // DEBUG
@@ -67,7 +71,6 @@ GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std:
         glfwTerminate();
         errorExit("Failed to load window!", EXIT_FAILURE);
     }
-
 
     glfwMakeContextCurrent(window);
 
