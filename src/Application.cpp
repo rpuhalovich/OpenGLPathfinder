@@ -15,7 +15,7 @@ void Application::run() {
     while (!window->shouldWindowClose()) {
         window->beginFrame();
 
-        //window->setBgColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
+        window->setBgColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
         r->draw();
 
         window->endFrame();
