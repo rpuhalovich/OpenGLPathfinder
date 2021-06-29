@@ -11,4 +11,5 @@ EBO::~EBO() {
 }
 
 void EBO::bind() {
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
 }

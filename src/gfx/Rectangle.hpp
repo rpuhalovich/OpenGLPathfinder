@@ -2,7 +2,7 @@
 
 #include "glutil.hpp"
 
-#include "Entity.hpp"
+#include "IEntity.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
 #include "EBO.hpp"
@@ -10,10 +10,12 @@
 
 #include "Colors.hpp"
 
-class Rectangle : public Entity {
+class Rectangle : public IEntity {
 public:
     Rectangle(float width, float height, glm::vec4 color, std::shared_ptr<ShaderProgram> sp);
     ~Rectangle();
+
+    void translate(float x, float y);
 
     void draw() override;
 private:

@@ -5,7 +5,7 @@
 /**
  * Abstract class that describes everything an entity needs to have.
  */
-class Entity {
+class IEntity {
 public:
     virtual void draw() = 0;
 };

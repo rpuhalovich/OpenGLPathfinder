@@ -15,6 +15,6 @@ void VBO::bind() {
     glc(glBindBuffer(GL_ARRAY_BUFFER, id));
 }
 
-void VBO::unbind()
-{
+void VBO::unbind() {
+
 }

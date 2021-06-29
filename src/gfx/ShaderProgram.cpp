@@ -22,7 +22,9 @@ ShaderProgram::ShaderProgram(const std::string& vertname, const std::string& fra
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
 
-    //setMat4(glm::ortho(0.0f, winWidth, 0.0f, winHeight, -1.0f, 1.0f), std::string("projection"));
+    setMat4(glm::mat4(1.0f), std::string("model"));
+    setMat4(glm::mat4(1.0f), std::string("view"));
+    setMat4(glm::ortho(0.0f, winWidth, 0.0f, winHeight, -1.0f, 1.0f), std::string("projection"));
 }
 
 ShaderProgram::~ShaderProgram() {
@@ -34,6 +36,7 @@ void ShaderProgram::use() {
 }
 
 void ShaderProgram::setMat4(const glm::mat4& mat, const std::string& type) {
+    use();
     glm::mat4 matrix = glm::mat4(1.0f);
     matrix = mat;
     glc(unsigned int uniformLoc = glGetUniformLocation(id, type.c_str()));
