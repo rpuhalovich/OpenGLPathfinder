@@ -2,7 +2,6 @@
 
 VAO::VAO() {
     glc(glGenVertexArrays(1, &id));
-    bind();
 }
 
 VAO::~VAO() {
@@ -17,7 +16,8 @@ void VAO::unbind() {
     glc(glBindVertexArray(0));
 }
 
-void VAO::configureVAOBuffer(unsigned int index, int size, GLenum type, int stride, unsigned int pointer) {
+void VAO::configureVAOBuffer(int index, int size, GLenum type, int stride, int pointer) {
+    glc(glEnableVertexAttribArray(index));
     switch (type) {
         case GL_FLOAT: {
             glc(glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(pointer * sizeof(float))));
@@ -28,6 +28,4 @@ void VAO::configureVAOBuffer(unsigned int index, int size, GLenum type, int stri
             break;
         }
     }
-    glc(glEnableVertexAttribArray(0));
-    glc(glBindBuffer(GL_ARRAY_BUFFER, 0));
 }

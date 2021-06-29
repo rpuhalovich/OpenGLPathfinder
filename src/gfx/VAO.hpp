@@ -9,7 +9,7 @@ public:
 
     void bind();
     void unbind();
-    void configureVAOBuffer(unsigned int index, int size, GLenum type, int stride, unsigned int pointer);
+    void configureVAOBuffer(int index, int size, GLenum type, int stride, int pointer);
 private:
     unsigned int id;
 };
