@@ -4,6 +4,8 @@
 #include <GLFW/glfw3.h>
 #include <stb_image.h>
 
+#include "Event.hpp"
+
 #include "glutil.hpp"
 #include "util.hpp"
 

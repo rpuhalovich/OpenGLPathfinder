@@ -28,6 +28,7 @@ public:
     void translate(float x, float y);
     void changeColor(const glm::vec4 color);
     void draw() override;
+    void toString();
 
     /**
      * Should be called once on application start to set static shader for all Rectanlge objects.

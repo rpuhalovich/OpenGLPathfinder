@@ -28,6 +28,8 @@ Rectangle::Rectangle(float width, float height, glm::vec4 color) {
     vbo->unbind();
     vao->unbind();
 
+    currentPos = glm::vec2(0.0f, 0.0f);
+
     bounds = std::make_unique<RectangleBounds>(width, height);
 }
 
@@ -53,6 +55,10 @@ void Rectangle::draw() {
     vao->bind();
     glc(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
     vao->unbind();
+}
+
+void Rectangle::toString() {
+    std::cout << "Rectangle at: (" << this->currentPos.x << "x, " << this->currentPos.y << "y)." << std::endl;
 }
 
 void Rectangle::setShader(std::shared_ptr<ShaderProgram> _sp) {

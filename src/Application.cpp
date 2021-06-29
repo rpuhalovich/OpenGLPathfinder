@@ -19,6 +19,8 @@ void Application::run() {
         window->beginFrame();
         window->setBgColor(Colors::DARK_RED);
 
+        //r1->changeColor(glm::vec4((float)sin(glfwGetTime()), 0.5f, 0.5f, 1.0f));
+
         //count++;
         r1->translate(100 + count, 100);
         r1->draw();
