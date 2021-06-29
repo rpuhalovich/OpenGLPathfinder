@@ -1,8 +1,9 @@
 #include "Rectangle.hpp"
 
-Rectangle::Rectangle(float width, float height, glm::vec4 color, std::shared_ptr<ShaderProgram> sp) :
-    sp(sp)
-{
+// see: https://stackoverflow.com/questions/16049306/error-lnk2001-unresolved-external-symbol-private-static-class
+std::shared_ptr<ShaderProgram> Rectangle::sp;
+
+Rectangle::Rectangle(float width, float height, glm::vec4 color) {
     float vertices[] = {
          width, height, 0.0f, color.x, color.y, color.z, // top right
          width, 0.0f, 0.0f, color.x, color.y, color.z, // bottom right
@@ -44,4 +45,8 @@ void Rectangle::draw() {
     vao->bind();
     glc(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
     vao->unbind();
+}
+
+void Rectangle::setShader(std::shared_ptr<ShaderProgram> _sp) {
+    Rectangle::sp = _sp;
 }
