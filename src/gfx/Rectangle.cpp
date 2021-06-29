@@ -10,13 +10,6 @@ Rectangle::Rectangle(float width, float height, glm::vec4 color, std::shared_ptr
          0.0f, 1.0f, 0.0f, color.x, color.y, color.z  // top left
     };
 
-    //float vertices[] = {
-    //     1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, // top right
-    //     1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // bottom right
-    //     0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // bottom left
-    //     0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f  // top left
-    //};
-
     int indices[] = {
         0, 1, 3, // first Triangle
         1, 2, 3  // second Triangle
