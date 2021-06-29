@@ -17,9 +17,9 @@ void Application::run() {
     int count = 0;
     while (!window->shouldWindowClose()) {
         window->beginFrame();
-        window->setBgColor(Colors::DARK_GREY);
+        window->setBgColor(Colors::DARK_RED);
 
-        count++;
+        //count++;
         r1->translate(100 + count, 100);
         r1->draw();
 

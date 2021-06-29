@@ -22,9 +22,9 @@ ShaderProgram::ShaderProgram(const std::string& vertname, const std::string& fra
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
 
-    setMat4(glm::mat4(1.0f), std::string("model"));
-    setMat4(glm::mat4(1.0f), std::string("view"));
-    setMat4(glm::ortho(0.0f, winWidth, 0.0f, winHeight, -1.0f, 1.0f), std::string("projection"));
+    setMat4Uniform4fv(glm::mat4(1.0f), std::string("model"));
+    setMat4Uniform4fv(glm::mat4(1.0f), std::string("view"));
+    setMat4Uniform4fv(glm::ortho(0.0f, winWidth, 0.0f, winHeight, -1.0f, 1.0f), std::string("projection"));
 }
 
 ShaderProgram::~ShaderProgram() {
@@ -35,10 +35,18 @@ void ShaderProgram::use() {
     glc(glUseProgram(id));
 }
 
-void ShaderProgram::setMat4(const glm::mat4& mat, const std::string& type) {
+void ShaderProgram::setMat4Uniform4fv(const glm::mat4& mat, const std::string& type) {
     use();
     glm::mat4 matrix = glm::mat4(1.0f);
     matrix = mat;
     glc(unsigned int uniformLoc = glGetUniformLocation(id, type.c_str()));
     glc(glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(matrix)));
+}
+
+void ShaderProgram::setMat4Uniform4iv(const glm::vec4& vec, const std::string& type) {
+    use();
+    glm::vec4 vector = glm::vec4(1.0f);
+    vector = vec;
+    glc(unsigned int uniformLoc = glGetUniformLocation(id, type.c_str()));
+    glc(glUniform4fv(uniformLoc, 1, glm::value_ptr(vector)));
 }

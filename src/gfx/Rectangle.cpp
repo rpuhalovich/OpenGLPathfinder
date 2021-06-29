@@ -6,9 +6,9 @@ std::shared_ptr<ShaderProgram> Rectangle::sp;
 Rectangle::Rectangle(float width, float height, glm::vec4 color) {
     float vertices[] = {
          width, height, 0.0f, color.x, color.y, color.z, // top right
-         width, 0.0f, 0.0f, color.x, color.y, color.z, // bottom right
-         0.0f, 0.0f, 0.0f, color.x, color.y, color.z, // bottom left
-         0.0f, height, 0.0f, color.x, color.y, color.z  // top left
+         width, 0.0f,   0.0f, color.x, color.y, color.z, // bottom right
+         0.0f,  0.0f,   0.0f, color.x, color.y, color.z, // bottom left
+         0.0f,  height, 0.0f, color.x, color.y, color.z  // top left
     };
 
     int indices[] = {
@@ -27,6 +27,8 @@ Rectangle::Rectangle(float width, float height, glm::vec4 color) {
 
     vbo->unbind();
     vao->unbind();
+
+    bounds = std::make_unique<RectangleBounds>(width, height);
 }
 
 Rectangle::~Rectangle() {
@@ -37,7 +39,13 @@ void Rectangle::translate(float x, float y) {
     glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
     glm::mat4 trans = glm::mat4(1.0f);
     trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
-    sp->setMat4(trans, std::string("model"));
+    currentPos = glm::vec2(x, y);
+    sp->setMat4Uniform4fv(trans, std::string("model"));
+}
+
+void Rectangle::changeColor(const glm::vec4 color) {
+    this->color = color;
+    sp->setMat4Uniform4iv(color, "changeColor");
 }
 
 void Rectangle::draw() {
@@ -49,4 +57,15 @@ void Rectangle::draw() {
 
 void Rectangle::setShader(std::shared_ptr<ShaderProgram> _sp) {
     Rectangle::sp = _sp;
+}
+
+RectangleBounds::RectangleBounds(float width, float height) {
+    topLeft = glm::vec2(0.0f, height);
+    topRight = glm::vec2(width, height);
+    bottomLeft = glm::vec2(0.0f, 0.0f);
+    bottomRight = glm::vec2(width, 0.0f);
+}
+
+bool RectangleBounds::inBounds(glm::vec2 point) {
+    return point.x >= this->bottomLeft.x && point.x <= this->bottomRight.x && point.y >= this->topLeft.y && point.y <= this->bottomLeft.y;
 }

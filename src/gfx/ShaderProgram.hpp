@@ -19,7 +19,8 @@ public:
      * \brief Sets a matrix. 
      * \param type Should be either "model", "view" or "projection".
      */
-    void setMat4(const glm::mat4& mat, const std::string& type);
+    void setMat4Uniform4fv(const glm::mat4& mat, const std::string& type);
+    void setMat4Uniform4iv(const glm::vec4& vec, const std::string& type);
 
     unsigned int getId() { return id; }
 private:
