@@ -31,26 +31,32 @@ Rectangle::Rectangle(float width, float height, glm::vec4 color) {
     currentPos = glm::vec2(0.0f, 0.0f);
 
     bounds = std::make_unique<RectangleBounds>(width, height);
+
+    this->color = color;
 }
 
 Rectangle::~Rectangle() {
 
 }
 
+// TODO: Make check such that we don't change every draw call.
 void Rectangle::translate(float x, float y) {
-    glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
     glm::mat4 trans = glm::mat4(1.0f);
     trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
     currentPos = glm::vec2(x, y);
     sp->setMat4Uniform4fv(trans, std::string("model"));
 }
 
+// TODO: Make check such that we don't change every draw call.
 void Rectangle::changeColor(const glm::vec4 color) {
     this->color = color;
     sp->setMat4Uniform4iv(color, "changeColor");
 }
 
 void Rectangle::draw() {
+    translate(currentPos.x, currentPos.y);
+    changeColor(color);
+
     sp->use();
     vao->bind();
     glc(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));

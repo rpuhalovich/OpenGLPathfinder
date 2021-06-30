@@ -11,6 +11,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
 
 # --- src ------------------------------------------
+set(EXTERN_DIR "${CMAKE_SOURCE_DIR}/extern")
 set(SHADER_DIR "${CMAKE_SOURCE_DIR}/src/gfx/shaders/")
 set(RES_DIR "${CMAKE_SOURCE_DIR}/res/")
 set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
@@ -32,8 +33,6 @@ set(tgt_inc
 )
 
 # --- lib ------------------------------------------
-set(EXTERN_DIR "${CMAKE_SOURCE_DIR}/extern")
-
 # glad
 add_library(glad "${EXTERN_DIR}/glad/src/glad.c")
 set(inc ${inc} "${EXTERN_DIR}/glad/include")

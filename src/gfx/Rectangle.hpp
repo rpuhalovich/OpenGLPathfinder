@@ -25,6 +25,7 @@ public:
     Rectangle(float width, float height, glm::vec4 color);
     ~Rectangle();
 
+    // TODO: change this to a vec2
     void translate(float x, float y);
     void changeColor(const glm::vec4 color);
     void draw() override;
