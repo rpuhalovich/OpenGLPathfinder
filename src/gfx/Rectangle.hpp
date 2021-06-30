@@ -17,6 +17,10 @@ enum class RectangleType { square, board };
 
 struct RectangleBounds {
     RectangleBounds(float width, float height);
+
+    /**
+     * \return True if the point is inside the bounds of this object.
+     */
     bool inBounds(glm::vec2 point);
 
     glm::vec2 topLeft;

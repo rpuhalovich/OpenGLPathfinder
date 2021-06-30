@@ -77,10 +77,12 @@ void Rectangle::toString() {
 }
 
 void Rectangle::onUpdate(glm::vec2 location, int button, int action) {
+    // Key events
     if (button == GLFW_KEY_Y && action == GLFW_PRESS) {
         changeColor(Colors::LIGHT_RED);
     }
 
+    // Mouse button events
     if (bounds->inBounds(location)) {
         if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
             // TODO: this shouldn't be an if statment, should be another object type.
