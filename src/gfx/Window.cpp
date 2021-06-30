@@ -62,22 +62,23 @@ GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std:
     return window;
 }
 
-static int s_button, s_action;
+static int s_button, s_action; // Nasty hack to get variable info out of the callback.
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
     s_button = button;
     s_action = action;
 }
 
 void Window::processInput() {
+    // Key events
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     } else if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS) {
         notifyObserver(IGNORE_POS, GLFW_KEY_Y, GLFW_PRESS);
     }
 
+    // Mouse button events
     if (s_button == GLFW_MOUSE_BUTTON_LEFT && s_action == GLFW_PRESS) {
         glm::vec2 cursorpos = getAdjustedCursorPosition();
-        std::cout << "xpos: " << cursorpos.x << " ypos: " << cursorpos.y << std::endl;
         notifyObserver(glm::vec2(cursorpos.x, cursorpos.y), GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS);
     }
 }

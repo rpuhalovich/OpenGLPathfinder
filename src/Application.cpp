@@ -12,14 +12,11 @@ Application::~Application() {
 
 void Application::run() {
     std::unique_ptr<Rectangle> r1 = std::make_unique<Rectangle>(50.0f, 50.0f, Colors::LIGHT_PURPLE, RectangleType::square);
-    std::unique_ptr<Rectangle> r2 = std::make_unique<Rectangle>(50.0f, 50.0f, Colors::PURPLE, RectangleType::square);
     std::unique_ptr<Rectangle> rbg = std::make_unique<Rectangle>(1260.0f, 700.0f, Colors::DARK_GREY, RectangleType::board);
 
     rbg->translate(10, 10);
-    //r1->translate(100, 100);
+    r1->translate(500, 500);
     window->registerObserver(r1.get());
-
-    r2->translate(500, 500);
 
     std::vector<Rectangle*> rectangles;
     int count = 0;
@@ -29,9 +26,7 @@ void Application::run() {
         count += 25;
     }
 
-    for (Rectangle* r : rectangles) {
-        window->registerObserver(r);
-    }
+    for (Rectangle* r : rectangles) window->registerObserver(r);
 
     while (!window->shouldWindowClose()) {
         window->beginFrame();
@@ -40,7 +35,7 @@ void Application::run() {
         rbg->draw();
         r1->draw();
 
-        // for (auto const& r : rectangles) r->draw();
+        for (auto const& r : rectangles) r->draw();
 
         window->endFrame();
     }

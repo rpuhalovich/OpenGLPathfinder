@@ -80,9 +80,13 @@ void Rectangle::toString() {
 void Rectangle::OnUpdate(glm::vec2 location, int button, int action) {
     if (button == GLFW_KEY_Y && action == GLFW_PRESS) {
         changeColor(Colors::LIGHT_RED);
-    } else if (bounds->inBounds(location) && button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-        std::cout << "location.x: " << location.x << " location.y: " << location.y << std::endl;
-        changeColor(Colors::LIGHT_RED);
+    } 
+    
+    if (bounds->inBounds(location)) {
+        if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+            changeColor(Colors::LIGHT_RED);
+            this->toString();
+        }
     }
 }
 
