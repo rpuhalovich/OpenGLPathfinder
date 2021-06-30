@@ -1,6 +1,6 @@
 #include "VBO.hpp"
 
-VBO::VBO(const float* verts, unsigned int size) {
+VBO::VBO(const float* verts, size_t size) {
     glc(glGenBuffers(1, &id));
 
     bind();

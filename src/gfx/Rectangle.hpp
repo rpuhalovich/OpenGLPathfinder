@@ -3,12 +3,15 @@
 #include "glutil.hpp"
 
 #include "IEntity.hpp"
+#include "IEventObserver.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
 #include "EBO.hpp"
 #include "ShaderProgram.hpp"
 
 #include "Colors.hpp"
+
+enum class RectangleType { square, board };
 
 struct RectangleBounds {
     RectangleBounds(float width, float height);
@@ -20,9 +23,9 @@ struct RectangleBounds {
     glm::vec2 bottomRight;
 };
 
-class Rectangle : public IEntity {
+class Rectangle : public IEntity, public IEventObserver {
 public:
-    Rectangle(float width, float height, glm::vec4 color);
+    Rectangle(float width, float height, glm::vec4 color, RectangleType type);
     ~Rectangle();
 
     // TODO: change this to a vec2
@@ -31,6 +34,8 @@ public:
     void draw() override;
     void toString();
 
+    void OnUpdate(glm::vec2 location, int button, int action);
+
     /**
      * Should be called once on application start to set static shader for all Rectanlge objects.
      */
@@ -38,6 +43,7 @@ public:
     glm::vec2 getCurrentPos() { return currentPos; }
     glm::vec2 getCurrentPosCentre() { return glm::vec2(currentPos.x + this->width / 2, currentPos.y + this->height / 2); }
 private:
+    RectangleType type;
     unsigned int id;
     glm::vec4 color;
     float width;

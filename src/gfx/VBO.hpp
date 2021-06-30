@@ -5,7 +5,7 @@
 
 class VBO {
 public:
-    VBO(const float* verts, unsigned int size);
+    VBO(const float* verts, size_t size);
     ~VBO();
 
     void bind();

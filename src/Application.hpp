@@ -25,5 +25,5 @@ public:
 
     void run();
 private:
-    Window* window;
+    std::unique_ptr<Window> window;
 };

@@ -1,5 +1,7 @@
 #include "Window.hpp"
 
+static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+
 Window::Window(unsigned int widthpx, unsigned int heightpx, std::string winTitle, bool maximised, bool resizable) :
     widthpx(widthpx), heightpx(heightpx), winTitle(winTitle), maximised(maximised), resizable(resizable)
 {
@@ -25,29 +27,10 @@ Window::~Window() {
     glfwTerminate();
 }
 
-bool Window::shouldWindowClose() {
-    return glfwWindowShouldClose(window);
-}
-
-void Window::beginFrame() {
-    glc(glClear(GL_COLOR_BUFFER_BIT));
-    processInput();
-}
-
-void Window::endFrame() {
-    glfwSwapBuffers(window);
-    glfwPollEvents();
-}
-
-void Window::processInput() {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, true);
-    }
-}
-
-void Window::setBgColor(glm::vec4 color) {
-    glc(glClearColor(color.x, color.y, color.z, color.w));
-    glc(glClear(GL_COLOR_BUFFER_BIT));
+glm::vec2 Window::getAdjustedCursorPosition() {
+    double xpos, ypos;
+    glfwGetCursorPos(this->getWindow(), &xpos, &ypos);
+    return glm::vec2(xpos, this->getWinHeight() - ypos);
 }
 
 GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std::string& winTitle, bool maximised, bool resizable) {
@@ -74,5 +57,61 @@ GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std:
 
     glfwMakeContextCurrent(window);
 
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+
     return window;
+}
+
+static int s_button, s_action;
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+    s_button = button;
+    s_action = action;
+}
+
+void Window::processInput() {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        glfwSetWindowShouldClose(window, true);
+    } else if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS) {
+        notifyObserver(IGNORE_POS, GLFW_KEY_Y, GLFW_PRESS);
+    }
+
+    if (s_button == GLFW_MOUSE_BUTTON_LEFT && s_action == GLFW_PRESS) {
+        glm::vec2 cursorpos = getAdjustedCursorPosition();
+        std::cout << "xpos: " << cursorpos.x << " ypos: " << cursorpos.y << std::endl;
+        notifyObserver(glm::vec2(cursorpos.x, cursorpos.y), GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS);
+    }
+}
+
+bool Window::shouldWindowClose() {
+    return glfwWindowShouldClose(window);
+}
+
+void Window::beginFrame() {
+    glc(glClear(GL_COLOR_BUFFER_BIT));
+    processInput();
+}
+
+void Window::endFrame() {
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+}
+
+void Window::setBgColor(glm::vec4 color) {
+    glc(glClearColor(color.x, color.y, color.z, color.w));
+    glc(glClear(GL_COLOR_BUFFER_BIT));
+}
+
+void Window::registerObserver(IEventObserver* observer) {
+    observers.push_back(observer);
+}
+
+void Window::unRegisterObserver(IEventObserver* observer) {
+    // https://stackoverflow.com/questions/3385229/c-erase-vector-element-by-value-rather-than-by-position
+    observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
+}
+
+void Window::notifyObserver(glm::vec2 location, int button, int action) {
+    for (const auto& obs : observers) {
+        obs->OnUpdate(location, button, action);
+    }
 }

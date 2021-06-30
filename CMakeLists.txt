@@ -78,6 +78,7 @@ target_precompile_headers(${PROJECT_NAME} PUBLIC
     <stdio.h>
     <fstream>
     <sstream>
+    <algorithm>
 
     <glm/glm.hpp>
     <glm/gtc/matrix_transform.hpp>
