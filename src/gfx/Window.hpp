@@ -23,16 +23,16 @@ public:
     void processInput();
     void setBgColor(glm::vec4 color);
 
-    void registerObserver(IEventObserver* observer);
-    void unRegisterObserver(IEventObserver* observer);
-    void notifyObserver(glm::vec2 location, int button, int action);
-    glm::vec2 getAdjustedCursorPosition();
+    void registerObserver(IEventObserver* observer) override;
+    void unRegisterObserver(IEventObserver* observer) override;
 
     unsigned int getWinWidth() { return widthpx; }
     unsigned int getWinHeight() { return heightpx; }
     GLFWwindow* getWindow() { return window; }
 private:
     GLFWwindow* makeWindow(unsigned int widthpx, unsigned int heightpx, std::string& winTitle, bool maximised, bool resizable);
+    glm::vec2 getAdjustedCursorPosition();
+    void notifyObserver(glm::vec2 location, int button, int action) override;
 
     const unsigned int widthpx;
     const unsigned int heightpx;

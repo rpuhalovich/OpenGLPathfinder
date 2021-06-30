@@ -113,6 +113,6 @@ void Window::unRegisterObserver(IEventObserver* observer) {
 
 void Window::notifyObserver(glm::vec2 location, int button, int action) {
     for (const auto& obs : observers) {
-        obs->OnUpdate(location, button, action);
+        obs->onUpdate(location, button, action);
     }
 }

@@ -4,6 +4,7 @@
 
 #include "IEntity.hpp"
 #include "IEventObserver.hpp"
+
 #include "VAO.hpp"
 #include "VBO.hpp"
 #include "EBO.hpp"
@@ -11,6 +12,7 @@
 
 #include "Colors.hpp"
 
+// TODO: These should be two seperate objects...
 enum class RectangleType { square, board };
 
 struct RectangleBounds {
@@ -28,13 +30,12 @@ public:
     Rectangle(float width, float height, glm::vec4 color, RectangleType type);
     ~Rectangle();
 
-    // TODO: change this to a vec2
-    void translate(float x, float y);
+    void translate(glm::vec2 location);
     void changeColor(const glm::vec4 color);
     void draw() override;
     void toString();
 
-    void OnUpdate(glm::vec2 location, int button, int action);
+    void onUpdate(glm::vec2 location, int button, int action) override;
 
     /**
      * Should be called once on application start to set static shader for all Rectanlge objects.

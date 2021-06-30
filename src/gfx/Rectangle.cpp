@@ -4,8 +4,9 @@
 std::shared_ptr<ShaderProgram> Rectangle::sp;
 
 Rectangle::Rectangle(float width, float height, glm::vec4 color, RectangleType type) :
-    width(width), height(height)
+    width(width), height(height), type(type)
 {
+    // TODO: You're using a uniform for color now...
     float vertices[] = {
          width, height, 0.0f, color.x, color.y, color.z, // top right
          width, 0.0f,   0.0f, color.x, color.y, color.z, // bottom right
@@ -41,30 +42,28 @@ Rectangle::~Rectangle() {
 
 }
 
-// TODO: Make check such that we don't change every draw call.
-void Rectangle::translate(float x, float y) {
+void Rectangle::translate(glm::vec2 location) {
     // update position
     glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
-    currentPos = glm::vec2(x, y);
+    trans = glm::translate(trans, glm::vec3(location.x, location.y, 0.0f));
+    currentPos = glm::vec2(location.x, location.y);
 
     // update bounds
-    bounds->bottomLeft = glm::vec2(x, y);
-    bounds->bottomRight = glm::vec2(x + width, y);
-    bounds->topLeft = glm::vec2(x, y + height);
-    bounds->topRight = glm::vec2(x + width, y + height);
+    bounds->bottomLeft = glm::vec2(location.x, location.y);
+    bounds->bottomRight = glm::vec2(location.x + width, location.y);
+    bounds->topLeft = glm::vec2(location.x, location.y + height);
+    bounds->topRight = glm::vec2(location.x + width, location.y + height);
 
     sp->setMat4Uniform4fv(trans, std::string("model"));
 }
 
-// TODO: Make check such that we don't change every draw call.
 void Rectangle::changeColor(const glm::vec4 color) {
     this->color = color;
     sp->setMat4Uniform4iv(color, "changeColor");
 }
 
 void Rectangle::draw() {
-    translate(currentPos.x, currentPos.y);
+    translate(currentPos);
     changeColor(color);
 
     sp->use();
@@ -74,18 +73,21 @@ void Rectangle::draw() {
 }
 
 void Rectangle::toString() {
-    std::cout << "Rectangle at: (" << this->currentPos.x << "x, " << this->currentPos.y << "y)." << std::endl;
+    std::cout << "Rectangle at: (" << currentPos.x << "x, " << currentPos.y << "y)" << std::endl;
 }
 
-void Rectangle::OnUpdate(glm::vec2 location, int button, int action) {
+void Rectangle::onUpdate(glm::vec2 location, int button, int action) {
     if (button == GLFW_KEY_Y && action == GLFW_PRESS) {
         changeColor(Colors::LIGHT_RED);
-    } 
-    
+    }
+
     if (bounds->inBounds(location)) {
         if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-            changeColor(Colors::LIGHT_RED);
-            this->toString();
+            // TODO: this shouldn't be an if statment, should be another object type.
+            if (this->type == RectangleType::square) {
+                changeColor(Colors::LIGHT_RED);
+                this->toString();
+            }
         }
     }
 }
