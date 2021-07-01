@@ -35,6 +35,14 @@ void BG::onUpdate(glm::vec2 location, int button, int action) {
     if (button == GLFW_KEY_1 && action == GLFW_PRESS)
         randomObstacles();
 
+    if (button == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+        if (state != BGState::running) {
+            state = BGState::running;
+        } else {
+            state = BGState::idle;
+        }
+    }
+
     // Mouse button events
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
         leftClick(location);
@@ -51,16 +59,19 @@ void BG::draw() {
         }
     }
 
-    double currentTime = glfwGetTime();
-    double timeDelta = currentTime - lastTimeDelta;
-    if (timeDelta >= DELTA_TIME) {
-        lastTimeDelta = currentTime;
-        iterate();
+    // If the BG is in running state, it will iterate the algorithm every DELTA_TIME
+    if (state == BGState::running) {
+        double currentTime = glfwGetTime();
+        double timeDelta = currentTime - lastTimeDelta;
+        if (timeDelta >= DELTA_TIME) {
+            lastTimeDelta = currentTime;
+            iterate();
+        }
     }
 }
 
 void BG::iterate() {
-    //std::cout << "yeet" << std::endl;
+    std::cout << "yeet" << std::endl;
 }
 
 void BG::clearObstacles() {

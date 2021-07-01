@@ -28,7 +28,7 @@ public:
     float getWinWidth() { return widthpx; }
     float getWinHeight() { return heightpx; }
     GLFWwindow* getWindow() { return window; }
-    int getKeyPress();
+    void getKeyPress();
 private:
     GLFWwindow* makeWindow(unsigned int widthpx, unsigned int heightpx, std::string& winTitle, bool maximised, bool resizable);
     glm::vec2 getAdjustedCursorPosition();

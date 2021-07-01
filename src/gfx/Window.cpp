@@ -1,6 +1,7 @@
 #include "Window.hpp"
 
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 Window::Window(float widthpx, float heightpx, std::string winTitle, bool maximised, bool resizable) :
     widthpx(widthpx), heightpx(heightpx), winTitle(winTitle), maximised(maximised), resizable(resizable)
@@ -58,42 +59,42 @@ GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std:
     glfwMakeContextCurrent(window);
 
     glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetKeyCallback(window, key_callback);
 
     return window;
 }
 
-int Window::getKeyPress() {
-    // TODO: Surely there's a better way of doing this...
-    int newKeyState = glfwGetKey(window, GLFW_KEY_1);
-    if (newKeyState == GLFW_RELEASE && oldKeyState == GLFW_PRESS) {
-        notifyObserver(IGNORE_POS, GLFW_KEY_1, GLFW_PRESS);
-        oldKeyState = newKeyState;
-    }
-
-    oldKeyState = newKeyState;
-    return -1;
+static int s_key, s_KeyAction; // Nasty hack to get variable info out of the callback.
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    s_key = key;
+    s_KeyAction = action;
 }
 
-static int s_button, s_action; // Nasty hack to get variable info out of the callback.
+static int s_button, s_MouseAction; // Nasty hack to get variable info out of the callback.
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
     s_button = button;
-    s_action = action;
+    s_MouseAction = action;
 }
 
 void Window::processInput() {
     // Key events
-    int key = getKeyPress();
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-    if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
-        notifyObserver(IGNORE_POS, GLFW_KEY_C, GLFW_PRESS);
-    if (glfwGetKey(window, key) == GLFW_PRESS)
-        notifyObserver(IGNORE_POS, key, GLFW_PRESS);
+    int newKeyState = s_KeyAction;
+    if (newKeyState == GLFW_RELEASE && oldKeyState == GLFW_PRESS) {
+        if (s_key == GLFW_KEY_ESCAPE)
+            glfwSetWindowShouldClose(window, true);
 
-    // This is a trick to get only a single click registered.
-    int newMouseState = s_action;
+        if (s_key == GLFW_KEY_1)
+            notifyObserver(IGNORE_POS, GLFW_KEY_1, GLFW_PRESS);
+        if (s_key == GLFW_KEY_C)
+            notifyObserver(IGNORE_POS, GLFW_KEY_C, GLFW_PRESS);
+        if (s_key == GLFW_KEY_SPACE)
+            notifyObserver(IGNORE_POS, GLFW_KEY_SPACE, GLFW_PRESS);
+    }
+    oldKeyState = newKeyState;
+
+    // Mouse button events
+    int newMouseState = s_MouseAction; // This is a trick to get only a single click registered.
     if (newMouseState == GLFW_RELEASE && oldMouseState == GLFW_PRESS) {
-        // Mouse button events
         if (s_button == GLFW_MOUSE_BUTTON_LEFT)
             notifyObserver(getAdjustedCursorPosition(), GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS);
         if (s_button == GLFW_MOUSE_BUTTON_RIGHT)
