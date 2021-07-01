@@ -5,24 +5,24 @@ BG::BG(float boarderSize, float winWidth, float winHeight, glm::vec4 color, glm:
 {
     Rectangle::translate(glm::vec2(boarderSize / 2, boarderSize / 2));
 
-    for (int y = 0; y < GRID_HEIGHT; y++) {
-        std::vector<GridPiece*> row;
-        grid.push_back(row);
-        for (int x = 0; x < GRID_WIDTH; x++) {
-            grid[y].push_back(new GridPiece(GRID_PIECE_SIZE, GRID_PIECE_SIZE, gridColor, GridPieceState::regular));
-            grid[y][x]->translate(glm::vec2(boarderSize + ((GRID_PIECE_SIZE + GAP_SIZE) * x), boarderSize + ((GRID_PIECE_SIZE + GAP_SIZE) * y)));
+    for (int x = 0; x < GRID_WIDTH; x++) {
+        std::vector<GridPiece*> col;
+        grid.push_back(col);
+        for (int y = 0; y < GRID_HEIGHT; y++) {
+            grid[x].push_back(new GridPiece(GRID_PIECE_SIZE, GRID_PIECE_SIZE, gridColor, GridPieceState::regular));
+            grid[x][y]->translate(glm::vec2(boarderSize + ((GRID_PIECE_SIZE + GAP_SIZE) * x), boarderSize + ((GRID_PIECE_SIZE + GAP_SIZE) * y)));
         }
     }
 
     grid[0][0]->setGridPieceState(GridPieceState::start);
-    grid[GRID_HEIGHT - 1][GRID_WIDTH - 1]->setGridPieceState(GridPieceState::finish);
+    grid[GRID_WIDTH - 1][GRID_HEIGHT - 1]->setGridPieceState(GridPieceState::finish);
 
     state = BGState::idle;
 }
 
 BG::~BG() {
-    for (auto const& gridRow : grid) {
-        for (auto const& gridPiece : gridRow) {
+    for (auto const& gridCol : grid) {
+        for (auto const& gridPiece : gridCol) {
             delete gridPiece;
         }
     }
@@ -45,8 +45,8 @@ void BG::onUpdate(glm::vec2 location, int button, int action) {
 
 void BG::draw() {
     Rectangle::draw();
-    for (auto const& gridRow : grid) {
-        for (auto const& gridPiece : gridRow) {
+    for (auto const& gridCol : grid) {
+        for (auto const& gridPiece : gridCol) {
             gridPiece->draw();
         }
     }
@@ -64,8 +64,8 @@ void BG::iterate() {
 }
 
 void BG::clearObstacles() {
-    for (auto const& gridRow : grid) {
-        for (auto const& gridPiece : gridRow) {
+    for (auto const& gridCol : grid) {
+        for (auto const& gridPiece : gridCol) {
             if (gridPiece->getGridPieceState() == GridPieceState::obstacle) {
                 gridPiece->setGridPieceState(GridPieceState::regular);
             }
@@ -75,8 +75,8 @@ void BG::clearObstacles() {
 
 void BG::randomObstacles() {
     clearObstacles();
-    for (auto const& gridRow : grid) {
-        for (auto const& gridPiece : gridRow) {
+    for (auto const& gridCol : grid) {
+        for (auto const& gridPiece : gridCol) {
             double r = nextRand();
             if (gridPiece->getGridPieceState() == GridPieceState::regular && r >= RAND_PROB)
                 gridPiece->setGridPieceState(GridPieceState::obstacle);
@@ -86,8 +86,8 @@ void BG::randomObstacles() {
 
 GridPiece* BG::getGridPieceAtLocation(glm::vec2 location) {
     // TODO: Such efficient.
-    for (auto const& gridRow : grid) {
-        for (auto const& gridPiece : gridRow) {
+    for (auto const& gridCol : grid) {
+        for (auto const& gridPiece : gridCol) {
             if (gridPiece->getBounds()->inBounds(location)) {
                 return gridPiece;
             }
