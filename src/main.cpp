@@ -2,13 +2,13 @@
 
 /**
  * --- Task List ---
- * TODO: Add caching. Not necessary for our application because it's so simple but good practice though!
+ * TODO: Add uniform caching. Not necessary for our application because it's so simple but good practice though!
  */
 
 int main(void) {
     ApplicationHints* apphints = new ApplicationHints();
-    apphints->winWidth = 1280;
-    apphints->winHeight = 720;
+    apphints->winWidth = 1290; // TODO: Make number of GridPieces a function of window width.
+    apphints->winHeight = 715;
     apphints->winTitle = std::string("Application");
     apphints->maximised = false;
     apphints->resizable = false;
