@@ -3,15 +3,15 @@
 #include "Renderer.hpp"
 
 struct ApplicationHints {
-    unsigned int winWidth;
-    unsigned int winHeight;
+    float winWidth;
+    float winHeight;
     std::string winTitle;
     bool maximised;
     bool resizable;
 
     ApplicationHints() {
-        winWidth = 1280;
-        winHeight = 720;
+        winWidth = 1280.0f;
+        winHeight = 720.0f;
         winTitle = std::string("Hello World");
         maximised = true;
         resizable = true;

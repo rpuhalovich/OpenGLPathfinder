@@ -2,7 +2,7 @@
 
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
-Window::Window(unsigned int widthpx, unsigned int heightpx, std::string winTitle, bool maximised, bool resizable) :
+Window::Window(float widthpx, float heightpx, std::string winTitle, bool maximised, bool resizable) :
     widthpx(widthpx), heightpx(heightpx), winTitle(winTitle), maximised(maximised), resizable(resizable)
 {
     window = makeWindow(widthpx, heightpx, winTitle, maximised, resizable);

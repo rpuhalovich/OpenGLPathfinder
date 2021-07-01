@@ -7,8 +7,8 @@
 
 int main(void) {
     ApplicationHints* apphints = new ApplicationHints();
-    apphints->winWidth = 1290; // TODO: Make number of GridPieces a function of window width.
-    apphints->winHeight = 715;
+    apphints->winWidth = 1290.0f; // TODO: Make number of GridPieces a function of window width.
+    apphints->winHeight = 715.0f;
     apphints->winTitle = std::string("OpenGL Pathfinder");
     apphints->maximised = false;
     apphints->resizable = false;

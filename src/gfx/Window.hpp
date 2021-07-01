@@ -12,7 +12,7 @@
 
 class Window : public IEventSubject {
 public:
-    Window(unsigned int widthpx, unsigned int heightpx, std::string winTitle, bool maximised, bool resizable);
+    Window(float widthpx, float heightpx, std::string winTitle, bool maximised, bool resizable);
     ~Window();
 
     bool shouldWindowClose();
@@ -25,8 +25,8 @@ public:
     void register2DVecObservers(std::vector<std::vector<IEventObserver*>> grid);
     void unRegisterObserver(IEventObserver* observer) override;
 
-    unsigned int getWinWidth() { return widthpx; }
-    unsigned int getWinHeight() { return heightpx; }
+    float getWinWidth() { return widthpx; }
+    float getWinHeight() { return heightpx; }
     GLFWwindow* getWindow() { return window; }
     int getKeyPress();
 private:
@@ -34,8 +34,8 @@ private:
     glm::vec2 getAdjustedCursorPosition();
     void notifyObserver(glm::vec2 location, int button, int action) override;
 
-    const unsigned int widthpx;
-    const unsigned int heightpx;
+    const float widthpx;
+    const float heightpx;
     std::string winTitle;
     bool maximised;
     bool resizable;
