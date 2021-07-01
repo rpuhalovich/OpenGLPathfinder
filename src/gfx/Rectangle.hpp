@@ -44,6 +44,7 @@ public:
     static void setShaderDimensions(int winWidth, int winHeight);
     glm::vec2 getCurrentPos() { return currentPos; }
     glm::vec2 getCurrentPosCentre() { return glm::vec2(currentPos.x + this->width / 2, currentPos.y + this->height / 2); }
+    std::unique_ptr<RectangleBounds>& getBounds() { return bounds; }
 protected:
     unsigned int id;
     glm::vec4 currentColor;

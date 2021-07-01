@@ -41,4 +41,6 @@ private:
     GLFWwindow* window;
 
     std::vector<IEventObserver*> observers;
+
+    int oldMouseState = GLFW_RELEASE;
 };

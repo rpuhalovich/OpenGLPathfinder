@@ -70,17 +70,21 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 void Window::processInput() {
     // Key events
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-    } else if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS) {
-        notifyObserver(IGNORE_POS, GLFW_KEY_Y, GLFW_PRESS);
-    }
+    if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+        notifyObserver(IGNORE_POS, GLFW_KEY_C, GLFW_PRESS);
 
-    // Mouse button events
-    if (s_button == GLFW_MOUSE_BUTTON_LEFT && s_action == GLFW_PRESS) {
-        glm::vec2 cursorpos = getAdjustedCursorPosition();
-        notifyObserver(glm::vec2(cursorpos.x, cursorpos.y), GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS);
+    // This is a trick to get only a single click registered.
+    int newMouseState = s_action;
+    if (newMouseState == GLFW_RELEASE && oldMouseState == GLFW_PRESS) {
+        // Mouse button events
+        if (s_button == GLFW_MOUSE_BUTTON_LEFT)
+            notifyObserver(getAdjustedCursorPosition(), GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS);
+        if (s_button == GLFW_MOUSE_BUTTON_RIGHT)
+            notifyObserver(getAdjustedCursorPosition(), GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS);
     }
+    oldMouseState = newMouseState;
 }
 
 bool Window::shouldWindowClose() {

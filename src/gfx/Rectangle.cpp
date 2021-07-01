@@ -80,7 +80,7 @@ void Rectangle::onUpdate(glm::vec2 location, int button, int action) {
 }
 
 void Rectangle::setShaderDimensions(int winWidth, int winHeight) {
-    Rectangle::sp = std::make_shared<ShaderProgram>("Rectangle.vert", "Rectangle.frag", winWidth, winHeight);
+    Rectangle::sp = std::make_shared<ShaderProgram>("Rectangle.vert", "Rectangle.frag", (float)winWidth, (float)winHeight);
 }
 
 RectangleBounds::RectangleBounds(float width, float height) {

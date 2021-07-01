@@ -12,7 +12,8 @@ Application::~Application() {
 void Application::run() {
     glm::vec4 gameColor = Colors::XCODE_GREY;
 
-    std::unique_ptr<BG> bg = std::make_unique<BG>(10, window->getWinWidth(), window->getWinHeight(), Colors::DARK_GREY, gameColor);
+    std::shared_ptr<BG> bg = std::make_shared<BG>(10, window->getWinWidth(), window->getWinHeight(), Colors::DARK_GREY, gameColor);
+    window->registerObserver(bg.get());
     for (auto const& gridRow : bg->getGrid()) {
         for (auto const& gridPiece : gridRow) {
             window->registerObserver(gridPiece);

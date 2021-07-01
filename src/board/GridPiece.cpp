@@ -1,6 +1,5 @@
 #include "GridPiece.hpp"
 
-
 GridPiece::GridPiece(float width, float height, glm::vec4 color, GridPieceState state) :
     Rectangle(width, height, color), initColor(color)
 {
@@ -11,16 +10,7 @@ GridPiece::~GridPiece() {
 }
 
 void GridPiece::onUpdate(glm::vec2 location, int button, int action) {
-    //Key events
-    if (button == GLFW_KEY_Y && action == GLFW_PRESS) {
-        changeColor(initColor);
-    }
 
-    // Mouse button events
-    if (bounds->inBounds(location)) {
-        if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) leftClick(location);
-        if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) rightClick(location);
-    }
 }
 
 void GridPiece::draw() {
@@ -48,17 +38,5 @@ void GridPiece::setGridPieceState(GridPieceState state) {
         case GridPieceState::regular:
             Rectangle::changeColor(Colors::XCODE_GREY);
             break;
-    }
-}
-
-void GridPiece::leftClick(glm::vec2 location) {
-    if (state == GridPieceState::regular) {
-        GridPiece::setGridPieceState(GridPieceState::obstacle);
-    }
-}
-
-void GridPiece::rightClick(glm::vec2 location) {
-    if (state == GridPieceState::obstacle) {
-        GridPiece::setGridPieceState(GridPieceState::regular);
     }
 }

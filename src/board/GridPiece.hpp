@@ -14,8 +14,7 @@ public:
     void draw() override;
 
     void setGridPieceState(GridPieceState state);
-    void leftClick(glm::vec2 location);
-    void rightClick(glm::vec2 location);
+    GridPieceState getGridPieceState() { return state; }
 private:
     GridPieceState state;
     glm::vec4 initColor;
