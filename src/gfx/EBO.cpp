@@ -7,7 +7,7 @@ EBO::EBO(const int* indices, size_t size) {
 }
 
 EBO::~EBO() {
-
+    glc(glDeleteBuffers(1, &id));
 }
 
 void EBO::bind() {
