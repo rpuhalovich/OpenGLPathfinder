@@ -79,7 +79,7 @@ void Rectangle::toString() {
 void Rectangle::onUpdate(glm::vec2 location, int button, int action) {
     // Key events
     if (button == GLFW_KEY_Y && action == GLFW_PRESS) {
-        changeColor(Colors::LIGHT_RED);
+        changeColor(Colors::PURPLE);
     }
 
     // Mouse button events

@@ -1,8 +1,9 @@
 # written by Ryan Puhalovich - github.com/rpuhalovich
 
 cmake_minimum_required(VERSION 3.17.1)
-project(OpenGLPathfinder CXX)
+project(OpenGLPathfinder C CXX)
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 99)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER Predefined)

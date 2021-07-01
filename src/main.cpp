@@ -2,7 +2,7 @@
 
 /**
  * --- Task List ---
- * TODO: Add caching.
+ * TODO: Add caching. Not necessary for our application because it's so simple but good practice though!
  */
 
 int main(void) {
