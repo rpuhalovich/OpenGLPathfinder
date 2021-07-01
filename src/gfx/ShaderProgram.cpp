@@ -36,6 +36,8 @@ void ShaderProgram::use() {
 }
 
 void ShaderProgram::setMat4Uniform4fv(const glm::mat4& mat, const std::string& type) {
+    // TODO: https://www.youtube.com/watch?v=nBB0LGSIm5Q&t=23s
+
     use();
     glm::mat4 matrix = glm::mat4(1.0f);
     matrix = mat;

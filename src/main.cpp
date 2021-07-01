@@ -1,5 +1,10 @@
 #include "Application.hpp"
 
+/**
+ * --- Task List ---
+ * TODO: Add caching.
+ */
+
 int main(void) {
     ApplicationHints* apphints = new ApplicationHints();
     apphints->winWidth = 1280;
