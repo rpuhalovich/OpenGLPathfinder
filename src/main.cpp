@@ -8,6 +8,10 @@
  */
 
 int main(void) {
+#ifdef _MSC_VER
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
+
     ApplicationHints* apphints = new ApplicationHints();
     apphints->winWidth = 1290.0f; // TODO: Make number of GridPieces a function of window width.
     apphints->winHeight = 715.0f;
@@ -19,5 +23,9 @@ int main(void) {
     delete apphints;
     a->run();
     delete a;
+
+#ifdef _MSC_VER
+    _CrtDumpMemoryLeaks();
+#endif
     return 0;
 }

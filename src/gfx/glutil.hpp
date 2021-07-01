@@ -1,5 +1,7 @@
 #pragma once
 
+#include "leakdetector.hpp"
+
 #include <glad/glad.h>
 
 #ifdef __APPLE__

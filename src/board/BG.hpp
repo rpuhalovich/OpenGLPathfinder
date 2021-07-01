@@ -1,5 +1,7 @@
 #pragma once
 
+#include "leakdetector.hpp"
+
 #include "util.hpp"
 
 #include "GridPiece.hpp"

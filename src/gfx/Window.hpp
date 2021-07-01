@@ -1,13 +1,13 @@
 #pragma once
 
-#include <glad/glad.h>
+#include "glutil.hpp"
+
 #include <GLFW/glfw3.h>
 #include <stb_image.h>
 
 #include "IEventSubject.hpp"
 #include "IEventObserver.hpp"
 
-#include "glutil.hpp"
 #include "util.hpp"
 
 class Window : public IEventSubject {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "leakdetector.hpp"
+
 #define NORMALIZE(x) x / 255.0f
 
 namespace Colors {
