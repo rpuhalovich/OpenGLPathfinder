@@ -3,6 +3,8 @@
 /**
  * --- Task List ---
  * TODO: Add uniform caching. Not necessary for our application because it's so simple but good practice though!
+ * TODO: Make the parsing through graph a function pointer.
+ * TODO: Make the 2D vector of GridPieces smart pointers instead of raw.
  */
 
 int main(void) {
