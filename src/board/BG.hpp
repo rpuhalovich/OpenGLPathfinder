@@ -5,6 +5,11 @@
 
 // TODO: This is supposed to Board not BG...
 
+#define GRID_WIDTH 51
+#define GRID_HEIGHT 28
+#define GRID_PIECE_SIZE 20.0f
+#define GAP_SIZE 5.0f
+
 enum class BGState { selectingStart, selectingFinish, running, idle };
 
 class BG : public Rectangle {
@@ -13,8 +18,12 @@ public:
     ~BG();
 
     void onUpdate(glm::vec2 location, int button, int action) override;
-    void updateGridPiece(GridPiece* gp);
     void draw() override;
+
+    /**
+     * Completes an iteration of the algorithm based on a time delta.
+     */
+    void iterate();
     void clearObstacles();
 
     void rightClick(glm::vec2 location);
@@ -27,6 +36,7 @@ private:
     std::vector<std::vector<GridPiece*>> grid;
 
     BGState state;
+    double lastTimeDelta = 0.0f;
     GridPiece* selectedStart;
     GridPiece* selectedFinish;
 };

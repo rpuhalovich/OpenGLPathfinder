@@ -5,17 +5,17 @@ BG::BG(float boarderSize, float winWidth, float winHeight, glm::vec4 color, glm:
 {
     Rectangle::translate(glm::vec2(boarderSize / 2, boarderSize / 2));
 
-    for (int y = 0; y < 28; y++) {
+    for (int y = 0; y < GRID_HEIGHT; y++) {
         std::vector<GridPiece*> row;
         grid.push_back(row);
-        for (int x = 0; x < 51; x++) {
-            grid[y].push_back(new GridPiece(20.0f, 20.0f, gridColor, GridPieceState::regular));
-            grid[y][x]->translate(glm::vec2(10 + (25 * x), 10 + (25 * y)));
+        for (int x = 0; x < GRID_WIDTH; x++) {
+            grid[y].push_back(new GridPiece(GRID_PIECE_SIZE, GRID_PIECE_SIZE, gridColor, GridPieceState::regular));
+            grid[y][x]->translate(glm::vec2(boarderSize + ((GRID_PIECE_SIZE + GAP_SIZE) * x), boarderSize + ((GRID_PIECE_SIZE + GAP_SIZE) * y)));
         }
     }
 
     grid[0][0]->setGridPieceState(GridPieceState::start);
-    grid[27][50]->setGridPieceState(GridPieceState::finish);
+    grid[GRID_HEIGHT - 1][GRID_WIDTH - 1]->setGridPieceState(GridPieceState::finish);
 
     state = BGState::idle;
 }
@@ -41,10 +41,6 @@ void BG::onUpdate(glm::vec2 location, int button, int action) {
         rightClick(location);
 }
 
-void BG::updateGridPiece(GridPiece* gp) {
-    
-}
-
 void BG::draw() {
     Rectangle::draw();
     for (auto const& gridRow : grid) {
@@ -52,6 +48,18 @@ void BG::draw() {
             gridPiece->draw();
         }
     }
+
+    double currentTime = glfwGetTime();
+    int timeDelta = currentTime - lastTimeDelta;
+    if (timeDelta >= 1.0f) {
+        lastTimeDelta = glfwGetTime();
+        iterate();
+    }
+
+}
+
+void BG::iterate() {
+    std::cout << "yeet" << std::endl;
 }
 
 void BG::clearObstacles() {
