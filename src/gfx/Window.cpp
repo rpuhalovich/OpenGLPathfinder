@@ -62,6 +62,18 @@ GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std:
     return window;
 }
 
+int Window::getKeyPress() {
+    // TODO: Surely there's a better way of doing this...
+    int newKeyState = glfwGetKey(window, GLFW_KEY_1);
+    if (newKeyState == GLFW_RELEASE && oldKeyState == GLFW_PRESS) {
+        notifyObserver(IGNORE_POS, GLFW_KEY_1, GLFW_PRESS);
+        oldKeyState = newKeyState;
+    }
+
+    oldKeyState = newKeyState;
+    return -1;
+}
+
 static int s_button, s_action; // Nasty hack to get variable info out of the callback.
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
     s_button = button;
@@ -70,10 +82,13 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 void Window::processInput() {
     // Key events
+    int key = getKeyPress();
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
         notifyObserver(IGNORE_POS, GLFW_KEY_C, GLFW_PRESS);
+    if (glfwGetKey(window, key) == GLFW_PRESS)
+        notifyObserver(IGNORE_POS, key, GLFW_PRESS);
 
     // This is a trick to get only a single click registered.
     int newMouseState = s_action;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "util.hpp"
+
 #include "GridPiece.hpp"
 #include "Rectangle.hpp"
 
@@ -9,6 +11,8 @@
 #define GRID_HEIGHT 28
 #define GRID_PIECE_SIZE 20.0f
 #define GAP_SIZE 5.0f
+#define RAND_PROB 0.8f
+#define DELTA_TIME 0.5f
 
 enum class BGState { selectingStart, selectingFinish, running, idle };
 
@@ -25,6 +29,7 @@ public:
      */
     void iterate();
     void clearObstacles();
+    void randomObstacles();
 
     void rightClick(glm::vec2 location);
     void leftClick(glm::vec2 location);

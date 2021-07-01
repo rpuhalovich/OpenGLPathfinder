@@ -32,6 +32,8 @@ void BG::onUpdate(glm::vec2 location, int button, int action) {
     // Key events
     if (button == GLFW_KEY_C && action == GLFW_PRESS)
         clearObstacles();
+    if (button == GLFW_KEY_1 && action == GLFW_PRESS)
+        randomObstacles();
 
     // Mouse button events
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
@@ -51,14 +53,14 @@ void BG::draw() {
 
     double currentTime = glfwGetTime();
     double timeDelta = currentTime - lastTimeDelta;
-    if (timeDelta >= 0.1f) {
+    if (timeDelta >= DELTA_TIME) {
         lastTimeDelta = currentTime;
         iterate();
     }
 }
 
 void BG::iterate() {
-    std::cout << "yeet" << std::endl;
+    //std::cout << "yeet" << std::endl;
 }
 
 void BG::clearObstacles() {
@@ -67,6 +69,17 @@ void BG::clearObstacles() {
             if (gridPiece->getGridPieceState() == GridPieceState::obstacle) {
                 gridPiece->setGridPieceState(GridPieceState::regular);
             }
+        }
+    }
+}
+
+void BG::randomObstacles() {
+    clearObstacles();
+    for (auto const& gridRow : grid) {
+        for (auto const& gridPiece : gridRow) {
+            double r = nextRand();
+            if (gridPiece->getGridPieceState() == GridPieceState::regular && r >= RAND_PROB)
+                gridPiece->setGridPieceState(GridPieceState::obstacle);
         }
     }
 }
