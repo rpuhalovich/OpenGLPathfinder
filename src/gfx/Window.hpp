@@ -10,8 +10,6 @@
 #include "glutil.hpp"
 #include "util.hpp"
 
-#define IGNORE_POS glm::vec2(-1, -1)
-
 class Window : public IEventSubject {
 public:
     Window(unsigned int widthpx, unsigned int heightpx, std::string winTitle, bool maximised, bool resizable);
@@ -24,6 +22,7 @@ public:
     void setBgColor(glm::vec4 color);
 
     void registerObserver(IEventObserver* observer) override;
+    void register2DVecObservers(std::vector<std::vector<IEventObserver*>> grid);
     void unRegisterObserver(IEventObserver* observer) override;
 
     unsigned int getWinWidth() { return widthpx; }

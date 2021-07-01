@@ -20,6 +20,8 @@
     #define glc(x) x
 #endif
 
+#define IGNORE_POS glm::vec2(-1, -1)
+
 void glClearErrors();
 bool glCheckError(const char* function, const char* file, int line);
 

@@ -116,3 +116,12 @@ void Window::notifyObserver(glm::vec2 location, int button, int action) {
         obs->onUpdate(location, button, action);
     }
 }
+
+void Window::register2DVecObservers(std::vector<std::vector<IEventObserver*>> grid) {
+    for (auto const& gridRow : grid) {
+        for (auto const& gridPiece : gridRow) {
+            registerObserver(gridPiece);
+        }
+    }
+}
+
