@@ -2,8 +2,7 @@
 
 Application::Application(ApplicationHints* ah) {
     window = std::make_unique<Window>(ah->winWidth, ah->winHeight, ah->winTitle, ah->maximised, ah->resizable);
-    std::shared_ptr<ShaderProgram> rectsp = std::make_shared<ShaderProgram>("Rectangle.vert", "Rectangle.frag", (float)window->getWinWidth(), (float)window->getWinHeight());
-    Rectangle::setShader(rectsp);
+    Rectangle::setShaderDimensions(ah->winWidth, ah->winHeight);
 }
 
 Application::~Application() {

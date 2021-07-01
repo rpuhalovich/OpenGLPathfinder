@@ -41,7 +41,7 @@ public:
     /**
      * Should be called once on application start to set static shader for all Rectanlge objects.
      */
-    static void setShader(std::shared_ptr<ShaderProgram> sp);
+    static void setShaderDimensions(int winWidth, int winHeight);
     glm::vec2 getCurrentPos() { return currentPos; }
     glm::vec2 getCurrentPosCentre() { return glm::vec2(currentPos.x + this->width / 2, currentPos.y + this->height / 2); }
 

@@ -77,22 +77,11 @@ void Rectangle::toString() {
 }
 
 void Rectangle::onUpdate(glm::vec2 location, int button, int action) {
-//    // Key events
-//    if (button == GLFW_KEY_Y && action == GLFW_PRESS) {
-//        changeColor(Colors::PURPLE);
-//    }
-//
-//    // Mouse button events
-//    if (bounds->inBounds(location)) {
-//        if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-//            changeColor(Colors::LIGHT_RED);
-//            this->toString();
-//        }
-//    }
+
 }
 
-void Rectangle::setShader(std::shared_ptr<ShaderProgram> _sp) {
-    Rectangle::sp = _sp;
+void Rectangle::setShaderDimensions(int winWidth, int winHeight) {
+    Rectangle::sp = std::make_shared<ShaderProgram>("Rectangle.vert", "Rectangle.frag", winWidth, winHeight);
 }
 
 RectangleBounds::RectangleBounds(float width, float height) {
