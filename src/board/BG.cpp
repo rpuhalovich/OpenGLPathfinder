@@ -29,7 +29,7 @@ BG::~BG() {
 }
 
 void BG::onUpdate(glm::vec2 location, int button, int action) {
-    //Key events
+    // Key events
     if (button == GLFW_KEY_C && action == GLFW_PRESS)
         clearObstacles();
 
@@ -55,7 +55,6 @@ void BG::draw() {
         lastTimeDelta = currentTime;
         iterate();
     }
-
 }
 
 void BG::iterate() {
