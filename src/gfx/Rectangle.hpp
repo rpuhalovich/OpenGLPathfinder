@@ -12,9 +12,6 @@
 
 #include "Colors.hpp"
 
-// TODO: These should be two seperate objects...
-enum class RectangleType { square, board };
-
 struct RectangleBounds {
     RectangleBounds(float width, float height);
 
@@ -31,7 +28,7 @@ struct RectangleBounds {
 
 class Rectangle : public IEntity, public IEventObserver {
 public:
-    Rectangle(float width, float height, glm::vec4 color, RectangleType type);
+    Rectangle(float width, float height, glm::vec4 color);
     ~Rectangle();
 
     void translate(glm::vec2 location);
@@ -47,8 +44,8 @@ public:
     static void setShader(std::shared_ptr<ShaderProgram> sp);
     glm::vec2 getCurrentPos() { return currentPos; }
     glm::vec2 getCurrentPosCentre() { return glm::vec2(currentPos.x + this->width / 2, currentPos.y + this->height / 2); }
-private:
-    RectangleType type;
+
+protected:
     unsigned int id;
     glm::vec4 color;
     float width;
@@ -60,6 +57,7 @@ private:
     glm::vec2 currentPos;
     std::unique_ptr<RectangleBounds> bounds;
 
+private:
     std::unique_ptr<VAO> vao;
     std::unique_ptr<VBO> vbo;
     std::unique_ptr<EBO> ebo;

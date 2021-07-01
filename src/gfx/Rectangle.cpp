@@ -3,8 +3,8 @@
 // see: https://stackoverflow.com/questions/16049306/error-lnk2001-unresolved-external-symbol-private-static-class
 std::shared_ptr<ShaderProgram> Rectangle::sp;
 
-Rectangle::Rectangle(float width, float height, glm::vec4 color, RectangleType type) :
-    width(width), height(height), type(type)
+Rectangle::Rectangle(float width, float height, glm::vec4 color) :
+    width(width), height(height)
 {
     // TODO: You're using a uniform for color now...
     float vertices[] = {
@@ -77,21 +77,18 @@ void Rectangle::toString() {
 }
 
 void Rectangle::onUpdate(glm::vec2 location, int button, int action) {
-    // Key events
-    if (button == GLFW_KEY_Y && action == GLFW_PRESS) {
-        changeColor(Colors::PURPLE);
-    }
-
-    // Mouse button events
-    if (bounds->inBounds(location)) {
-        if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-            // TODO: this shouldn't be an if statment, should be another object type.
-            if (this->type == RectangleType::square) {
-                changeColor(Colors::LIGHT_RED);
-                this->toString();
-            }
-        }
-    }
+//    // Key events
+//    if (button == GLFW_KEY_Y && action == GLFW_PRESS) {
+//        changeColor(Colors::PURPLE);
+//    }
+//
+//    // Mouse button events
+//    if (bounds->inBounds(location)) {
+//        if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+//            changeColor(Colors::LIGHT_RED);
+//            this->toString();
+//        }
+//    }
 }
 
 void Rectangle::setShader(std::shared_ptr<ShaderProgram> _sp) {
@@ -106,5 +103,8 @@ RectangleBounds::RectangleBounds(float width, float height) {
 }
 
 bool RectangleBounds::inBounds(glm::vec2 point) {
-    return point.x >= this->bottomLeft.x && point.x <= this->bottomRight.x && point.y <= this->topRight.y && point.y >= this->bottomLeft.y;
+    return point.x >= this->bottomLeft.x &&
+            point.x <= this->bottomRight.x &&
+            point.y <= this->topRight.y &&
+            point.y >= this->bottomLeft.y;
 }
