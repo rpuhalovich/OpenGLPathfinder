@@ -10,7 +10,7 @@ Application::~Application() {
 }
 
 void Application::run() {
-    glm::vec4 gameColor = Colors::DARK_RED;
+    glm::vec4 gameColor = Colors::XCODE_GREY;
     
     std::unique_ptr<BG> bg = std::make_unique<BG>(10, window->getWinWidth(), window->getWinHeight(), Colors::DARK_GREY, gameColor);
     for (auto const& gridRow : bg->getGrid()) {
