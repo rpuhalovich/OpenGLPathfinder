@@ -10,7 +10,9 @@ Application::~Application() {
 }
 
 void Application::run() {
-    std::unique_ptr<BG> bg = std::make_unique<BG>(10, window->getWinWidth(), window->getWinHeight(), Colors::DARK_GREY);
+    glm::vec4 gameColor = Colors::DARK_RED;
+    
+    std::unique_ptr<BG> bg = std::make_unique<BG>(10, window->getWinWidth(), window->getWinHeight(), Colors::DARK_GREY, gameColor);
     for (auto const& gridRow : bg->getGrid()) {
         for (auto const& gridPiece : gridRow) {
             window->registerObserver(gridPiece);
@@ -19,7 +21,7 @@ void Application::run() {
 
     while (!window->shouldWindowClose()) {
         window->beginFrame();
-        window->setBgColor(Colors::PURPLE);
+        window->setBgColor(gameColor);
 
         bg->draw();
 

@@ -8,10 +8,10 @@ Rectangle::Rectangle(float width, float height, glm::vec4 color) :
 {
     // TODO: You're using a uniform for color now...
     float vertices[] = {
-         width, height, 0.0f, color.x, color.y, color.z, // top right
-         width, 0.0f,   0.0f, color.x, color.y, color.z, // bottom right
-         0.0f,  0.0f,   0.0f, color.x, color.y, color.z, // bottom left
-         0.0f,  height, 0.0f, color.x, color.y, color.z  // top left
+         width, height, 0.0f, // top right
+         width, 0.0f,   0.0f, // bottom right
+         0.0f,  0.0f,   0.0f, // bottom left
+         0.0f,  height, 0.0f  // top left
     };
 
     int indices[] = {
@@ -25,8 +25,7 @@ Rectangle::Rectangle(float width, float height, glm::vec4 color) :
     vbo = std::make_unique<VBO>(vertices, sizeof(vertices));
     ebo = std::make_unique<EBO>(indices, sizeof(indices));
 
-    vao->configureVAOBuffer(0, 3, GL_FLOAT, 6, 0); // positions
-    vao->configureVAOBuffer(1, 3, GL_FLOAT, 6, 3); // color
+    vao->configureVAOBuffer(0, 3, GL_FLOAT, 3, 0); // positions
 
     vbo->unbind();
     vao->unbind();
@@ -35,7 +34,7 @@ Rectangle::Rectangle(float width, float height, glm::vec4 color) :
 
     bounds = std::make_unique<RectangleBounds>(width, height);
 
-    this->color = color;
+    this->currentColor = color;
 }
 
 Rectangle::~Rectangle() {
@@ -58,13 +57,13 @@ void Rectangle::translate(glm::vec2 location) {
 }
 
 void Rectangle::changeColor(const glm::vec4 color) {
-    this->color = color;
-    sp->setMat4Uniform4iv(color, "changeColor");
+    this->currentColor = color;
+    sp->setMat4Uniform4iv(currentColor, "changeColor");
 }
 
 void Rectangle::draw() {
     translate(currentPos);
-    changeColor(color);
+    changeColor(currentColor);
 
     sp->use();
     vao->bind();
