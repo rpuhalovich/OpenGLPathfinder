@@ -50,9 +50,9 @@ void BG::draw() {
     }
 
     double currentTime = glfwGetTime();
-    int timeDelta = currentTime - lastTimeDelta;
-    if (timeDelta >= 1.0f) {
-        lastTimeDelta = glfwGetTime();
+    double timeDelta = currentTime - lastTimeDelta;
+    if (timeDelta >= 0.1f) {
+        lastTimeDelta = currentTime;
         iterate();
     }
 

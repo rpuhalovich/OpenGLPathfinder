@@ -39,4 +39,8 @@ private:
     double lastTimeDelta = 0.0f;
     GridPiece* selectedStart;
     GridPiece* selectedFinish;
+
+    // temp stuff
+    int lastx = 0;
+    int lasty = 0;
 };
