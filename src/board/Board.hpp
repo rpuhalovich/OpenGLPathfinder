@@ -16,12 +16,12 @@
 #define RAND_PROB 0.8f
 #define DELTA_TIME 0.5f
 
-enum class BGState { selectingStart, selectingFinish, running, idle };
+enum class BoardState { selectingStart, selectingFinish, running, idle };
 
-class BG : public Rectangle {
+class Board : public Rectangle {
 public:
-    BG(float boarderSize, float winWidth, float winHeight, glm::vec4 color, glm::vec4 gridColor);
-    ~BG();
+    Board(float boarderSize, float winWidth, float winHeight, glm::vec4 color, glm::vec4 gridColor);
+    ~Board();
 
     void onUpdate(glm::vec2 location, int button, int action) override;
     void draw() override;
@@ -50,7 +50,7 @@ private:
     glm::vec2 gridDimensions = glm::vec2(50, 50);
     std::vector<std::vector<GridPiece*>> grid;
 
-    BGState state;
+    BoardState state;
     double lastTimeDelta = 0.0f;
 
     glm::vec2 startLocation;

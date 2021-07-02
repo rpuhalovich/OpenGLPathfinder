@@ -8,5 +8,5 @@
 #include "Colors.hpp"
 
 // --- board ---
-#include "BG.hpp"
+#include "Board.hpp"
 #include "GridPiece.hpp"

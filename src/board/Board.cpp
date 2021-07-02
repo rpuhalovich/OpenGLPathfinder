@@ -1,6 +1,6 @@
-#include "BG.hpp"
+#include "Board.hpp"
 
-BG::BG(float boarderSize, float winWidth, float winHeight, glm::vec4 color, glm::vec4 gridColor) :
+Board::Board(float boarderSize, float winWidth, float winHeight, glm::vec4 color, glm::vec4 gridColor) :
     Rectangle(winWidth - boarderSize, winHeight - boarderSize, color)
 {
     Rectangle::translate(glm::vec2(boarderSize / 2, boarderSize / 2));
@@ -21,10 +21,10 @@ BG::BG(float boarderSize, float winWidth, float winHeight, glm::vec4 color, glm:
     grid[inDistance][GRID_HEIGHT / 2 + 1]->setGridPieceState(GridPieceState::start);
     grid[GRID_WIDTH - (inDistance + 1)][GRID_HEIGHT / 2 + 1]->setGridPieceState(GridPieceState::finish);
 
-    state = BGState::idle;
+    state = BoardState::idle;
 }
 
-BG::~BG() {
+Board::~Board() {
     for (auto const& gridCol : grid) {
         for (auto const& gridPiece : gridCol) {
             delete gridPiece;
@@ -32,7 +32,7 @@ BG::~BG() {
     }
 }
 
-void BG::onUpdate(glm::vec2 location, int button, int action) {
+void Board::onUpdate(glm::vec2 location, int button, int action) {
     // Key events
     if (button == GLFW_KEY_C && action == GLFW_PRESS)
         clearObstacles();
@@ -41,7 +41,7 @@ void BG::onUpdate(glm::vec2 location, int button, int action) {
     if (button == GLFW_KEY_2 && action == GLFW_PRESS)
         recursiveMaze();
     if (button == GLFW_KEY_SPACE && action == GLFW_PRESS)
-        state != BGState::running ? state = BGState::running : state = BGState::idle;
+        state != BoardState::running ? state = BoardState::running : state = BoardState::idle;
 
     // Mouse button events
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
@@ -51,7 +51,7 @@ void BG::onUpdate(glm::vec2 location, int button, int action) {
         rightClick(location);
 }
 
-void BG::draw() {
+void Board::draw() {
     Rectangle::draw();
     for (auto const& gridCol : grid) {
         for (auto const& gridPiece : gridCol) {
@@ -59,8 +59,8 @@ void BG::draw() {
         }
     }
 
-    // If the BG is in running state, it will iterate the algorithm every DELTA_TIME
-    if (state == BGState::running) {
+    // If the Board is in running state, it will iterate the algorithm every DELTA_TIME
+    if (state == BoardState::running) {
         double currentTime = glfwGetTime();
         double timeDelta = currentTime - lastTimeDelta;
         if (timeDelta >= DELTA_TIME) {
@@ -70,11 +70,11 @@ void BG::draw() {
     }
 }
 
-void BG::iterate() {
+void Board::iterate() {
     std::cout << "yeet" << std::endl;
 }
 
-void BG::clearObstacles() {
+void Board::clearObstacles() {
     for (auto const& gridCol : grid) {
         for (auto const& gridPiece : gridCol) {
             if (gridPiece->getGridPieceState() == GridPieceState::obstacle) {
@@ -84,7 +84,7 @@ void BG::clearObstacles() {
     }
 }
 
-void BG::randomObstacles() {
+void Board::randomObstacles() {
     clearObstacles();
     for (auto const& gridCol : grid) {
         for (auto const& gridPiece : gridCol) {
@@ -94,12 +94,12 @@ void BG::randomObstacles() {
     }
 }
 
-void BG::recursiveMaze() {
+void Board::recursiveMaze() {
     clearObstacles();
     obstacleWalls();
 }
 
-GridPiece* BG::getGridPieceAtLocation(glm::vec2 location) {
+GridPiece* Board::getGridPieceAtLocation(glm::vec2 location) {
     // TODO: Such efficient.
     for (auto const& gridCol : grid) {
         for (auto const& gridPiece : gridCol) {
@@ -111,41 +111,41 @@ GridPiece* BG::getGridPieceAtLocation(glm::vec2 location) {
     return nullptr;
 }
 
-void BG::leftClick(glm::vec2 location) {
+void Board::leftClick(glm::vec2 location) {
     GridPiece* gp = getGridPieceAtLocation(location);
     if (!gp) return;
 
-    if (state == BGState::idle) {
+    if (state == BoardState::idle) {
         if (gp->getGridPieceState() == GridPieceState::regular)
             gp->setGridPieceState(GridPieceState::obstacle);
 
         if (gp->getGridPieceState() == GridPieceState::start) {
             selectedStart = gp;
             gp->setGridPieceState(GridPieceState::startSelected);
-            state = BGState::selectingStart;
+            state = BoardState::selectingStart;
         }
 
         if (gp->getGridPieceState() == GridPieceState::finish) {
             selectedFinish = gp;
             gp->setGridPieceState(GridPieceState::finishSelected);
-            state = BGState::selectingFinish;
+            state = BoardState::selectingFinish;
         }
-    } else if (state == BGState::selectingStart) {
+    } else if (state == BoardState::selectingStart) {
         if (gp->getGridPieceState() == GridPieceState::regular || gp->getGridPieceState() == GridPieceState::obstacle) {
             selectedStart->setGridPieceState(GridPieceState::regular);
             gp->setGridPieceState(GridPieceState::start);
-            state = BGState::idle;
+            state = BoardState::idle;
         }
-    } else if (state == BGState::selectingFinish) {
+    } else if (state == BoardState::selectingFinish) {
         if (gp->getGridPieceState() == GridPieceState::regular || gp->getGridPieceState() == GridPieceState::obstacle) {
             selectedFinish->setGridPieceState(GridPieceState::regular);
             gp->setGridPieceState(GridPieceState::finish);
-            state = BGState::idle;
+            state = BoardState::idle;
         }
     }
 }
 
-void BG::obstacleWalls() {
+void Board::obstacleWalls() {
     for (int x = 0; x < GRID_WIDTH; x++) {
         grid[x][0]->setGridPieceState(GridPieceState::obstacle);
         grid[x][GRID_HEIGHT - 1]->setGridPieceState(GridPieceState::obstacle);
@@ -157,7 +157,7 @@ void BG::obstacleWalls() {
     }
 }
 
-void BG::rightClick(glm::vec2 location) {
+void Board::rightClick(glm::vec2 location) {
     GridPiece* gp = getGridPieceAtLocation(location);
     if (!gp) return;
 
