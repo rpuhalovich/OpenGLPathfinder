@@ -14,8 +14,9 @@ BG::BG(float boarderSize, float winWidth, float winHeight, glm::vec4 color, glm:
         }
     }
 
-    grid[0][0]->setGridPieceState(GridPieceState::start);
-    grid[GRID_WIDTH - 1][GRID_HEIGHT - 1]->setGridPieceState(GridPieceState::finish);
+    int inDistance = 5;
+    grid[inDistance][GRID_HEIGHT / 2 + 1]->setGridPieceState(GridPieceState::start);
+    grid[GRID_WIDTH - (inDistance + 1)][GRID_HEIGHT / 2 + 1]->setGridPieceState(GridPieceState::finish);
 
     state = BGState::idle;
 }
@@ -34,14 +35,8 @@ void BG::onUpdate(glm::vec2 location, int button, int action) {
         clearObstacles();
     if (button == GLFW_KEY_1 && action == GLFW_PRESS)
         randomObstacles();
-
-    if (button == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-        if (state != BGState::running) {
-            state = BGState::running;
-        } else {
-            state = BGState::idle;
-        }
-    }
+    if (button == GLFW_KEY_SPACE && action == GLFW_PRESS)
+        state != BGState::running ? state = BGState::running : state = BGState::idle;
 
     // Mouse button events
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
@@ -88,8 +83,7 @@ void BG::randomObstacles() {
     clearObstacles();
     for (auto const& gridCol : grid) {
         for (auto const& gridPiece : gridCol) {
-            double r = nextRand();
-            if (gridPiece->getGridPieceState() == GridPieceState::regular && r >= RAND_PROB)
+            if (gridPiece->getGridPieceState() == GridPieceState::regular && nextRand() >= RAND_PROB)
                 gridPiece->setGridPieceState(GridPieceState::obstacle);
         }
     }
