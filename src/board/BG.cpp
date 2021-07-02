@@ -9,8 +9,11 @@ BG::BG(float boarderSize, float winWidth, float winHeight, glm::vec4 color, glm:
         std::vector<GridPiece*> col;
         grid.push_back(col);
         for (int y = 0; y < GRID_HEIGHT; y++) {
+            // push_back a new GridPiece to the end of the colum going from bottom to top.
             grid[x].push_back(new GridPiece(GRID_PIECE_SIZE, GRID_PIECE_SIZE, gridColor, GridPieceState::regular));
-            grid[x][y]->translate(glm::vec2(boarderSize + ((GRID_PIECE_SIZE + GAP_SIZE) * x), boarderSize + ((GRID_PIECE_SIZE + GAP_SIZE) * y)));
+
+            // Then translate it to be at the appropriate x and y positions based on the boarder size.
+            grid[x][y]->translate(glm::vec2(boarderSize + ((GRID_PIECE_SIZE + boarderSize / 2) * x), boarderSize + ((GRID_PIECE_SIZE + boarderSize / 2) * y)));
         }
     }
 
@@ -35,6 +38,8 @@ void BG::onUpdate(glm::vec2 location, int button, int action) {
         clearObstacles();
     if (button == GLFW_KEY_1 && action == GLFW_PRESS)
         randomObstacles();
+    if (button == GLFW_KEY_2 && action == GLFW_PRESS)
+        recursiveMaze();
     if (button == GLFW_KEY_SPACE && action == GLFW_PRESS)
         state != BGState::running ? state = BGState::running : state = BGState::idle;
 
@@ -89,6 +94,11 @@ void BG::randomObstacles() {
     }
 }
 
+void BG::recursiveMaze() {
+    clearObstacles();
+    obstacleWalls();
+}
+
 GridPiece* BG::getGridPieceAtLocation(glm::vec2 location) {
     // TODO: Such efficient.
     for (auto const& gridCol : grid) {
@@ -132,6 +142,18 @@ void BG::leftClick(glm::vec2 location) {
             gp->setGridPieceState(GridPieceState::finish);
             state = BGState::idle;
         }
+    }
+}
+
+void BG::obstacleWalls() {
+    for (int x = 0; x < GRID_WIDTH; x++) {
+        grid[x][0]->setGridPieceState(GridPieceState::obstacle);
+        grid[x][GRID_HEIGHT - 1]->setGridPieceState(GridPieceState::obstacle);
+    }
+
+    for (int y = 0; y < GRID_HEIGHT; y++) {
+        grid[0][y]->setGridPieceState(GridPieceState::obstacle);
+        grid[GRID_WIDTH - 1][y]->setGridPieceState(GridPieceState::obstacle);
     }
 }
 
