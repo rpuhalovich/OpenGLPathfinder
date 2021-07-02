@@ -1,4 +1,6 @@
 #include "Board.hpp"
+#include <random>
+#include <algorithm>
 
 Board::Board(float boarderSize, float winWidth, float winHeight, glm::vec4 color, glm::vec4 gridColor) :
     Rectangle(winWidth - boarderSize, winHeight - boarderSize, color)
@@ -96,7 +98,55 @@ void Board::randomObstacles() {
 
 void Board::recursiveMaze() {
     clearObstacles();
+    // TODO: Make work.
+    //recursiveBacktracker(1, 1, 0);
     obstacleWalls();
+}
+
+void Board::recursiveBacktracker(int ox, int oy, int count) {
+    if (count > 17) return;
+
+    GridPieceState reg = GridPieceState::regular, obs = GridPieceState::obstacle;
+
+    std::vector<direction> directions = { direction::U, direction::D, direction::L, direction::R };
+    auto rng = std::default_random_engine{};
+    std::shuffle(directions.begin(), directions.end(), rng);
+
+    GridPiece* previous;
+
+    for (auto const& d : directions) {
+        switch (d) {
+            case direction::U: {
+                int newDir = oy + 1;
+                if (newDir < GRID_HEIGHT && grid[ox][newDir]->getGridPieceState() == reg) {
+                    grid[ox][newDir]->setGridPieceState(obs);
+                    recursiveBacktracker(ox, newDir, ++count);
+                }
+                break;
+            } case direction::D: {
+                int newDir = oy - 1;
+                if (newDir >= 0 && grid[ox][newDir]->getGridPieceState() == reg) {
+                    grid[ox][newDir - 1]->setGridPieceState(obs);
+                    recursiveBacktracker(ox, newDir, ++count);
+                }
+                break;
+            } case direction::L: {
+                int newDir = ox - 1;
+                if (newDir >= 0 && grid[newDir][oy]->getGridPieceState() == reg) {
+                    grid[newDir][oy]->setGridPieceState(obs);
+                    recursiveBacktracker(newDir, oy, ++count);
+                }
+                break;
+            } case direction::R: {
+                int newDir = ox + 1;
+                if (newDir < GRID_WIDTH && grid[newDir][oy]->getGridPieceState() == reg) {
+                    grid[newDir][oy]->setGridPieceState(obs);
+                    recursiveBacktracker(newDir, oy, ++count);
+                }
+                break;
+            }
+        }
+    }
 }
 
 GridPiece* Board::getGridPieceAtLocation(glm::vec2 location) {

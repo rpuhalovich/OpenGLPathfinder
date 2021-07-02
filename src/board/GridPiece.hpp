@@ -4,7 +4,7 @@
 #include "Rectangle.hpp"
 
 // TODO: Separate these out into their own classes!
-enum class GridPieceState { start, startSelected, finish, finishSelected, obstacle, regular };
+enum class GridPieceState { start, startSelected, finish, finishSelected, obstacle, visited, regular };
 
 class GridPiece : public Rectangle {
 public:

@@ -7,8 +7,6 @@
 #include "GridPiece.hpp"
 #include "Rectangle.hpp"
 
-// TODO: This is supposed to Board not BG...
-
 #define GRID_WIDTH 51
 #define GRID_HEIGHT 28
 #define GRID_PIECE_SIZE 20.0f
@@ -29,6 +27,10 @@ public:
     std::vector<std::vector<GridPiece*>> getGrid() { return grid; }
     GridPiece* getGridPieceAtLocation(glm::vec2 location);
 private:
+    // --- algorithm stuff ---
+    // recursiveBacktracking
+    enum class direction { U, D, L, R };
+
     // --- methods ---
     /**
      * Completes an iteration of the algorithm based on a time delta.
@@ -36,12 +38,13 @@ private:
     void iterate();
     void clearObstacles();
     void randomObstacles();
-    void recursiveMaze();
 
     /**
      * Surrounds the grid with a wall of obstacles.
      */
     void obstacleWalls();
+    void recursiveMaze();
+    void recursiveBacktracker(int ox, int oy, int count);
 
     void rightClick(glm::vec2 location);
     void leftClick(glm::vec2 location);
