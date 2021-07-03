@@ -19,7 +19,7 @@ enum class BoardState { selectingStart, selectingFinish, running, idle };
 
 class Board : public Rectangle {
 public:
-    Board(float boarderSize, float winWidth, float winHeight, glm::vec4 color, glm::vec4 gridColor);
+    Board(float borderSize, float winWidth, float winHeight, glm::vec4 color, glm::vec4 gridColor);
     ~Board();
 
     void onUpdate(glm::vec2 location, int button, int action) override;

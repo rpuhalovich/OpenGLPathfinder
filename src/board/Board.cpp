@@ -2,10 +2,10 @@
 #include <random>
 #include <algorithm>
 
-Board::Board(float boarderSize, float winWidth, float winHeight, glm::vec4 color, glm::vec4 gridColor) :
-    Rectangle(winWidth - boarderSize, winHeight - boarderSize, color)
+Board::Board(float borderSize, float winWidth, float winHeight, glm::vec4 color, glm::vec4 gridColor) :
+    Rectangle(winWidth - borderSize, winHeight - borderSize, color)
 {
-    Rectangle::translate(glm::vec2(boarderSize / 2, boarderSize / 2));
+    Rectangle::translate(glm::vec2(borderSize / 2, borderSize / 2));
 
     // Allocating and translating the GridPieces.
     for (int x = 0; x < GRID_WIDTH; x++) {
@@ -16,7 +16,7 @@ Board::Board(float boarderSize, float winWidth, float winHeight, glm::vec4 color
             grid[x].push_back(new GridPiece(GRID_PIECE_SIZE, GRID_PIECE_SIZE, gridColor, GridPieceState::regular));
 
             // Then translate it to be at the appropriate x and y positions based on the boarder size.
-            grid[x][y]->translate(glm::vec2(boarderSize + ((GRID_PIECE_SIZE + boarderSize / 2) * x), boarderSize + ((GRID_PIECE_SIZE + boarderSize / 2) * y)));
+            grid[x][y]->translate(glm::vec2(borderSize + ((GRID_PIECE_SIZE + borderSize / 2) * x), borderSize + ((GRID_PIECE_SIZE + borderSize / 2) * y)));
         }
     }
 
