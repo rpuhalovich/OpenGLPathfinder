@@ -30,6 +30,9 @@ public:
 private:
     struct DijkstraVertex;
     // --- methods ---
+    void rightClick(glm::vec2 location);
+    void leftClick(glm::vec2 location);
+
     /**
      * Completes an iteration of the algorithm based on a time delta.
      */
@@ -43,9 +46,6 @@ private:
     void obstacleWalls();
     void recursiveMaze();
     void recursiveBacktracker(int ox, int oy, int count);
-
-    void rightClick(glm::vec2 location);
-    void leftClick(glm::vec2 location);
 
     // --- members ---
     glm::vec2 gridDimensions = glm::vec2(50, 50);

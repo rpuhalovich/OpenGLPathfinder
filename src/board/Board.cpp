@@ -36,12 +36,12 @@ Board::~Board() {
 
 void Board::onUpdate(glm::vec2 location, int button, int action) {
     // Key events
-    if (button == GLFW_KEY_C && action == GLFW_PRESS)
-        clearObstacles();
     if (button == GLFW_KEY_1 && action == GLFW_PRESS)
         randomObstacles();
     if (button == GLFW_KEY_2 && action == GLFW_PRESS)
         recursiveMaze();
+    if (button == GLFW_KEY_C && action == GLFW_PRESS)
+        clearObstacles();
     if (button == GLFW_KEY_SPACE && action == GLFW_PRESS) {
         initDijkstra();
         state != BoardState::running ? state = BoardState::running : state = BoardState::idle;
@@ -58,6 +58,53 @@ void Board::onUpdate(glm::vec2 location, int button, int action) {
 
         if (gp->getGridPieceState() == GridPieceState::obstacle)
             gp->setGridPieceState(GridPieceState::regular);
+    }
+}
+
+void Board::leftClick(glm::vec2 location) {
+    GridPiece* gp = getGridPieceAtLocation(location);
+    if (!gp) return;
+
+    if (state == BoardState::idle) {
+        if (gp->getGridPieceState() == GridPieceState::regular) {
+            gp->setGridPieceState(GridPieceState::obstacle);
+        }
+        else if (gp->getGridPieceState() == GridPieceState::obstacle) {
+            gp->setGridPieceState(GridPieceState::regular);
+        }
+
+        if (gp->getGridPieceState() == GridPieceState::start) {
+            selectedStart = gp;
+            gp->setGridPieceState(GridPieceState::startSelected);
+            state = BoardState::selectingStart;
+        }
+
+        if (gp->getGridPieceState() == GridPieceState::finish) {
+            selectedFinish = gp;
+            gp->setGridPieceState(GridPieceState::finishSelected);
+            state = BoardState::selectingFinish;
+        }
+    } else if (state == BoardState::selectingStart) {
+        if (gp->getGridPieceState() == GridPieceState::regular || gp->getGridPieceState() == GridPieceState::obstacle) {
+            selectedStart->setGridPieceState(GridPieceState::regular);
+            gp->setGridPieceState(GridPieceState::start);
+            state = BoardState::idle;
+        }
+    } else if (state == BoardState::selectingFinish) {
+        if (gp->getGridPieceState() == GridPieceState::regular || gp->getGridPieceState() == GridPieceState::obstacle) {
+            selectedFinish->setGridPieceState(GridPieceState::regular);
+            gp->setGridPieceState(GridPieceState::finish);
+            state = BoardState::idle;
+        }
+    }
+}
+
+void Board::rightClick(glm::vec2 location) {
+    GridPiece* gp = getGridPieceAtLocation(location);
+    if (!gp) return;
+
+    if (gp->getGridPieceState() == GridPieceState::regular) {
+        gp->setGridPieceState(GridPieceState::obstacle);
     }
 }
 
@@ -186,50 +233,4 @@ GridPiece* Board::getGridPieceAtLocation(glm::vec2 location) {
             if (gridPiece->getBounds()->inBounds(location))
                 return gridPiece;
     return nullptr;
-}
-
-void Board::leftClick(glm::vec2 location) {
-    GridPiece* gp = getGridPieceAtLocation(location);
-    if (!gp) return;
-
-    if (state == BoardState::idle) {
-        if (gp->getGridPieceState() == GridPieceState::regular) {
-            gp->setGridPieceState(GridPieceState::obstacle);
-        } else if (gp->getGridPieceState() == GridPieceState::obstacle) {
-            gp->setGridPieceState(GridPieceState::regular);
-        }
-
-        if (gp->getGridPieceState() == GridPieceState::start) {
-            selectedStart = gp;
-            gp->setGridPieceState(GridPieceState::startSelected);
-            state = BoardState::selectingStart;
-        }
-
-        if (gp->getGridPieceState() == GridPieceState::finish) {
-            selectedFinish = gp;
-            gp->setGridPieceState(GridPieceState::finishSelected);
-            state = BoardState::selectingFinish;
-        }
-    } else if (state == BoardState::selectingStart) {
-        if (gp->getGridPieceState() == GridPieceState::regular || gp->getGridPieceState() == GridPieceState::obstacle) {
-            selectedStart->setGridPieceState(GridPieceState::regular);
-            gp->setGridPieceState(GridPieceState::start);
-            state = BoardState::idle;
-        }
-    } else if (state == BoardState::selectingFinish) {
-        if (gp->getGridPieceState() == GridPieceState::regular || gp->getGridPieceState() == GridPieceState::obstacle) {
-            selectedFinish->setGridPieceState(GridPieceState::regular);
-            gp->setGridPieceState(GridPieceState::finish);
-            state = BoardState::idle;
-        }
-    }
-}
-
-void Board::rightClick(glm::vec2 location) {
-    GridPiece* gp = getGridPieceAtLocation(location);
-    if (!gp) return;
-
-    if (gp->getGridPieceState() == GridPieceState::regular) {
-        gp->setGridPieceState(GridPieceState::obstacle);
-    }
 }
