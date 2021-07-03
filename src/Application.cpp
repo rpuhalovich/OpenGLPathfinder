@@ -2,6 +2,8 @@
 
 Application::Application(ApplicationHints* ah) {
     window = std::make_unique<Window>(ah->winWidth, ah->winHeight, ah->winTitle, ah->maximised, ah->resizable);
+
+    // TODO: abstract to Renderer initialization method call of some sort.
     Rectangle::setShaderDimensions(ah->winWidth, ah->winHeight);
 }
 
