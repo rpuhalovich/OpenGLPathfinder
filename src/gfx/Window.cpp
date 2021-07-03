@@ -99,9 +99,11 @@ void Window::processInput() {
     if (newMouseState == GLFW_RELEASE && oldMouseState == GLFW_PRESS) {
         if (s_button == GLFW_MOUSE_BUTTON_LEFT)
             notifyObserver(getAdjustedCursorPosition(), GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS);
-        if (s_button == GLFW_MOUSE_BUTTON_RIGHT)
-            notifyObserver(getAdjustedCursorPosition(), GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS);
     }
+    if (s_button == GLFW_MOUSE_BUTTON_RIGHT && newMouseState == GLFW_PRESS)
+        notifyObserver(getAdjustedCursorPosition(), GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS);
+    if (s_button == GLFW_MOUSE_BUTTON_MIDDLE && newMouseState == GLFW_PRESS)
+        notifyObserver(getAdjustedCursorPosition(), GLFW_MOUSE_BUTTON_MIDDLE, GLFW_PRESS);
     oldMouseState = newMouseState;
 }
 

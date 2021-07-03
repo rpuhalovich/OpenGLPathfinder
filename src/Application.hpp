@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Renderer.hpp"
+#include "Board.hpp"
+#include "GridPiece.hpp"
 
 struct ApplicationHints {
     float winWidth;

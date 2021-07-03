@@ -20,23 +20,33 @@ void GridPiece::draw() {
 void GridPiece::setGridPieceState(GridPieceState state) {
     this->state = state;
     switch (state) {
-        case GridPieceState::start:
+        case GridPieceState::start: {
             Rectangle::changeColor(Colors::LIGHT_GREEN);
             break;
-        case GridPieceState::startSelected:
+        }
+        case GridPieceState::startSelected: {
             Rectangle::changeColor(Colors::DARK_GREEN);
             break;
-        case GridPieceState::finish:
+        }
+        case GridPieceState::finish: {
             Rectangle::changeColor(Colors::LIGHT_RED);
             break;
-        case GridPieceState::finishSelected:
+        }
+        case GridPieceState::finishSelected: {
             Rectangle::changeColor(Colors::DARK_RED);
             break;
-        case GridPieceState::obstacle:
+        }
+        case GridPieceState::obstacle: {
             Rectangle::changeColor(Colors::WHITE);
             break;
-        case GridPieceState::regular:
+        }
+        case GridPieceState::regular: {
             Rectangle::changeColor(Colors::XCODE_GREY);
             break;
+        }
+        case GridPieceState::visited: {
+            Rectangle::changeColor(Colors::DARK_BLUE_GREY);
+            break;
+        }
     }
 }

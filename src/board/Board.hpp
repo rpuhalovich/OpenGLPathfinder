@@ -2,8 +2,9 @@
 
 #include "leakdetector.hpp"
 
-#include "util.hpp"
+#include <queue>
 
+#include "util.hpp"
 #include "GridPiece.hpp"
 #include "Rectangle.hpp"
 
@@ -27,10 +28,7 @@ public:
     std::vector<std::vector<GridPiece*>> getGrid() { return grid; }
     GridPiece* getGridPieceAtLocation(glm::vec2 location);
 private:
-    // --- algorithm stuff ---
-    // recursiveBacktracking
-    enum class direction { U, D, L, R };
-
+    struct DijkstraVertex;
     // --- methods ---
     /**
      * Completes an iteration of the algorithm based on a time delta.
@@ -62,7 +60,28 @@ private:
     glm::vec2 finishLocation;
     GridPiece* selectedFinish;
 
-    // temp stuff
-    int lastx = 0;
-    int lasty = 0;
+    // --- algorithm stuff ---
+    // recursiveBacktracking
+    enum class direction { U, D, L, R };
+
+    // Dijkstra's Algorithm
+    struct DijkstraVertex {
+        glm::vec2 location;
+        int distanceFromStart;
+    };
+
+    void initDijkstra();
+    void runDijkstra();
+
+    glm::vec2 dijkstraDirections[4]{
+        glm::vec2(0,  1), // Up
+        glm::vec2(0, -1), // Down
+        glm::vec2(-1,  0), // Left
+        glm::vec2(1,  0)  // Right
+    };
+
+    std::vector<std::shared_ptr<DijkstraVertex>> visited;
+    std::vector<std::shared_ptr<DijkstraVertex>> unVisited;
+
+    std::shared_ptr<DijkstraVertex> getMin(const std::vector<std::shared_ptr<DijkstraVertex>>& unVisited);
 };
