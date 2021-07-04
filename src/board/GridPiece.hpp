@@ -17,5 +17,5 @@ public:
     GridPieceState getGridPieceState() { return state; }
 private:
     GridPieceState state;
-    glm::vec4 initColor;
+    glm::vec4 gridColor;
 };

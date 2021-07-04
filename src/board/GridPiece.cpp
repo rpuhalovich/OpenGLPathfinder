@@ -1,7 +1,7 @@
 #include "GridPiece.hpp"
 
 GridPiece::GridPiece(float width, float height, glm::vec4 color, GridPieceState state) :
-    Rectangle(width, height, color), initColor(color)
+    Rectangle(width, height, color), gridColor(color)
 {
     setGridPieceState(state);
 }
@@ -41,7 +41,7 @@ void GridPiece::setGridPieceState(GridPieceState state) {
             break;
         }
         case GridPieceState::regular: {
-            Rectangle::changeColor(Colors::XCODE_GREY);
+            Rectangle::changeColor(gridColor);
             break;
         }
         case GridPieceState::visited: {

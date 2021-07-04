@@ -5,6 +5,7 @@
 Board::Board(float borderSize, float winWidth, float winHeight, glm::vec4 color, glm::vec4 gridColor) :
     Rectangle(winWidth - borderSize * 2, winHeight - borderSize * 2, color)
 {
+    background = std::make_unique<Rectangle>(winWidth, winHeight, gridColor);
     Rectangle::translate(glm::vec2(borderSize, borderSize));
 
     // Allocating and translating the GridPieces.
@@ -109,6 +110,7 @@ void Board::rightClick(glm::vec2 location) {
 }
 
 void Board::draw() {
+    background->draw();
     Rectangle::draw();
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
@@ -130,20 +132,16 @@ void Board::iterate() {
 }
 
 void Board::initDijkstra() {
-    visited.clear();
-
-    //for (int x = 0; x < GRID_WIDTH; x++) {
-    //    for (int y = 0; y < GRID_HEIGHT; y++) {
-    //        std::shared_ptr<DijkstraVertex> temp = std::make_shared<DijkstraVertex>(glm::vec2(x, y), this);
-    //        unVisited.push_back(temp);
-    //    }
-    //}
+    for (int x = 0; x < GRID_WIDTH; x++) {
+        for (int y = 0; y < GRID_HEIGHT; y++) {
+            delete visited[x][y];
+            unVisited[x][y] = new DijkstraVertex();
+        }
+    }
 }
 
 void Board::runDijkstra() {
-    if (unVisited.size() > 0) {
-        // Get Min
-    }
+
 }
 
 void Board::clearObstacles() {

@@ -11,20 +11,15 @@ Application::~Application() {
 }
 
 void Application::run() {
-    glm::vec4 gameColor = Colors::XCODE_GREY;
-
-    std::shared_ptr<Board> bg = std::make_shared<Board>(5.0f, window->getWinWidth(), window->getWinHeight(), Colors::DARK_GREY, gameColor);
-    window->registerObserver(bg.get());
-    for (auto const& gridRow : bg->getGrid())
+    std::shared_ptr<Board> board = std::make_shared<Board>(5.0f, window->getWinWidth(), window->getWinHeight(), Colors::DARK_GREY, Colors::XCODE_GREY);
+    window->registerObserver(board.get());
+    for (auto const& gridRow : board->getGrid())
         for (auto const& gridPiece : gridRow)
             window->registerObserver(gridPiece);
 
     while (!window->shouldWindowClose()) {
         window->beginFrame();
-        window->setBgColor(gameColor);
-
-        bg->draw();
-
+        board->draw();
         window->endFrame();
     }
 }

@@ -48,6 +48,8 @@ private:
     void recursiveBacktracker(int ox, int oy, int count);
 
     // --- members ---
+    std::unique_ptr<Rectangle> background;
+
     glm::vec2 gridDimensions = glm::vec2(50, 50);
     std::vector<std::vector<GridPiece*>> grid;
 
@@ -80,8 +82,8 @@ private:
         glm::vec2(1,  0)  // Right
     };
 
-    std::vector<std::shared_ptr<DijkstraVertex>> visited;
-    std::vector<std::shared_ptr<DijkstraVertex>> unVisited;
+    DijkstraVertex* visited[GRID_WIDTH][GRID_HEIGHT];
+    DijkstraVertex* unVisited[GRID_WIDTH][GRID_HEIGHT];
 
     std::shared_ptr<DijkstraVertex> getMin(const std::vector<std::shared_ptr<DijkstraVertex>>& unVisited);
 };
