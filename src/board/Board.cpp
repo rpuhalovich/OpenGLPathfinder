@@ -186,8 +186,7 @@ void Board::recursiveBacktracker(int ox, int oy, int count) {
     GridPieceState reg = GridPieceState::regular, obs = GridPieceState::obstacle;
 
     std::vector<direction> directions = { direction::U, direction::D, direction::L, direction::R };
-    auto rng = std::default_random_engine{};
-    std::shuffle(directions.begin(), directions.end(), rng);
+    std::shuffle(directions.begin(), directions.end(), std::default_random_engine{});
 
     GridPiece* previous;
 
