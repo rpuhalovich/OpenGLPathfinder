@@ -31,6 +31,11 @@ public:
     Rectangle(float width, float height, glm::vec4 color);
     ~Rectangle();
 
+    /**
+     * Should be called once on application start to set static shader for all Rectanlge objects.
+     */
+    static void setShader(const std::string& vertname, const std::string& fragname, float winWidth, float winHeight);
+
     void translate(glm::vec2 location);
     void changeColor(const glm::vec4 color);
     void draw() override;
@@ -38,10 +43,6 @@ public:
 
     void onUpdate(glm::vec2 location, int button, int action) override;
 
-    /**
-     * Should be called once on application start to set static shader for all Rectanlge objects.
-     */
-    static void setShaderDimensions(float winWidth, float winHeight);
     glm::vec2 getCurrentPos() { return currentPos; }
     glm::vec2 getCurrentPosCentre() { return glm::vec2(currentPos.x + this->width / 2, currentPos.y + this->height / 2); }
     std::unique_ptr<RectangleBounds>& getBounds() { return bounds; }

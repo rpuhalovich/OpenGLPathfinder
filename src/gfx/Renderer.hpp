@@ -10,6 +10,6 @@
 class Renderer {
 public:
     void init(float winWidth, float winHeight) {
-        Rectangle::setShaderDimensions(winWidth, winHeight);
+        Rectangle::setShader("Rectangle.vert", "Rectangle.frag", winWidth, winHeight);
     }
 };
