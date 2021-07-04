@@ -14,13 +14,11 @@ Application::~Application() {
 void Application::run() {
     glm::vec4 gameColor = Colors::XCODE_GREY;
 
-    std::shared_ptr<Board> bg = std::make_shared<Board>(10.0f, window->getWinWidth(), window->getWinHeight(), Colors::DARK_GREY, gameColor);
+    std::shared_ptr<Board> bg = std::make_shared<Board>(5.0f, window->getWinWidth(), window->getWinHeight(), Colors::DARK_GREY, gameColor);
     window->registerObserver(bg.get());
-    for (auto const& gridRow : bg->getGrid()) {
-        for (auto const& gridPiece : gridRow) {
+    for (auto const& gridRow : bg->getGrid())
+        for (auto const& gridPiece : gridRow)
             window->registerObserver(gridPiece);
-        }
-    }
 
     while (!window->shouldWindowClose()) {
         window->beginFrame();
