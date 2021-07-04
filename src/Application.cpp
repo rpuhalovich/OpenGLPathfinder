@@ -1,10 +1,9 @@
 #include "Application.hpp"
 
 Application::Application(ApplicationHints* ah) {
+    // Note: Window should exist first before the renderer as a context is needed.
     window = std::make_unique<Window>(ah->winWidth, ah->winHeight, ah->winTitle, ah->maximised, ah->resizable);
-
-    // TODO: abstract to Renderer initialization method call of some sort.
-    Rectangle::setShaderDimensions(ah->winWidth, ah->winHeight);
+    renderer->init(ah->winWidth, ah->winHeight);
 }
 
 Application::~Application() {

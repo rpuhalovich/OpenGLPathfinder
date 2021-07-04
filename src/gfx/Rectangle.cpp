@@ -6,7 +6,6 @@ std::shared_ptr<ShaderProgram> Rectangle::sp;
 Rectangle::Rectangle(float width, float height, glm::vec4 color) :
     width(width), height(height)
 {
-    // TODO: You're using a uniform for color now...
     float vertices[] = {
          width, height, 0.0f, // top right
          width, 0.0f,   0.0f, // bottom right
@@ -92,7 +91,7 @@ RectangleBounds::RectangleBounds(float width, float height) {
 
 bool RectangleBounds::inBounds(glm::vec2 point) {
     return point.x >= this->bottomLeft.x &&
-            point.x <= this->bottomRight.x &&
-            point.y <= this->topRight.y &&
-            point.y >= this->bottomLeft.y;
+           point.x <= this->bottomRight.x &&
+           point.y <= this->topRight.y &&
+           point.y >= this->bottomLeft.y;
 }

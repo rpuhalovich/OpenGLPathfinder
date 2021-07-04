@@ -5,10 +5,10 @@ ShaderProgram::ShaderProgram(const std::string& vertname, const std::string& fra
     Shader* fs = new Shader(fragname, ShaderType::fragment);
 
     // link shaders
-    id = glCreateProgram();
-    glAttachShader(id, vs->getId());
-    glAttachShader(id, fs->getId());
-    glLinkProgram(id);
+    glc(id = glCreateProgram());
+    glc(glAttachShader(id, vs->getId()));
+    glc(glAttachShader(id, fs->getId()));
+    glc(glLinkProgram(id));
 
     delete vs;
     delete fs;
@@ -36,7 +36,7 @@ void ShaderProgram::use() {
 }
 
 void ShaderProgram::setMat4Uniform4fv(const glm::mat4& mat, const std::string& type) {
-    // TODO: https://www.youtube.com/watch?v=nBB0LGSIm5Q&t=23s
+    // TODO: https://www.youtube.com/watch?v=nBB0LGSIm5Q&t
 
     use();
     glm::mat4 matrix = glm::mat4(1.0f);
