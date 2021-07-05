@@ -78,7 +78,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 void Window::processInput() {
     // Key events
-    int newKeyState = s_KeyAction;
+    int newKeyState = s_KeyAction; // This is a trick to get only a single click/key press registered.
     if (newKeyState == GLFW_RELEASE && oldKeyState == GLFW_PRESS) {
         if (s_key == GLFW_KEY_ESCAPE)
             glfwSetWindowShouldClose(window, true);
@@ -95,16 +95,17 @@ void Window::processInput() {
     oldKeyState = newKeyState;
 
     // Mouse button events
-    int newMouseState = s_MouseAction; // This is a trick to get only a single click registered.
+    int newMouseState = s_MouseAction;
     if (newMouseState == GLFW_RELEASE && oldMouseState == GLFW_PRESS) {
         if (s_button == GLFW_MOUSE_BUTTON_LEFT)
             notifyObserver(getAdjustedCursorPosition(), GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS);
     }
+    oldMouseState = newMouseState;
+
     if (s_button == GLFW_MOUSE_BUTTON_RIGHT && newMouseState == GLFW_PRESS)
         notifyObserver(getAdjustedCursorPosition(), GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS);
     if (s_button == GLFW_MOUSE_BUTTON_MIDDLE && newMouseState == GLFW_PRESS)
         notifyObserver(getAdjustedCursorPosition(), GLFW_MOUSE_BUTTON_MIDDLE, GLFW_PRESS);
-    oldMouseState = newMouseState;
 }
 
 bool Window::shouldWindowClose() {

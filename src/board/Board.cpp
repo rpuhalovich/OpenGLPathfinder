@@ -33,6 +33,14 @@ Board::~Board() {
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
             delete gridPiece;
+
+    for (const auto& element : visited)
+        if (!element) delete element;
+    visited.clear();
+
+    for (const auto& element : unVisited)
+        if (!element) delete element;
+    unVisited.clear();
 }
 
 void Board::onUpdate(glm::vec2 location, int button, int action) {
@@ -104,9 +112,8 @@ void Board::rightClick(glm::vec2 location) {
     GridPiece* gp = getGridPieceAtLocation(location);
     if (!gp) return;
 
-    if (gp->getGridPieceState() == GridPieceState::regular) {
+    if (gp->getGridPieceState() == GridPieceState::regular)
         gp->setGridPieceState(GridPieceState::obstacle);
-    }
 }
 
 void Board::draw() {
@@ -123,6 +130,7 @@ void Board::draw() {
         if (timeDelta >= DELTA_TIME) {
             lastTimeDelta = currentTime;
             iterate();
+            runDijkstra();
         }
     }
 }
@@ -134,14 +142,53 @@ void Board::iterate() {
 void Board::initDijkstra() {
     for (int x = 0; x < GRID_WIDTH; x++) {
         for (int y = 0; y < GRID_HEIGHT; y++) {
-            delete visited[x][y];
-            unVisited[x][y] = new DijkstraVertex();
+            delete visited[x + y];
+            if (unVisited[x + y] == nullptr) {
+                unVisited[x + y] = new DijkstraVertex();
+                getGridPieceAtLocation(glm::vec2(x, y))->getGridPieceState() == GridPieceState::start ?
+                    unVisited[x + y]->distanceFromStart = 0 :
+                    unVisited[x + y]->distanceFromStart = INT_MAX;
+                unVisited[x + y]->location = glm::vec2(x, y);
+            } else {
+                getGridPieceAtLocation(glm::vec2(x, y))->getGridPieceState() == GridPieceState::start ?
+                    unVisited[x + y]->distanceFromStart = 0 :
+                    unVisited[x + y]->distanceFromStart = INT_MAX;
+                unVisited[x + y]->location = glm::vec2(x, y);
+            }
         }
     }
 }
 
-void Board::runDijkstra() {
+Board::DijkstraVertex* Board::getSmallestDistance() {
+    DijkstraVertex* min = unVisited[0];
+    for (const auto& e : unVisited)
+        if (e->distanceFromStart < min->distanceFromStart) min = e;
+    return min;
+}
 
+void Board::runDijkstra() {
+    if (unVisited.size() != 0) {
+        DijkstraVertex* min = getSmallestDistance();
+
+        // For loop to find unvisited GridPiece (regular).
+        for (int i = 0; i < DIJKSTRA_DIRECTIONS; i++) {
+            glm::vec2 dir = min->location + dijkstraDirections[i];
+            if (getGridPieceAtLocation(dir)->getGridPieceState() == GridPieceState::regular) {
+                // Calculate distance from start GridPiece.
+                int newDistance = 0;
+                while (getGridPieceAtLocation(min->prev->location)->getGridPieceState() != GridPieceState::start) {
+                    newDistance++;
+                }
+                
+                
+                if (newDistance < min->distanceFromStart) {
+                    min->distanceFromStart = newDistance;
+                    
+                }
+                
+            }
+        }
+    }
 }
 
 void Board::clearObstacles() {
@@ -179,8 +226,6 @@ void Board::recursiveMaze() {
 }
 
 void Board::recursiveBacktracker(int ox, int oy, int count) {
-    if (count > 17) return;
-
     GridPieceState reg = GridPieceState::regular, obs = GridPieceState::obstacle;
 
     std::vector<direction> directions = { direction::U, direction::D, direction::L, direction::R };
@@ -224,7 +269,6 @@ void Board::recursiveBacktracker(int ox, int oy, int count) {
 }
 
 GridPiece* Board::getGridPieceAtLocation(glm::vec2 location) {
-    // TODO: Such efficient.
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
             if (gridPiece->getBounds()->inBounds(location))

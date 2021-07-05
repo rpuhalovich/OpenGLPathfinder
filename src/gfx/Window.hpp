@@ -30,6 +30,10 @@ public:
     GLFWwindow* getWindow() { return window; }
 private:
     GLFWwindow* makeWindow(unsigned int widthpx, unsigned int heightpx, std::string& winTitle, bool maximised, bool resizable);
+
+    /**
+     * Returns cursor position as glm::vec2 where y coord is adjusted to make the y = 0 the bottom of the window.
+     */
     glm::vec2 getAdjustedCursorPosition();
     void notifyObserver(glm::vec2 location, int button, int action) override;
 

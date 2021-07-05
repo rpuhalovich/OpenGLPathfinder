@@ -15,6 +15,8 @@
 #define RAND_PROB 0.8f
 #define DELTA_TIME 0.5f
 
+#define DIJKSTRA_DIRECTIONS 4
+
 enum class BoardState { selectingStart, selectingFinish, running, idle };
 
 class Board : public Rectangle {
@@ -68,22 +70,24 @@ private:
 
     // Dijkstra's Algorithm
     struct DijkstraVertex {
+        DijkstraVertex* prev;
         glm::vec2 location;
         int distanceFromStart;
     };
 
     void initDijkstra();
     void runDijkstra();
+    DijkstraVertex* getSmallestDistance();
 
-    glm::vec2 dijkstraDirections[4]{
+    glm::vec2 dijkstraDirections[DIJKSTRA_DIRECTIONS]{
         glm::vec2(0,  1), // Up
         glm::vec2(0, -1), // Down
         glm::vec2(-1,  0), // Left
         glm::vec2(1,  0)  // Right
     };
 
-    DijkstraVertex* visited[GRID_WIDTH][GRID_HEIGHT];
-    DijkstraVertex* unVisited[GRID_WIDTH][GRID_HEIGHT];
+    std::vector<DijkstraVertex*> visited;
+    std::vector<DijkstraVertex*> unVisited;
 
     std::shared_ptr<DijkstraVertex> getMin(const std::vector<std::shared_ptr<DijkstraVertex>>& unVisited);
 };

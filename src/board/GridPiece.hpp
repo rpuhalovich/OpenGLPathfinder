@@ -3,7 +3,17 @@
 #include "leakdetector.hpp"
 #include "Rectangle.hpp"
 
-enum class GridPieceState { start, startSelected, finish, finishSelected, obstacle, visited, regular };
+enum class GridPieceState {
+    start,
+    startSelected,
+    finish,
+    finishSelected,
+    obstacle,
+    visiting,
+    visited,
+    path,
+    regular
+};
 
 class GridPiece : public Rectangle {
 public:
