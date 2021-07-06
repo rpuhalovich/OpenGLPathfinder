@@ -27,6 +27,8 @@ Board::Board(float borderSize, float winWidth, float winHeight, glm::vec4 color,
     grid[GRID_WIDTH - (inDistance + 1)][GRID_HEIGHT / 2 + 1]->setGridPieceState(GridPieceState::finish);
 
     state = BoardState::idle;
+
+    
 }
 
 Board::~Board() {
@@ -142,8 +144,8 @@ void Board::iterate() {
 void Board::initDijkstra() {
     for (int x = 0; x < GRID_WIDTH; x++) {
         for (int y = 0; y < GRID_HEIGHT; y++) {
-            delete visited[x + y];
-            if (unVisited[x + y] == nullptr) {
+            if (visited.size() > 0 && visited[x + y] != nullptr) delete visited[x + y];
+            if (unVisited.size() > 0 && unVisited[x + y] != nullptr) {
                 unVisited[x + y] = new DijkstraVertex();
                 getGridPieceAtLocation(glm::vec2(x, y))->getGridPieceState() == GridPieceState::start ?
                     unVisited[x + y]->distanceFromStart = 0 :
@@ -173,21 +175,24 @@ void Board::runDijkstra() {
         // For loop to find unvisited GridPiece (regular).
         for (int i = 0; i < DIJKSTRA_DIRECTIONS; i++) {
             glm::vec2 dir = min->location + dijkstraDirections[i];
-            if (getGridPieceAtLocation(dir)->getGridPieceState() == GridPieceState::regular) {
+            GridPiece* tempGridPiece = getGridPieceAtLocation(dir);
+            if (tempGridPiece->getGridPieceState() == GridPieceState::regular) {
+                tempGridPiece->setGridPieceState(GridPieceState::visiting);
+
                 // Calculate distance from start GridPiece.
                 int newDistance = 0;
                 while (getGridPieceAtLocation(min->prev->location)->getGridPieceState() != GridPieceState::start) {
                     newDistance++;
                 }
-                
-                
+
                 if (newDistance < min->distanceFromStart) {
                     min->distanceFromStart = newDistance;
-                    
+                    min->prev = min;
                 }
-                
             }
         }
+        unVisited.erase(std::remove(unVisited.begin(), unVisited.end(), min), unVisited.end());
+        visited.push_back(min);
     }
 }
 
