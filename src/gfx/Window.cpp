@@ -89,6 +89,10 @@ void Window::processInput() {
             notifyObserver(IGNORE_POS, GLFW_KEY_2, GLFW_PRESS);
         if (s_key == GLFW_KEY_C)
             notifyObserver(IGNORE_POS, GLFW_KEY_C, GLFW_PRESS);
+        if (s_key == GLFW_KEY_R)
+            notifyObserver(IGNORE_POS, GLFW_KEY_R, GLFW_PRESS);
+        if (s_key == GLFW_KEY_S)
+            notifyObserver(IGNORE_POS, GLFW_KEY_S, GLFW_PRESS);
         if (s_key == GLFW_KEY_SPACE)
             notifyObserver(IGNORE_POS, GLFW_KEY_SPACE, GLFW_PRESS);
     }

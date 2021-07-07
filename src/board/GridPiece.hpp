@@ -17,7 +17,7 @@ enum class GridPieceState {
 
 class GridPiece : public Rectangle {
 public:
-    GridPiece(float width, float height, glm::vec4 color, GridPieceState state);
+    GridPiece(float width, float height, glm::vec4 color, GridPieceState state, glm::vec2 boardLocation);
     ~GridPiece();
 
     void onUpdate(glm::vec2 location, int button, int action) override;
@@ -25,7 +25,18 @@ public:
 
     void setGridPieceState(GridPieceState state);
     GridPieceState getGridPieceState() { return state; }
+
+    glm::vec2 getBoardLocation() { return boardLocation; }
+
+    void initDistanceFromStart() { state == GridPieceState::start ? distanceFromStart = 0 : distanceFromStart = INT_MAX; }
+    void setDistanceFromStart(int distance) { distanceFromStart = distance; }
+    int getDistanceFromStart() { return distanceFromStart; }
 private:
+    // Dijkstra's Stuff
+    glm::vec2 boardLocation;
+    GridPiece* prev;
+    int distanceFromStart;
+
     GridPieceState state;
     glm::vec4 gridColor;
 };

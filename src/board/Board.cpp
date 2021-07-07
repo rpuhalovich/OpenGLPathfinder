@@ -14,7 +14,7 @@ Board::Board(float borderSize, float winWidth, float winHeight, glm::vec4 color,
         grid.push_back(col);
         for (int y = 0; y < GRID_HEIGHT; y++) {
             // push_back a new GridPiece to the end of the colum going from bottom to top.
-            grid[x].push_back(new GridPiece(GRID_PIECE_SIZE, GRID_PIECE_SIZE, gridColor, GridPieceState::regular));
+            grid[x].push_back(new GridPiece(GRID_PIECE_SIZE, GRID_PIECE_SIZE, gridColor, GridPieceState::regular, glm::vec2(x, y)));
 
             // Then translate it to be at the appropriate x and y positions based on the boarder size.
             grid[x][y]->translate(glm::vec2(borderSize * 2 + ((GRID_PIECE_SIZE + borderSize) * x), borderSize * 2 + ((GRID_PIECE_SIZE + borderSize) * y)));
@@ -23,26 +23,23 @@ Board::Board(float borderSize, float winWidth, float winHeight, glm::vec4 color,
 
     // Setting start and finish GridPieces.
     int inDistance = 5;
-    grid[inDistance][GRID_HEIGHT / 2 + 1]->setGridPieceState(GridPieceState::start);
-    grid[GRID_WIDTH - (inDistance + 1)][GRID_HEIGHT / 2 + 1]->setGridPieceState(GridPieceState::finish);
+
+    initStartLocation = glm::vec2(inDistance, GRID_HEIGHT / 2 + 1);
+    startLocation = initStartLocation;
+
+    initFinishLocation = glm::vec2(GRID_WIDTH - (inDistance + 1), GRID_HEIGHT / 2 + 1);
+    finishLocation = initFinishLocation;
+
+    grid[initStartLocation.x][initStartLocation.y]->setGridPieceState(GridPieceState::start);
+    grid[initFinishLocation.x][initFinishLocation.y]->setGridPieceState(GridPieceState::finish);
 
     state = BoardState::idle;
-
-    
 }
 
 Board::~Board() {
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
             delete gridPiece;
-
-    for (const auto& element : visited)
-        if (!element) delete element;
-    visited.clear();
-
-    for (const auto& element : unVisited)
-        if (!element) delete element;
-    unVisited.clear();
 }
 
 void Board::onUpdate(glm::vec2 location, int button, int action) {
@@ -53,8 +50,10 @@ void Board::onUpdate(glm::vec2 location, int button, int action) {
         recursiveMaze();
     if (button == GLFW_KEY_C && action == GLFW_PRESS)
         clearObstacles();
+    if (button == GLFW_KEY_R && action == GLFW_PRESS)
+        resetBoard();
     if (button == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-        initDijkstra();
+        Dijkstra::init(this);
         state != BoardState::running ? state = BoardState::running : state = BoardState::idle;
     }
 
@@ -99,12 +98,14 @@ void Board::leftClick(glm::vec2 location) {
         if (gp->getGridPieceState() == GridPieceState::regular || gp->getGridPieceState() == GridPieceState::obstacle) {
             selectedStart->setGridPieceState(GridPieceState::regular);
             gp->setGridPieceState(GridPieceState::start);
+            startLocation = gp->getBoardLocation();
             state = BoardState::idle;
         }
     } else if (state == BoardState::selectingFinish) {
         if (gp->getGridPieceState() == GridPieceState::regular || gp->getGridPieceState() == GridPieceState::obstacle) {
             selectedFinish->setGridPieceState(GridPieceState::regular);
             gp->setGridPieceState(GridPieceState::finish);
+            finishLocation = gp->getBoardLocation();
             state = BoardState::idle;
         }
     }
@@ -132,68 +133,12 @@ void Board::draw() {
         if (timeDelta >= DELTA_TIME) {
             lastTimeDelta = currentTime;
             iterate();
-            runDijkstra();
         }
     }
 }
 
 void Board::iterate() {
     std::cout << "yeet" << std::endl;
-}
-
-void Board::initDijkstra() {
-    for (int x = 0; x < GRID_WIDTH; x++) {
-        for (int y = 0; y < GRID_HEIGHT; y++) {
-            if (visited.size() > 0 && visited[x + y] != nullptr) delete visited[x + y];
-            if (unVisited.size() > 0 && unVisited[x + y] != nullptr) {
-                unVisited[x + y] = new DijkstraVertex();
-                getGridPieceAtLocation(glm::vec2(x, y))->getGridPieceState() == GridPieceState::start ?
-                    unVisited[x + y]->distanceFromStart = 0 :
-                    unVisited[x + y]->distanceFromStart = INT_MAX;
-                unVisited[x + y]->location = glm::vec2(x, y);
-            } else {
-                getGridPieceAtLocation(glm::vec2(x, y))->getGridPieceState() == GridPieceState::start ?
-                    unVisited[x + y]->distanceFromStart = 0 :
-                    unVisited[x + y]->distanceFromStart = INT_MAX;
-                unVisited[x + y]->location = glm::vec2(x, y);
-            }
-        }
-    }
-}
-
-Board::DijkstraVertex* Board::getSmallestDistance() {
-    DijkstraVertex* min = unVisited[0];
-    for (const auto& e : unVisited)
-        if (e->distanceFromStart < min->distanceFromStart) min = e;
-    return min;
-}
-
-void Board::runDijkstra() {
-    if (unVisited.size() != 0) {
-        DijkstraVertex* min = getSmallestDistance();
-
-        // For loop to find unvisited GridPiece (regular).
-        for (int i = 0; i < DIJKSTRA_DIRECTIONS; i++) {
-            glm::vec2 dir = min->location + dijkstraDirections[i];
-            GridPiece* tempGridPiece = getGridPieceAtLocation(dir);
-            if (tempGridPiece->getGridPieceState() == GridPieceState::regular) {
-                tempGridPiece->setGridPieceState(GridPieceState::visiting);
-
-                // Calculate distance from start GridPiece.
-                int newDistance = 0;
-                while (getGridPieceAtLocation(min->prev->location)->getGridPieceState() != GridPieceState::start) {
-                    newDistance++;
-                }
-
-                if (newDistance < min->distanceFromStart) {
-                    min->distanceFromStart = newDistance;
-                    min->prev = min;
-                }
-            }
-        }
-        unVisited.erase(std::remove(unVisited.begin(), unVisited.end(), min), unVisited.end());
-        visited.push_back(min);
-    }
 }
 
 void Board::clearObstacles() {
@@ -211,7 +156,24 @@ void Board::randomObstacles() {
                 gridPiece->setGridPieceState(GridPieceState::obstacle);
 }
 
-void Board::obstacleWalls() {
+void Board::resetBoard() {
+    clearObstacles();
+    grid[startLocation.x][startLocation.y]->setGridPieceState(GridPieceState::regular);
+    grid[initStartLocation.x][initStartLocation.y]->setGridPieceState(GridPieceState::start);
+    startLocation = initStartLocation;
+
+    grid[finishLocation.x][finishLocation.y]->setGridPieceState(GridPieceState::regular);
+    grid[initFinishLocation.x][initFinishLocation.y]->setGridPieceState(GridPieceState::finish);
+    finishLocation = initFinishLocation;
+}
+
+void Board::recursiveMaze() {
+    clearObstacles();
+
+    // TODO: Make work.
+    recursiveBacktracker(1, 1, 0);
+
+    // Obstacle walls
     for (int x = 0; x < GRID_WIDTH; x++) {
         grid[x][0]->setGridPieceState(GridPieceState::obstacle);
         grid[x][GRID_HEIGHT - 1]->setGridPieceState(GridPieceState::obstacle);
@@ -223,51 +185,27 @@ void Board::obstacleWalls() {
     }
 }
 
-void Board::recursiveMaze() {
-    clearObstacles();
-    // TODO: Make work.
-    //recursiveBacktracker(1, 1, 0);
-    obstacleWalls();
-}
-
 void Board::recursiveBacktracker(int ox, int oy, int count) {
+    if (count > 10) return;
+
     GridPieceState reg = GridPieceState::regular, obs = GridPieceState::obstacle;
 
-    std::vector<direction> directions = { direction::U, direction::D, direction::L, direction::R };
-    std::shuffle(directions.begin(), directions.end(), std::default_random_engine{});
+    // To not have the Board::directions shuffled.
+    std::vector<glm::vec2> localDirections {
+        glm::vec2(0,  1), // Up
+        glm::vec2(0, -1), // Down
+        glm::vec2(-1, 0), // Left
+        glm::vec2(1,  0)  // Right
+    };
 
-    GridPiece* previous;
+    std::shuffle(localDirections.begin(), localDirections.end(), std::default_random_engine{});
 
-    for (auto const& d : directions) {
-        switch (d) {
-            case direction::U: {
-                int newDir = oy + 1;
-                if (newDir < GRID_HEIGHT && grid[ox][newDir]->getGridPieceState() == reg) {
-                    grid[ox][newDir]->setGridPieceState(obs);
-                    recursiveBacktracker(ox, newDir, ++count);
-                }
-                break;
-            } case direction::D: {
-                int newDir = oy - 1;
-                if (newDir >= 0 && grid[ox][newDir]->getGridPieceState() == reg) {
-                    grid[ox][newDir - 1]->setGridPieceState(obs);
-                    recursiveBacktracker(ox, newDir, ++count);
-                }
-                break;
-            } case direction::L: {
-                int newDir = ox - 1;
-                if (newDir >= 0 && grid[newDir][oy]->getGridPieceState() == reg) {
-                    grid[newDir][oy]->setGridPieceState(obs);
-                    recursiveBacktracker(newDir, oy, ++count);
-                }
-                break;
-            } case direction::R: {
-                int newDir = ox + 1;
-                if (newDir < GRID_WIDTH && grid[newDir][oy]->getGridPieceState() == reg) {
-                    grid[newDir][oy]->setGridPieceState(obs);
-                    recursiveBacktracker(newDir, oy, ++count);
-                }
-                break;
+    for (auto const& d : localDirections) {
+        glm::vec2 dir = glm::vec2(ox, oy) + d;
+        if (glm::all(glm::greaterThan(dir, glm::vec2(0, 0))) && glm::all(glm::greaterThan(dir * glm::vec2(2, 2), glm::vec2(0, 0)))) {
+            if (grid[dir.x][dir.y]->getGridPieceState() == reg && grid[dir.x * 2][dir.y * 2]->getGridPieceState() == reg) {
+                grid[dir.x][dir.y]->setGridPieceState(obs);
+                recursiveBacktracker(dir.x, dir.y, ++count);
             }
         }
     }

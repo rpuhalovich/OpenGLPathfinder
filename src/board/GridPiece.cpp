@@ -1,7 +1,7 @@
 #include "GridPiece.hpp"
 
-GridPiece::GridPiece(float width, float height, glm::vec4 color, GridPieceState state) :
-    Rectangle(width, height, color), gridColor(color)
+GridPiece::GridPiece(float width, float height, glm::vec4 color, GridPieceState state, glm::vec2 boardLocation) :
+    Rectangle(width, height, color), gridColor(color), boardLocation(boardLocation)
 {
     setGridPieceState(state);
 }
