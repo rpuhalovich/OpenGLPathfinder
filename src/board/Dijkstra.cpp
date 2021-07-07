@@ -14,11 +14,7 @@ void Dijkstra::init(std::vector<std::vector<GridPiece*>>& grid) {
         for (auto const& gridPiece : gridCol)
             gridPiece->initDistanceFromStart();
 
-    std::cout << "Ye haw" << std::endl;
-
-    unVisited.push_back(grid[0][0]);
-
-    getGridVector(grid);
+    unVisited = getGridVector(grid);
 }
 
 bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
@@ -49,7 +45,7 @@ std::vector<GridPiece*> Dijkstra::getGridVector(const std::vector<std::vector<Gr
     std::vector<GridPiece*> out;
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
-            unVisited.push_back(gridPiece);
+            out.push_back(gridPiece);
     return out;
 }
 

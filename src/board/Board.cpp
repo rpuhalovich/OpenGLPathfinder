@@ -138,7 +138,7 @@ void Board::draw() {
 }
 
 void Board::iterate() {
-    std::cout << "yeet" << std::endl;
+    dijkstra->iterate(grid);
 }
 
 void Board::clearObstacles() {
@@ -171,7 +171,7 @@ void Board::recursiveMaze() {
     clearObstacles();
 
     // TODO: Make work.
-    recursiveBacktracker(1, 1, 0);
+    //recursiveBacktracker(1, 1, 0);
 
     // Obstacle walls
     for (int x = 0; x < GRID_WIDTH; x++) {

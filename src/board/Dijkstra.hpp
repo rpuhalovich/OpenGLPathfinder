@@ -31,6 +31,6 @@ private:
         glm::vec2(1,  0)  // Right
     };
 
-    std::vector<GridPiece*> unVisited;
-    std::vector<GridPiece*> visited;
+    std::vector<GridPiece*> unVisited{};
+    std::vector<GridPiece*> visited{};
 };
