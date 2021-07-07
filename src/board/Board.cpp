@@ -118,8 +118,10 @@ void Board::rightClick(glm::vec2 location) {
     GridPiece* gp = getGridPieceAtLocation(location);
     if (!gp) return;
 
-    if (gp->getGridPieceState() == GridPieceState::regular)
-        gp->setGridPieceState(GridPieceState::obstacle);
+    if (state == BoardState::idle) {
+        if (gp->getGridPieceState() == GridPieceState::regular)
+            gp->setGridPieceState(GridPieceState::obstacle);
+    }
 }
 
 void Board::draw() {
