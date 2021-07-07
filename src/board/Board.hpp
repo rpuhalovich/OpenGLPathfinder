@@ -2,8 +2,6 @@
 
 #include "leakdetector.hpp"
 
-#include <queue>
-
 #include "util.hpp"
 #include "GridPiece.hpp"
 #include "Rectangle.hpp"
@@ -62,4 +60,6 @@ private:
     glm::vec2 initFinishLocation;
     glm::vec2 finishLocation;
     GridPiece* selectedFinish;
+
+    Dijkstra* dijkstra;
 };

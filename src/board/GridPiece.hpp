@@ -31,6 +31,8 @@ public:
     void initDistanceFromStart() { state == GridPieceState::start ? distanceFromStart = 0 : distanceFromStart = INT_MAX; }
     void setDistanceFromStart(int distance) { distanceFromStart = distance; }
     int getDistanceFromStart() { return distanceFromStart; }
+    GridPiece* getPrev() { return prev; }
+    void setPrev(GridPiece* prev) { this->prev = prev; }
 private:
     // Dijkstra's Stuff
     glm::vec2 boardLocation;

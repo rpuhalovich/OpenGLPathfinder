@@ -53,7 +53,7 @@ void Board::onUpdate(glm::vec2 location, int button, int action) {
     if (button == GLFW_KEY_R && action == GLFW_PRESS)
         resetBoard();
     if (button == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-        Dijkstra::init(this);
+        dijkstra->init(grid);
         state != BoardState::running ? state = BoardState::running : state = BoardState::idle;
     }
 
