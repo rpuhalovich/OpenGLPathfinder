@@ -1,7 +1,8 @@
 #include "GridPiece.hpp"
 
 GridPiece::GridPiece(float width, float height, glm::vec4 color, GridPieceState state, glm::vec2 boardLocation) :
-    Rectangle(width, height, color), gridColor(color), boardLocation(boardLocation), prev(nullptr), distanceFromStart(0)
+    Rectangle(width, height, color), gridColor(color), boardLocation(boardLocation), prev(nullptr),
+    distanceFromStart(state == GridPieceState::start ? distanceFromStart = 0 : distanceFromStart = INT_MAX)
 {
     setGridPieceState(state);
 }

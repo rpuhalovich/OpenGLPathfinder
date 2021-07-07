@@ -20,6 +20,8 @@ public:
     GridPiece(float width, float height, glm::vec4 color, GridPieceState state, glm::vec2 boardLocation);
     ~GridPiece();
 
+    void init();
+
     void onUpdate(glm::vec2 location, int button, int action) override;
     void draw() override;
 
@@ -28,7 +30,6 @@ public:
 
     glm::vec2 getBoardLocation() { return boardLocation; }
 
-    void init();
     void setDistanceFromStart(int distance) { distanceFromStart = distance; }
     int getDistanceFromStart() { return distanceFromStart; }
     GridPiece* getPrev() { return prev; }
