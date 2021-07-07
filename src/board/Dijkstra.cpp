@@ -17,7 +17,6 @@ void Dijkstra::init(std::vector<std::vector<GridPiece*>>& grid) {
 }
 
 bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
-    std::cout << "Iteration." << std::endl;
     if (!unVisited.empty()) {
         GridPiece* min = getSmallestDistanceFromStart();
         for (const auto& d : directions) {
@@ -25,7 +24,7 @@ bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
             glm::vec2 dir = d + min->getBoardLocation();
             
             // If location off grid then skip.
-            if (glm::all(glm::lessThanEqual(dir, glm::vec2(0, 0))) || glm::all(glm::greaterThanEqual(dir, glm::vec2(grid.size(), grid[0].size())))) 
+            if (glm::all(glm::lessThanEqual(dir, glm::vec2(0, 0))) || glm::all(glm::greaterThan(dir, glm::vec2(grid.size(), grid[0].size())))) 
                 continue;
 
             GridPiece* neighbor = grid[dir.x][dir.y];

@@ -55,7 +55,7 @@ void Board::onUpdate(glm::vec2 location, int button, int action) {
     if (button == GLFW_KEY_R && action == GLFW_PRESS)
         resetBoard();
     if (button == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-        clearObstacles();
+        clearVisited();
         dijkstra->init(grid);
         state != BoardState::running ? state = BoardState::running : state = BoardState::idle;
     }
@@ -147,8 +147,20 @@ void Board::iterate() {
 void Board::clearObstacles() {
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
-            if (gridPiece->getGridPieceState() == GridPieceState::obstacle || gridPiece->getGridPieceState() == GridPieceState::visited)
+            if (gridPiece->getGridPieceState() == GridPieceState::obstacle)
                 gridPiece->setGridPieceState(GridPieceState::regular);
+}
+
+void Board::clearVisited() {
+    for (auto const& gridCol : grid)
+        for (auto const& gridPiece : gridCol)
+            if (gridPiece->getGridPieceState() == GridPieceState::visited)
+                gridPiece->setGridPieceState(GridPieceState::regular);
+}
+
+void Board::clearBoard() {
+    clearObstacles();
+    clearVisited();
 }
 
 void Board::randomObstacles() {

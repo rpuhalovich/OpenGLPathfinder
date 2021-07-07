@@ -36,6 +36,8 @@ private:
      */
     void iterate();
     void clearObstacles();
+    void clearVisited();
+    void clearBoard();
     void randomObstacles();
     void resetBoard();
 
