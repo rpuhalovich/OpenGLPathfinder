@@ -22,10 +22,7 @@ bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
         for (const auto& d : directions) {
             // Get neighbor vec2 location.
             glm::vec2 dir = d + min->getBoardLocation();
-            
-            // If location off grid then skip.
-            if (glm::all(glm::lessThanEqual(dir, glm::vec2(0, 0))) || glm::all(glm::greaterThan(dir, glm::vec2(grid.size(), grid[0].size())))) 
-                continue;
+            if (!(dir.x >= 0 && dir.y >= 0 && dir.x < 51 && dir.y < 28)) continue; // TODO: remove magic numbers.
 
             GridPiece* neighbor = grid[dir.x][dir.y];
             if (neighbor->getGridPieceState() == GridPieceState::start || 
