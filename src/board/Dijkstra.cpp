@@ -1,13 +1,27 @@
 #include "Dijkstra.hpp"
 
-void Dijkstra::init(std::vector<std::vector<GridPiece*>> grid) {
+Dijkstra::Dijkstra() :
+    unVisited(), visited()
+{
+}
+
+Dijkstra::~Dijkstra() {
+
+}
+
+void Dijkstra::init(std::vector<std::vector<GridPiece*>>& grid) {
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
             gridPiece->initDistanceFromStart();
-    unVisited = getGridVector(grid);
+
+    std::cout << "Ye haw" << std::endl;
+
+    unVisited.push_back(grid[0][0]);
+
+    getGridVector(grid);
 }
 
-bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>> grid) {
+bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
     if (!unVisited.empty()) {
         GridPiece* min = getSmallestDistanceFromStart(unVisited);
         for (const auto& d : directions) {
@@ -31,15 +45,15 @@ bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>> grid) {
     }
 }
 
-std::vector<GridPiece*> Dijkstra::getGridVector(std::vector<std::vector<GridPiece*>> grid) {
+std::vector<GridPiece*> Dijkstra::getGridVector(const std::vector<std::vector<GridPiece*>>& grid) {
     std::vector<GridPiece*> out;
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
-            out.push_back(gridPiece);
+            unVisited.push_back(gridPiece);
     return out;
 }
 
-GridPiece* Dijkstra::getSmallestDistanceFromStart(std::vector<GridPiece*> unVisited) {
+GridPiece* Dijkstra::getSmallestDistanceFromStart(std::vector<GridPiece*>& unVisited) {
     GridPiece* min;
     for (int i = 0; i < unVisited.size(); i++) {
         if (unVisited[i]->getDistanceFromStart() < min->getDistanceFromStart()) min = unVisited[i];

@@ -8,16 +8,19 @@
  */
 class Dijkstra {
 public:
-    void init(std::vector<std::vector<GridPiece*>> grid);
+    Dijkstra();
+    ~Dijkstra();
+
+    void init(std::vector<std::vector<GridPiece*>>& grid);
 
     /**
      * \return true if the algorithm is complete.
      * Relies on external while loop to complete all iterations.
      */
-    bool iterate(std::vector<std::vector<GridPiece*>> grid);
+    bool iterate(std::vector<std::vector<GridPiece*>>& grid);
 private:
-    std::vector<GridPiece*> getGridVector(std::vector<std::vector<GridPiece*>> grid);
-    GridPiece* getSmallestDistanceFromStart(std::vector<GridPiece*> unVisited);
+    std::vector<GridPiece*> getGridVector(const std::vector<std::vector<GridPiece*>>& grid);
+    GridPiece* getSmallestDistanceFromStart(std::vector<GridPiece*>& unVisited);
     int calcDistance(GridPiece* gp);
 
     // --- algorithm stuff ---
