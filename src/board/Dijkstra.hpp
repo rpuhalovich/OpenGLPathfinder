@@ -20,7 +20,7 @@ public:
     bool iterate(std::vector<std::vector<GridPiece*>>& grid);
 private:
     std::vector<GridPiece*> getGridVector(const std::vector<std::vector<GridPiece*>>& grid);
-    GridPiece* getSmallestDistanceFromStart(std::vector<GridPiece*>& unVisited);
+    GridPiece* getSmallestDistanceFromStart();
     int calcDistance(GridPiece* gp);
 
     // --- algorithm stuff ---

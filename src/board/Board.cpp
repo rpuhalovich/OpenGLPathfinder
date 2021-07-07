@@ -34,6 +34,8 @@ Board::Board(float borderSize, float winWidth, float winHeight, glm::vec4 color,
     grid[initFinishLocation.x][initFinishLocation.y]->setGridPieceState(GridPieceState::finish);
 
     state = BoardState::idle;
+
+    dijkstra = std::make_unique<Dijkstra>();
 }
 
 Board::~Board() {
@@ -53,6 +55,7 @@ void Board::onUpdate(glm::vec2 location, int button, int action) {
     if (button == GLFW_KEY_R && action == GLFW_PRESS)
         resetBoard();
     if (button == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+        clearObstacles();
         dijkstra->init(grid);
         state != BoardState::running ? state = BoardState::running : state = BoardState::idle;
     }
@@ -144,7 +147,7 @@ void Board::iterate() {
 void Board::clearObstacles() {
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
-            if (gridPiece->getGridPieceState() == GridPieceState::obstacle)
+            if (gridPiece->getGridPieceState() == GridPieceState::obstacle || gridPiece->getGridPieceState() == GridPieceState::visited)
                 gridPiece->setGridPieceState(GridPieceState::regular);
 }
 

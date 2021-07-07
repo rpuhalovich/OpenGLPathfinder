@@ -28,7 +28,7 @@ public:
 
     glm::vec2 getBoardLocation() { return boardLocation; }
 
-    void initDistanceFromStart() { state == GridPieceState::start ? distanceFromStart = 0 : distanceFromStart = INT_MAX; }
+    void init();
     void setDistanceFromStart(int distance) { distanceFromStart = distance; }
     int getDistanceFromStart() { return distanceFromStart; }
     GridPiece* getPrev() { return prev; }

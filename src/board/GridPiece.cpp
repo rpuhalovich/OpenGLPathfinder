@@ -26,9 +26,14 @@ void GridPiece::setGridPieceState(GridPieceState state) {
         case GridPieceState::finish: { Rectangle::changeColor(Colors::LIGHT_RED); break; }
         case GridPieceState::finishSelected: { Rectangle::changeColor(Colors::DARK_RED); break; }
         case GridPieceState::obstacle: { Rectangle::changeColor(Colors::WHITE); break; }
-        case GridPieceState::visiting: { Rectangle::changeColor(Colors::DARK_BLUE_GREY); break; }
-        case GridPieceState::visited: { Rectangle::changeColor(Colors::LIGHT_PURPLE); break; }
+        case GridPieceState::visiting: { Rectangle::changeColor(Colors::LIGHT_PURPLE); break; }
+        case GridPieceState::visited: { Rectangle::changeColor(Colors::DARK_BLUE_GREY); break; }
         case GridPieceState::path: { Rectangle::changeColor(Colors::DARK_GREEN); break; }
         case GridPieceState::regular: { Rectangle::changeColor(gridColor); break; }
     }
+}
+
+void GridPiece::init() {
+    prev = nullptr;
+    state == GridPieceState::start ? distanceFromStart = 0 : distanceFromStart = INT_MAX;
 }

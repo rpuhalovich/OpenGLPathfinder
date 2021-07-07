@@ -5,8 +5,6 @@
 #include "util.hpp"
 #include "GridPiece.hpp"
 #include "Rectangle.hpp"
-
-// Careful of the cyclical dependancy.
 #include "Dijkstra.hpp"
 
 #define GRID_WIDTH 51
@@ -14,7 +12,7 @@
 #define GRID_PIECE_SIZE 20.0f
 
 #define RAND_PROB 0.8f
-#define DELTA_TIME 0.5f
+#define DELTA_TIME 0.1f
 
 enum class BoardState { selectingStart, selectingFinish, running, idle };
 
@@ -61,5 +59,5 @@ private:
     glm::vec2 finishLocation;
     GridPiece* selectedFinish;
 
-    Dijkstra* dijkstra;
+    std::unique_ptr<Dijkstra> dijkstra;
 };
