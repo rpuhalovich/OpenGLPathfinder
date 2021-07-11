@@ -14,7 +14,7 @@ Board::Board(float borderSize, float winWidth, float winHeight, glm::vec4 color,
         grid.push_back(col);
         for (int y = 0; y < GRID_HEIGHT; y++) {
             // push_back a new GridPiece to the end of the colum going from bottom to top.
-            grid[x].push_back(new GridPiece(GRID_PIECE_SIZE, GRID_PIECE_SIZE, gridColor, GridPieceState::regular, glm::vec2(x, y)));
+            grid[x].push_back(new GridPiece(GRID_PIECE_SIZE, GRID_PIECE_SIZE, gridColor, GridPieceState::unVisited, glm::vec2(x, y)));
 
             // Then translate it to be at the appropriate x and y positions based on the boarder size.
             grid[x][y]->translate(glm::vec2(borderSize * 2 + ((GRID_PIECE_SIZE + borderSize) * x), borderSize * 2 + ((GRID_PIECE_SIZE + borderSize) * y)));
@@ -70,7 +70,7 @@ void Board::onUpdate(glm::vec2 location, int button, int action) {
         if (!gp) return;
 
         if (gp->getGridPieceState() == GridPieceState::obstacle)
-            gp->setGridPieceState(GridPieceState::regular);
+            gp->setGridPieceState(GridPieceState::unVisited);
     }
 }
 
@@ -79,11 +79,11 @@ void Board::leftClick(glm::vec2 location) {
     if (!gp) return;
 
     if (state == BoardState::idle) {
-        if (gp->getGridPieceState() == GridPieceState::regular) {
+        if (gp->getGridPieceState() == GridPieceState::unVisited) {
             gp->setGridPieceState(GridPieceState::obstacle);
         }
         else if (gp->getGridPieceState() == GridPieceState::obstacle) {
-            gp->setGridPieceState(GridPieceState::regular);
+            gp->setGridPieceState(GridPieceState::unVisited);
         }
 
         if (gp->getGridPieceState() == GridPieceState::start) {
@@ -98,15 +98,15 @@ void Board::leftClick(glm::vec2 location) {
             state = BoardState::selectingFinish;
         }
     } else if (state == BoardState::selectingStart) {
-        if (gp->getGridPieceState() == GridPieceState::regular || gp->getGridPieceState() == GridPieceState::obstacle) {
-            selectedStart->setGridPieceState(GridPieceState::regular);
+        if (gp->getGridPieceState() == GridPieceState::unVisited || gp->getGridPieceState() == GridPieceState::obstacle) {
+            selectedStart->setGridPieceState(GridPieceState::unVisited);
             gp->setGridPieceState(GridPieceState::start);
             startLocation = gp->getBoardLocation();
             state = BoardState::idle;
         }
     } else if (state == BoardState::selectingFinish) {
-        if (gp->getGridPieceState() == GridPieceState::regular || gp->getGridPieceState() == GridPieceState::obstacle) {
-            selectedFinish->setGridPieceState(GridPieceState::regular);
+        if (gp->getGridPieceState() == GridPieceState::unVisited || gp->getGridPieceState() == GridPieceState::obstacle) {
+            selectedFinish->setGridPieceState(GridPieceState::unVisited);
             gp->setGridPieceState(GridPieceState::finish);
             finishLocation = gp->getBoardLocation();
             state = BoardState::idle;
@@ -119,7 +119,7 @@ void Board::rightClick(glm::vec2 location) {
     if (!gp) return;
 
     if (state == BoardState::idle) {
-        if (gp->getGridPieceState() == GridPieceState::regular)
+        if (gp->getGridPieceState() == GridPieceState::unVisited)
             gp->setGridPieceState(GridPieceState::obstacle);
     }
 }
@@ -150,14 +150,14 @@ void Board::clearObstacles() {
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
             if (gridPiece->getGridPieceState() == GridPieceState::obstacle)
-                gridPiece->setGridPieceState(GridPieceState::regular);
+                gridPiece->setGridPieceState(GridPieceState::unVisited);
 }
 
 void Board::clearVisited() {
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
             if (gridPiece->getGridPieceState() == GridPieceState::visited)
-                gridPiece->setGridPieceState(GridPieceState::regular);
+                gridPiece->setGridPieceState(GridPieceState::unVisited);
 }
 
 void Board::clearBoard() {
@@ -169,17 +169,17 @@ void Board::randomObstacles() {
     clearObstacles();
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
-            if (gridPiece->getGridPieceState() == GridPieceState::regular && nextRand() >= RAND_PROB)
+            if (gridPiece->getGridPieceState() == GridPieceState::unVisited && nextRand() >= RAND_PROB)
                 gridPiece->setGridPieceState(GridPieceState::obstacle);
 }
 
 void Board::resetBoard() {
     clearObstacles();
-    grid[startLocation.x][startLocation.y]->setGridPieceState(GridPieceState::regular);
+    grid[startLocation.x][startLocation.y]->setGridPieceState(GridPieceState::unVisited);
     grid[initStartLocation.x][initStartLocation.y]->setGridPieceState(GridPieceState::start);
     startLocation = initStartLocation;
 
-    grid[finishLocation.x][finishLocation.y]->setGridPieceState(GridPieceState::regular);
+    grid[finishLocation.x][finishLocation.y]->setGridPieceState(GridPieceState::unVisited);
     grid[initFinishLocation.x][initFinishLocation.y]->setGridPieceState(GridPieceState::finish);
     finishLocation = initFinishLocation;
 }
@@ -205,7 +205,7 @@ void Board::recursiveMaze() {
 void Board::recursiveBacktracker(int ox, int oy, int count) {
     if (count > 10) return;
 
-    GridPieceState reg = GridPieceState::regular, obs = GridPieceState::obstacle;
+    GridPieceState reg = GridPieceState::unVisited, obs = GridPieceState::obstacle;
 
     // To not have the Board::directions shuffled.
     std::vector<glm::vec2> localDirections {

@@ -30,7 +30,7 @@ void GridPiece::setGridPieceState(GridPieceState state) {
         case GridPieceState::visiting: { Rectangle::changeColor(Colors::LIGHT_PURPLE); break; }
         case GridPieceState::visited: { Rectangle::changeColor(Colors::DARK_BLUE_GREY); break; }
         case GridPieceState::path: { Rectangle::changeColor(Colors::DARK_GREEN); break; }
-        case GridPieceState::regular: { Rectangle::changeColor(gridColor); break; }
+        case GridPieceState::unVisited: { Rectangle::changeColor(gridColor); break; }
     }
 }
 

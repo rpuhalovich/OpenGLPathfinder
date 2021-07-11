@@ -12,7 +12,7 @@
 #define GRID_PIECE_SIZE 20.0f
 
 #define RAND_PROB 0.8f
-#define DELTA_TIME 0.01f
+#define DELTA_TIME 0.0175f
 
 enum class BoardState { selectingStart, selectingFinish, running, idle };
 

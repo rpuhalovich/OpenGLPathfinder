@@ -5,19 +5,11 @@
 #include "GridPiece.hpp"
 
 struct ApplicationHints {
-    float winWidth;
-    float winHeight;
-    std::string winTitle;
-    bool maximised;
-    bool resizable;
-
-    ApplicationHints() {
-        winWidth = 1280.0f;
-        winHeight = 720.0f;
-        winTitle = std::string("Hello World");
-        maximised = true;
-        resizable = true;
-    }
+    float winWidth = 1280.0f;
+    float winHeight = 720.0f;
+    std::string winTitle = std::string("Hello World");
+    bool maximised = true;
+    bool resizable = true;
 };
 
 class Application {

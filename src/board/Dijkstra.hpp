@@ -14,8 +14,8 @@ public:
     void init(std::vector<std::vector<GridPiece*>>& grid);
 
     /**
+     * \brief Relies on external while loop to complete all iterations.
      * \return true if the algorithm is complete.
-     * Relies on external while loop to complete all iterations.
      */
     bool iterate(std::vector<std::vector<GridPiece*>>& grid);
 private:
@@ -31,6 +31,6 @@ private:
         glm::vec2(1,  0)  // Right
     };
 
-    std::vector<GridPiece*> unVisited{};
-    std::vector<GridPiece*> visited{};
+    std::vector<GridPiece*> unVisited;
+    std::vector<GridPiece*> visited;
 };

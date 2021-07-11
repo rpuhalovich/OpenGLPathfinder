@@ -12,7 +12,7 @@ enum class GridPieceState {
     visiting,
     visited,
     path,
-    regular
+    unVisited
 };
 
 class GridPiece : public Rectangle {

@@ -5,6 +5,7 @@
  * TODO: Add uniform caching. Not necessary for our application because it's so simple but good practice though!
  * TODO: Make the parsing through graph a function pointer.
  * TODO: Make the 2D vector of GridPieces smart pointers instead of raw.
+ * TODO: Make number of GridPieces a function of window width.
  */
 
 int main(void) {
@@ -13,7 +14,7 @@ int main(void) {
 #endif
 
     ApplicationHints* apphints = new ApplicationHints();
-    apphints->winWidth = 1290.0f; // TODO: Make number of GridPieces a function of window width.
+    apphints->winWidth = 1290.0f;
     apphints->winHeight = 715.0f;
     apphints->winTitle = std::string("OpenGL Pathfinder");
     apphints->maximised = false;
