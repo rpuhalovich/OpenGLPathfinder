@@ -4,7 +4,9 @@
 std::shared_ptr<ShaderProgram> Rectangle::sp;
 
 Rectangle::Rectangle(float width, float height, glm::vec4 color) :
-    width(width), height(height)
+    width(width), height(height), currentColor(color), 
+    bounds(std::make_unique<RectangleBounds>(width, height)),
+    currentPos(glm::vec2(0.0f, 0.0f))
 {
     float vertices[] = {
          width, height, 0.0f, // top right
@@ -28,12 +30,6 @@ Rectangle::Rectangle(float width, float height, glm::vec4 color) :
 
     vbo->unbind();
     vao->unbind();
-
-    currentPos = glm::vec2(0.0f, 0.0f);
-
-    bounds = std::make_unique<RectangleBounds>(width, height);
-
-    this->currentColor = color;
 }
 
 Rectangle::~Rectangle() {
