@@ -3,9 +3,11 @@
 #include <algorithm>
 
 Board::Board(float borderSize, float winWidth, float winHeight, glm::vec4 color, glm::vec4 gridColor) :
-    Rectangle(winWidth - borderSize * 2, winHeight - borderSize * 2, color)
+    Rectangle(winWidth - borderSize * 2, winHeight - borderSize * 2, color), 
+    background(std::make_unique<Rectangle>(winWidth, winHeight, gridColor)),
+    state(BoardState::idle),
+    dijkstra(std::make_unique<Dijkstra>())
 {
-    background = std::make_unique<Rectangle>(winWidth, winHeight, gridColor);
     Rectangle::translate(glm::vec2(borderSize, borderSize));
 
     // Allocating and translating the GridPieces.
@@ -32,10 +34,6 @@ Board::Board(float borderSize, float winWidth, float winHeight, glm::vec4 color,
 
     grid[initStartLocation.x][initStartLocation.y]->setGridPieceState(GridPieceState::start);
     grid[initFinishLocation.x][initFinishLocation.y]->setGridPieceState(GridPieceState::finish);
-
-    state = BoardState::idle;
-
-    dijkstra = std::make_unique<Dijkstra>();
 }
 
 Board::~Board() {
