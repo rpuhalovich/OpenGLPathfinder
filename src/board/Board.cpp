@@ -79,8 +79,7 @@ void Board::leftClick(glm::vec2 location) {
     if (state == BoardState::idle) {
         if (gp->getGridPieceState() == GridPieceState::unVisited) {
             gp->setGridPieceState(GridPieceState::obstacle);
-        }
-        else if (gp->getGridPieceState() == GridPieceState::obstacle) {
+        } else if (gp->getGridPieceState() == GridPieceState::obstacle) {
             gp->setGridPieceState(GridPieceState::unVisited);
         }
 
