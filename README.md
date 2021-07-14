@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Yet another Dijkstra's Algorithm visualization tool. What sets this one apart, you might ask? The fact that it's written in using C++ and raw OpenGL!
+Yet another Dijkstra's Algorithm visualization tool. What sets this one apart, you might ask? The fact that it's written using C++ and raw OpenGL!
 
 Writing a pathfinding visualizer is been something I had wanted to do for a while, initially in Pygame. However, around the time I had this idea, I had been reading into using OpenGL. This seemed like a good opportunity to kill two birds with one stone.
 
