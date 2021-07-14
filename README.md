@@ -4,9 +4,9 @@
 
 ## Introduction
 
-Yet another Dijkstra's Algorithm visualization tool. What sets this one apart, you might ask? The fact that it's written in using C++ and raw OpenGL!
+Yet another Dijkstra's Algorithm visualization tool. What sets this one apart, you might ask? The fact that it's written in C++ and using raw OpenGL!
 
-Writing a pathfinding visualizer had been something I had wanted to do for a while, initially in Pygame. However, around the time I had this idea, I had been reading into using OpenGL. This seemed like a good opportunity to kill two birds with one stone.
+Writing a pathfinding visualizer is been something I had wanted to do for a while, initially in Pygame. However, around the time I had this idea, I had been reading into using OpenGL. This seemed like a good opportunity to kill two birds with one stone.
 
 ## Getting Started
 To clone:
@@ -29,22 +29,34 @@ Build for Mac:
 ### Mechanics
 
 White Square: Obstacle - cannot be traversed.
+
 Dark Grey Square: UnVisited node.
+
 Purple Square: Visited node.
+
 Green Square: Start node.
+
 Red Square: Finish node.
+
 Dark Green Square: Path node.
 
 ### Controls
-
+#### Mouse
 Left Click: Toggle node between obstacle and unVisited.
+
 Right Click: Hold down to paint obstacles.
+
 Middle Click: Hold down to erase.
 
+#### Keyboard
 Space Bar: Begin Dijkstra's Algorithm.
+
 1: Random blocks.
+
 2: Recursive Backtracking Maze Algorithm (WIP).
+
 C: Clear obstacles.
+
 R: Reset the board.
 
 ## TODO
