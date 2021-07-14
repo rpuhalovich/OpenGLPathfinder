@@ -55,8 +55,11 @@ bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
                 neighbor->getGridPieceState() == GridPieceState::obstacle || 
                 neighbor->getGridPieceState() == GridPieceState::visited)
                 continue;
-            if (neighbor->getGridPieceState() == GridPieceState::finish)
+            if (neighbor->getGridPieceState() == GridPieceState::finish) {
+                neighbor->setPrev(min);
+                finish = neighbor;
                 return false;
+            }
 
             neighbor->setGridPieceState(GridPieceState::visiting);
 
@@ -70,6 +73,14 @@ bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
             neighbor->setGridPieceState(GridPieceState::visited);
             visited.push_back(neighbor);
         }
+    }
+}
+
+void Dijkstra::drawPath() {
+    GridPiece* temp = finish;
+    while (temp->getPrev() != nullptr) {
+        temp = temp->getPrev();
+        if (temp->getGridPieceState() != GridPieceState::start) temp->setGridPieceState(GridPieceState::path);
     }
 }
 

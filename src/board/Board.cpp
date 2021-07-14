@@ -140,7 +140,10 @@ void Board::draw() {
 }
 
 void Board::iterate() {
-    dijkstra->iterate(grid);
+    if (!dijkstra->iterate(grid)) {
+        state = BoardState::idle;
+        dijkstra->drawPath();
+    }
 }
 
 void Board::clearObstacles() {
@@ -153,7 +156,7 @@ void Board::clearObstacles() {
 void Board::clearVisited() {
     for (auto const& gridCol : grid)
         for (auto const& gridPiece : gridCol)
-            if (gridPiece->getGridPieceState() == GridPieceState::visited)
+            if (gridPiece->getGridPieceState() == GridPieceState::visited || gridPiece->getGridPieceState() == GridPieceState::path)
                 gridPiece->setGridPieceState(GridPieceState::unVisited);
 }
 

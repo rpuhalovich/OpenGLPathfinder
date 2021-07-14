@@ -18,6 +18,8 @@ public:
      * \return true if the algorithm is complete.
      */
     bool iterate(std::vector<std::vector<GridPiece*>>& grid);
+
+    void drawPath();
 private:
     std::vector<GridPiece*> getGridVector(const std::vector<std::vector<GridPiece*>>& grid);
     GridPiece* getSmallestDistanceFromStart();
@@ -33,4 +35,6 @@ private:
 
     std::vector<GridPiece*> unVisited;
     std::vector<GridPiece*> visited;
+
+    GridPiece* finish;
 };
