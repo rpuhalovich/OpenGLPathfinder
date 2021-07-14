@@ -28,7 +28,7 @@ void GridPiece::setGridPieceState(GridPieceState state) {
         case GridPieceState::finishSelected: { Rectangle::changeColor(Colors::DARK_RED); break; }
         case GridPieceState::obstacle: { Rectangle::changeColor(Colors::WHITE); break; }
         case GridPieceState::visiting: { Rectangle::changeColor(Colors::LIGHT_PURPLE); break; }
-        case GridPieceState::visited: { Rectangle::changeColor(Colors::DARK_BLUE_GREY); break; }
+        case GridPieceState::visited: { Rectangle::changeColor(Colors::PURPLE); break; }
         case GridPieceState::path: { Rectangle::changeColor(Colors::DARK_GREEN); break; }
         case GridPieceState::unVisited: { Rectangle::changeColor(gridColor); break; }
     }

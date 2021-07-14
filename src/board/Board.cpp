@@ -140,7 +140,7 @@ void Board::draw() {
 }
 
 void Board::iterate() {
-    if (!dijkstra->iterate(grid)) {
+    if (state == BoardState::running && !dijkstra->iterate(grid)) {
         state = BoardState::idle;
         dijkstra->drawPath();
     }

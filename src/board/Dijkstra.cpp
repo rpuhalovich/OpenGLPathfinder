@@ -1,7 +1,8 @@
 ﻿#include "Dijkstra.hpp"
 
-Dijkstra::Dijkstra() {
-
+Dijkstra::Dijkstra() :
+    finish(nullptr)
+{
 }
 
 Dijkstra::~Dijkstra() {
