@@ -6,7 +6,7 @@
 
 Yet another Dijkstra's Algorithm visualization tool. What sets this one apart, you might ask? The fact that it's written in C++ and using raw OpenGL!
 
-Writing a pathfinding visualizer is been something I had wanted to do for a while, initially in Pygame. However, around the time I had this idea, I had been reading into using OpenGL. This seemed like a good opportunity to kill two birds with one stone.
+Writing a pathfinding visualizer has been something I had wanted to do for a while, initially in Pygame. However, around the time I had this idea, I had been reading into using OpenGL. This seemed like a good opportunity to kill two birds with one stone.
 
 ## Getting Started
 To clone:
@@ -32,7 +32,7 @@ White Square: Obstacle - cannot be traversed.
 
 Dark Grey Square: UnVisited node.
 
-Purple Square: Visited node.
+Light Grey Square: Visited node.
 
 Green Square: Start node.
 
@@ -61,7 +61,7 @@ R: Reset the board.
 
 ## TODO
 
-- This application crashes on MacOS when pressing space for the algorithm start (compiler differences that I need to track down).
+- This application crashes on MacOS when pressing space bar for the algorithm start (compiler differences that I need to track down).
 - Some of the algorithms are not exactly the most efficient (not the point of this program but could still do with improvement). 
 - Track down that pesky 32 byte memory leak on application termination.
 - Others mentioned in the source code.
