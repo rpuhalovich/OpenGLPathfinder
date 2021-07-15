@@ -32,7 +32,7 @@ White Square: Obstacle - cannot be traversed.
 
 Dark Grey Square: UnVisited node.
 
-Light Grey Square: Visited node.
+Purple Square: Visited node.
 
 Green Square: Start node.
 
@@ -61,7 +61,8 @@ R: Reset the board.
 
 ## TODO
 
-- This application crashes on MacOS when pressing space bar for the algorithm start (compiler differences that I need to track down).
+- Implement AStar.
+- This application crashes on MacOS when pressing space for the algorithm start (compiler differences that I need to track down).
 - Some of the algorithms are not exactly the most efficient (not the point of this program but could still do with improvement). 
 - Track down that pesky 32 byte memory leak on application termination.
 - Others mentioned in the source code.
