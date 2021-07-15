@@ -51,7 +51,7 @@ Middle Click: Hold down to erase.
 #### Keyboard
 Space Bar: Begin Dijkstra's Algorithm.
 
-1: Random blocks.
+1: Random obstacles.
 
 2: Recursive Backtracking Maze Algorithm (WIP).
 
