@@ -42,7 +42,7 @@ private:
     void resetBoard();
 
     void recursiveMaze();
-    void recursiveBacktracker(int ox, int oy, int count);
+    void recursiveBacktracker();
 
     /**
      * \brief calculates inputted time delta and returns bool based on if desired time delta has passed.

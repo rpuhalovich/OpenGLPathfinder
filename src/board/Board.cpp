@@ -1,6 +1,7 @@
 #include "Board.hpp"
 #include <random>
 #include <algorithm>
+#include <stack>
 
 Board::Board(float borderSize, float winWidth, float winHeight, glm::vec4 color, glm::vec4 gridColor) :
     Rectangle(winWidth - borderSize * 2, winHeight - borderSize * 2, color), 
@@ -203,41 +204,62 @@ void Board::recursiveMaze() {
     clearObstacles();
 
     // TODO: Make work.
-    //recursiveBacktracker(1, 1, 0);
+    //recursiveBacktracker();
+
+    GridPieceState s = GridPieceState::start, f = GridPieceState::finish;
 
     // Obstacle walls
     for (int x = 0; x < GRID_WIDTH; x++) {
-        grid[x][0]->setGridPieceState(GridPieceState::obstacle);
-        grid[x][GRID_HEIGHT - 1]->setGridPieceState(GridPieceState::obstacle);
+        if (grid[x][0]->getGridPieceState() != s && grid[x][0]->getGridPieceState() != f)
+            grid[x][0]->setGridPieceState(GridPieceState::obstacle);
+
+        if (grid[x][GRID_HEIGHT - 1]->getGridPieceState() != s && grid[x][GRID_HEIGHT - 1]->getGridPieceState() != f)
+            grid[x][GRID_HEIGHT - 1]->setGridPieceState(GridPieceState::obstacle);
     }
 
     for (int y = 0; y < GRID_HEIGHT; y++) {
-        grid[0][y]->setGridPieceState(GridPieceState::obstacle);
-        grid[GRID_WIDTH - 1][y]->setGridPieceState(GridPieceState::obstacle);
+        if (grid[0][y]->getGridPieceState() != s && grid[0][y]->getGridPieceState() != f)
+            grid[0][y]->setGridPieceState(GridPieceState::obstacle);
+
+        if (grid[GRID_WIDTH - 1][y]->getGridPieceState() != s && grid[GRID_WIDTH - 1][y]->getGridPieceState() != f)
+            grid[GRID_WIDTH - 1][y]->setGridPieceState(GridPieceState::obstacle);
     }
 }
 
-void Board::recursiveBacktracker(int ox, int oy, int count) {
-    if (count > 10) return;
+void Board::recursiveBacktracker() {
+    std::stack<GridPiece*> stack;
+    stack.push(grid[1][1]);
 
     GridPieceState reg = GridPieceState::unVisited, obs = GridPieceState::obstacle;
 
-    // To not have the Board::directions shuffled.
-    std::vector<glm::vec2> localDirections {
+    std::vector<glm::vec2> directions {
         glm::vec2(0,  1), // Up
         glm::vec2(0, -1), // Down
         glm::vec2(-1, 0), // Left
         glm::vec2(1,  0)  // Right
     };
 
-    std::shuffle(localDirections.begin(), localDirections.end(), std::default_random_engine{});
+    std::shuffle(directions.begin(), directions.end(), std::default_random_engine{});
 
-    for (auto const& d : localDirections) {
-        glm::vec2 dir = glm::vec2(ox, oy) + d;
-        if (glm::all(glm::greaterThan(dir, glm::vec2(0, 0))) && glm::all(glm::greaterThan(dir * glm::vec2(2, 2), glm::vec2(0, 0)))) {
-            if (grid[dir.x][dir.y]->getGridPieceState() == reg && grid[dir.x * 2][dir.y * 2]->getGridPieceState() == reg) {
-                grid[dir.x][dir.y]->setGridPieceState(obs);
-                recursiveBacktracker(dir.x, dir.y, ++count);
+    while (!stack.empty()) {
+        GridPiece* currentCell = stack.top();
+        stack.pop();
+
+        for (const auto& d : directions) {
+            glm::vec2 neighborDir = glm::vec2(currentCell->getBoardLocation().x + d.x, currentCell->getBoardLocation().y + d.y);
+
+            // If potential neighbor is within bounds of the grid.
+            if (neighborDir.x >= 0 && neighborDir.y >= 0 && neighborDir.x < GRID_WIDTH && neighborDir.y < GRID_HEIGHT) {
+                if (neighborDir.x * 2 >= 0 && neighborDir.y * 2 >= 0 && neighborDir.x * 2 < GRID_WIDTH && neighborDir.y * 2 < GRID_HEIGHT) {
+                    // If potential neighbor is not visited and the GridPiece one more unit away is also regular.
+                    if (grid[neighborDir.x][neighborDir.y]->getGridPieceState() == reg && grid[neighborDir.x * 2][neighborDir.y * 2]->getGridPieceState() == reg) {
+                        stack.push(currentCell);
+
+                        grid[neighborDir.x][neighborDir.y]->setGridPieceState(GridPieceState::obstacle);
+                        stack.push(grid[neighborDir.x][neighborDir.y]);
+                        draw();
+                    }
+                }
             }
         }
     }
