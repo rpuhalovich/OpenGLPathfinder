@@ -63,7 +63,6 @@ R: Reset the board.
 
 - Implement AStar.
 - Replace the use of vector with a priority queue for the unVisited nodes.
-- This application crashes on MacOS when pressing space for the algorithm start (compiler differences that I need to track down).
 - Some of the algorithms are not exactly the most efficient (not the point of this program but could still do with improvement). 
 - Track down that pesky 32 byte memory leak on application termination.
 - Others mentioned in the source code.

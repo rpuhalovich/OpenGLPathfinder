@@ -1,4 +1,4 @@
-﻿#include "Dijkstra.hpp"
+#include "Dijkstra.hpp"
 
 Dijkstra::Dijkstra() :
     finish(nullptr)
@@ -74,6 +74,7 @@ bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
             neighbor->setGridPieceState(GridPieceState::visited);
             visited.push_back(neighbor);
         }
+        return true;
     }
 }
 
