@@ -10,6 +10,8 @@
 
 #include "util.hpp"
 
+// TODO: Next time make this a global singleton. Only ever going have one window.
+
 class Window : public IEventSubject {
 public:
     Window(float widthpx, float heightpx, std::string winTitle, bool maximised, bool resizable);

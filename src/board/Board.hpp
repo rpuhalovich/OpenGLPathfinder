@@ -44,6 +44,12 @@ private:
     void recursiveMaze();
     void recursiveBacktracker(int ox, int oy, int count);
 
+    /**
+     * \brief calculates inputted time delta and returns bool based on if desired time delta has passed.
+     * \return 
+     */
+    bool calcTimeDelta(float deltaTime);
+
     // --- members ---
     std::unique_ptr<Rectangle> background;
 

@@ -1,7 +1,7 @@
 #include "Dijkstra.hpp"
 
-Dijkstra::Dijkstra() :
-    finish(nullptr)
+Dijkstra::Dijkstra(glm::vec2 gridDimensions) :
+    finish(nullptr), gridDimensions(gridDimensions)
 {
 }
 
@@ -17,39 +17,19 @@ void Dijkstra::init(std::vector<std::vector<GridPiece*>>& grid) {
     unVisited = getGridVector(grid);
 }
 
-// https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode
-/**
- *   1  function Dijkstra(Graph, source):
- *   2
- *   3      create vertex set Q
- *   4
- *   5      for each vertex v in Graph:
- *   6          dist[v] ← INFINITY
- *   7          prev[v] ← UNDEFINED
- *   8          add v to Q
- *   9      dist[source] ← 0
- *  10
- *  11      while Q is not empty:
- *  12          u ← vertex in Q with min dist[u]
- *  13
- *  14          remove u from Q
- *  15
- *  16          for each neighbor v of u:           // only v that are still in Q
- *  17              alt ← dist[u] + length(u, v)
- *  18              if alt < dist[v]:
- *  19                  dist[v] ← alt
- *  20                  prev[v] ← u
- *  21
- *  22      return dist[], prev[]
- */
-
-bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
+DijkstraState Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
     if (!unVisited.empty()) {
+
         GridPiece* min = getSmallestDistanceFromStart();
+        if (min->getDistanceFromStart() == INT_MAX)
+            return DijkstraState::finishNotFound;
+
         for (const auto& d : directions) {
             // Get neighbor vec2 location.
             glm::vec2 dir = d + min->getBoardLocation();
-            if (!(dir.x >= 0 && dir.y >= 0 && dir.x < 51 && dir.y < 28)) continue; // TODO: remove magic numbers.
+            // If this potential neighbor is outside of board dimensions, continue.
+            if (!(dir.x >= 0 && dir.y >= 0 && dir.x < gridDimensions.x && dir.y < gridDimensions.y))
+                continue;
 
             GridPiece* neighbor = grid[dir.x][dir.y];
             if (neighbor->getGridPieceState() == GridPieceState::start || 
@@ -59,7 +39,7 @@ bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
             if (neighbor->getGridPieceState() == GridPieceState::finish) {
                 neighbor->setPrev(min);
                 finish = neighbor;
-                return false;
+                return DijkstraState::finishFound;
             }
 
             neighbor->setGridPieceState(GridPieceState::visiting);
@@ -74,7 +54,7 @@ bool Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
             neighbor->setGridPieceState(GridPieceState::visited);
             visited.push_back(neighbor);
         }
-        return true;
+        return DijkstraState::running;
     }
 }
 

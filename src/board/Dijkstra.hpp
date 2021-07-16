@@ -3,21 +3,20 @@
 #include "util.hpp"
 #include "GridPiece.hpp"
 
-/**
- * Singleton to house the Dijkstra Algorithm.
- */
+enum class DijkstraState { running, finishFound, finishNotFound };
+
 class Dijkstra {
 public:
-    Dijkstra();
+    Dijkstra(glm::vec2 gridDimensions);
     ~Dijkstra();
 
     void init(std::vector<std::vector<GridPiece*>>& grid);
 
     /**
      * \brief Relies on external while loop to complete all iterations.
-     * \return true if the algorithm is complete.
+     * \return state of the iteration, allowing for decision on what to do next.
      */
-    bool iterate(std::vector<std::vector<GridPiece*>>& grid);
+    DijkstraState iterate(std::vector<std::vector<GridPiece*>>& grid);
 
     void drawPath();
 private:
@@ -35,6 +34,8 @@ private:
 
     std::vector<GridPiece*> unVisited;
     std::vector<GridPiece*> visited;
+
+    glm::vec2 gridDimensions;
 
     GridPiece* finish;
 };

@@ -6,7 +6,7 @@ Board::Board(float borderSize, float winWidth, float winHeight, glm::vec4 color,
     Rectangle(winWidth - borderSize * 2, winHeight - borderSize * 2, color), 
     background(std::make_unique<Rectangle>(winWidth, winHeight, gridColor)),
     state(BoardState::idle),
-    dijkstra(std::make_unique<Dijkstra>())
+    dijkstra(std::make_unique<Dijkstra>(glm::vec2(GRID_WIDTH, GRID_HEIGHT)))
 {
     Rectangle::translate(glm::vec2(borderSize, borderSize));
 
@@ -129,6 +129,16 @@ void Board::rightClick(glm::vec2 location) {
     }
 }
 
+bool Board::calcTimeDelta(float deltaTime) {
+    double currentTime = glfwGetTime();
+    double timeDelta = currentTime - lastTimeDelta;
+    if (timeDelta >= deltaTime) {
+        lastTimeDelta = currentTime;
+        return true;
+    }
+    return false;
+}
+
 void Board::draw() {
     background->draw();
     Rectangle::draw();
@@ -138,17 +148,14 @@ void Board::draw() {
 
     // If the Board is in running state, it will iterate the algorithm every DELTA_TIME
     if (state == BoardState::running) {
-        double currentTime = glfwGetTime();
-        double timeDelta = currentTime - lastTimeDelta;
-        if (timeDelta >= DELTA_TIME) {
-            lastTimeDelta = currentTime;
+        if (calcTimeDelta(DELTA_TIME)) {
             iterate();
         }
     }
 }
 
 void Board::iterate() {
-    if (!dijkstra->iterate(grid)) {
+    if (dijkstra->iterate(grid) == DijkstraState::finishFound) {
         state = BoardState::idle;
         dijkstra->drawPath();
     }
