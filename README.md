@@ -38,7 +38,7 @@ Green Square: Start node.
 
 Red Square: Finish node.
 
-Dark Green Square: Path node.
+Dark Blue Square: Path node.
 
 ### Controls
 #### Mouse
