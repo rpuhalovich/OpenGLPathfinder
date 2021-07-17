@@ -11,7 +11,7 @@
 #define GRID_HEIGHT 28
 #define GRID_PIECE_SIZE 20.0f
 
-#define RAND_PROB 0.8f
+#define RAND_PROB 0.65f
 #define DELTA_TIME 0.001f
 
 enum class BoardState { selectingStart, selectingFinish, running, idle };
