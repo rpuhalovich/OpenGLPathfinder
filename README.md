@@ -24,6 +24,10 @@ Build for Mac:
 
 ```cmake -S . -B build -GXcode``` or ```./scripts/build_xcode.sh```
 
+Build for Linux:
+
+Install dependencies: ```sudo apt install -y libgl1-mesa-dev freeglut3-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev```
+
 ## Usage
 
 ### Mechanics

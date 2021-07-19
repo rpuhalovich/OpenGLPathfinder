@@ -35,6 +35,11 @@ set(tgt_inc
 )
 
 # --- lib ------------------------------------------
+# OpenGL on Linux
+find_package(OpenGL REQUIRED)
+find_package(GLUT REQUIRED)
+set(inc ${inc} ${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
+
 # glad
 add_library(glad "${EXTERN_DIR}/glad/src/glad.c")
 set(inc ${inc} "${EXTERN_DIR}/glad/include")
@@ -70,13 +75,6 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC
     PROJECT_ROOT_DIR="${CMAKE_SOURCE_DIR}"
 )
 
-if(MSVC)
-    target_link_libraries(${PROJECT_NAME} ${lib} opengl32)
-elseif(APPLE)
-    add_compile_definitions(GL_SILENCE_DEPRECATION)
-    target_link_libraries(${PROJECT_NAME} ${lib} "-framework OpenGL -framework IOKit -framework CoreVideo -framework Cocoa")
-endif()
-
 target_precompile_headers(${PROJECT_NAME} PUBLIC
     <vector>
     <string>
@@ -94,3 +92,12 @@ target_precompile_headers(${PROJECT_NAME} PUBLIC
     <glm/gtc/type_ptr.hpp>
 )
 source_group("Precompile Header File" FILES "${CMAKE_SOURCE_DIR}/build/CMakeFiles/${PROJECT_NAME}.dir/cmake_pch.cxx")
+
+if(MSVC)
+    target_link_libraries(${PROJECT_NAME} ${lib} opengl32)
+elseif(APPLE)
+    add_compile_definitions(GL_SILENCE_DEPRECATION)
+    target_link_libraries(${PROJECT_NAME} ${lib} "-framework OpenGL -framework IOKit -framework CoreVideo -framework Cocoa")
+elseif(UNIX AND NOT APPLE)
+    target_link_libraries(${PROJECT_NAME} ${lib} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+endif()

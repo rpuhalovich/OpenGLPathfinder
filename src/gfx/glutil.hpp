@@ -15,12 +15,20 @@
 #ifdef DEBUG
     #ifdef __APPLE__
         #define glc(x) glClearErrors(); x; ASSERT(glCheckError(#x, __FILE__, __LINE__))
-    #elif _MSC_VER
+    #endif
+
+    #ifdef _WIN32  
+        #define glc(x) x
+    #endif
+    
+    #ifdef __linux__
         #define glc(x) x
     #endif
 #elif RELEASE
     #define glc(x) x
 #endif
+
+#define glc(x) x
 
 #define IGNORE_POS glm::vec2(-1, -1)
 
