@@ -40,7 +40,7 @@ GLFWwindow* Window::makeWindow(unsigned int widthpx, unsigned int heightpx, std:
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#elif _MSVC_VER
+#elif _MSC_VER
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 #elif __linux__
