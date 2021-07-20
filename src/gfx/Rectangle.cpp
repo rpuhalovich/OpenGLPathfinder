@@ -8,14 +8,14 @@ Rectangle::Rectangle(float width, float height, glm::vec4 color) :
     bounds(std::make_unique<RectangleBounds>(width, height)),
     currentPos(glm::vec2(0.0f, 0.0f))
 {
-    float vertices[] = {
-         width, height, 0.0f, // top right
-         width, 0.0f,   0.0f, // bottom right
-         0.0f,  0.0f,   0.0f, // bottom left
-         0.0f,  height, 0.0f  // top left
+    std::vector<float> vertices = {
+            width, height, 0.0f, // top right
+            width, 0.0f,   0.0f, // bottom right
+            0.0f,  0.0f,   0.0f, // bottom left
+            0.0f,  height, 0.0f  // top left
     };
 
-    int indices[] = {
+    std::vector<int> indices = {
         0, 1, 3, // first triangle
         1, 2, 3  // second triangle
     };
@@ -23,8 +23,8 @@ Rectangle::Rectangle(float width, float height, glm::vec4 color) :
     vao = std::make_unique<VAO>();
     vao->bind();
 
-    vbo = std::make_unique<VBO>(vertices, sizeof(vertices));
-    ebo = std::make_unique<EBO>(indices, sizeof(indices));
+    vbo = std::make_unique<VBO>(&vertices[0], vertices.size());
+    ebo = std::make_unique<EBO>(&indices[0], indices.size());
 
     vao->configureVAOBuffer(0, 3, GL_FLOAT, 3, 0); // positions
 
