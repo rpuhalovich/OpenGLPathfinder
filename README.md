@@ -9,7 +9,8 @@ Yet another Dijkstra's Algorithm visualization tool. What sets this one apart, y
 Writing a pathfinding visualizer has been something I had wanted to do for a while, initially in Pygame. However, around the time I had this idea, I had been reading into using OpenGL. This seemed like a good opportunity to kill two birds with one stone.
 
 ## Getting Started
-To clone:
+
+### To clone
 
 ```
 git clone --recursive https://github.com/rpuhalovich/OpenGLPathfinder.git
