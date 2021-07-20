@@ -11,6 +11,8 @@ set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER Predefined)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=leak -g")
+
 # --- src ------------------------------------------
 set(EXTERN_DIR "${CMAKE_SOURCE_DIR}/extern")
 set(SHADER_DIR "${CMAKE_SOURCE_DIR}/src/gfx/shaders/")
