@@ -26,7 +26,7 @@ Build for Mac:
 
 Build for Linux:
 
-Install dependencies: ```sudo apt install -y libgl1-mesa-dev freeglut3-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev```
+Install dependencies: ```sudo apt install -y libgl1-mesa-dev freeglut3-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libx11-dev```
 
 ## Usage
 
