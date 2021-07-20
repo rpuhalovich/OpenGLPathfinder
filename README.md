@@ -16,17 +16,19 @@ git clone --recursive https://github.com/rpuhalovich/OpenGLPathfinder.git
 cd OpenGLPathfinder
 ```
 
-Build for Windows:
+### Build for Windows
 
 ```cmake -S . -B build -G"Visual Studio 16 2019"``` or ```scripts\build_visual_studio.bat```
 
-Build for Mac:
+### Build for Mac
 
 ```cmake -S . -B build -GXcode``` or ```./scripts/build_xcode.sh```
 
-Build for Linux:
+### Build for Linux
 
 Install dependencies: ```sudo apt install -y libgl1-mesa-dev freeglut3-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libx11-dev```
+
+```cmake -S . -B build``` or ```./scripts/build_linux.sh```
 
 ## Usage
 
