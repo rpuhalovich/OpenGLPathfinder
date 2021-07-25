@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <ctime>
 
 static void errorExit(const char* m, int status) {
     printf("%s\n", m);
