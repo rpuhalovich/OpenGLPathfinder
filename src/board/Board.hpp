@@ -3,8 +3,8 @@
 #include "leakdetector.hpp"
 
 #include "util.hpp"
-#include "GridPiece.hpp"
 #include "Rectangle.hpp"
+#include "GridPiece.hpp"
 #include "Dijkstra.hpp"
 
 #define GRID_WIDTH 51

@@ -56,6 +56,7 @@ DijkstraState Dijkstra::iterate(std::vector<std::vector<GridPiece*>>& grid) {
         }
         return DijkstraState::running;
     }
+    return DijkstraState::finishNotFound;
 }
 
 void Dijkstra::drawPath() {

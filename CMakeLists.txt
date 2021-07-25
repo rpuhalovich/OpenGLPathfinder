@@ -37,7 +37,7 @@ set(tgt_inc
     ${SRC_DIR}/board
     ${SRC_DIR}/events
     ${SRC_DIR}/gfx
-    ${SRC_DIR}/util
+    ${SRC_DIR}/gfx/util
 )
 
 # --- lib ------------------------------------------

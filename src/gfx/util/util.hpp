@@ -7,6 +7,10 @@ static void errorExit(const char* m, int status) {
     exit(status);
 }
 
+static void initRand() {
+    std::srand(std::time(nullptr));
+}
+
 static double nextRand() {
     return ((double)(rand() % 100)) / 100;
 }

@@ -1,9 +1,15 @@
 #include "Application.hpp"
 
 Application::Application(ApplicationHints* ah) {
-    // Note: Window should exist before the renderer as a context is needed.
-    window = std::make_unique<Window>(ah->winWidth, ah->winHeight, ah->winTitle, ah->maximised, ah->resizable);
-    renderer->init(ah->winWidth, ah->winHeight);
+    RendererHints rh;
+
+    rh.maximised = ah->maximised;
+    rh.resizable = ah->resizable;
+    rh.winTitle = ah->winTitle;
+    rh.winHeight = ah->winHeight;
+    rh.winWidth = ah->winWidth;
+
+    window = Renderer::init(&rh);
 }
 
 Application::~Application() {
