@@ -45,22 +45,25 @@ Board::~Board() {
 
 void Board::onUpdate(glm::vec2 location, int button, int action) {
     // Key events
-    if (button == GLFW_KEY_1 && action == GLFW_PRESS) {
-        clearVisited();
-        randomObstacles();
+    if (state != BoardState::running) {
+        if (button == GLFW_KEY_1 && action == GLFW_PRESS) {
+            clearVisited();
+            randomObstacles();
+        }
+        if (button == GLFW_KEY_2 && action == GLFW_PRESS) {
+            clearVisited();
+            recursiveMaze();
+        }
+        if (button == GLFW_KEY_C && action == GLFW_PRESS) {
+            clearVisited();
+            clearObstacles();
+        }
+        if (button == GLFW_KEY_R && action == GLFW_PRESS) {
+            clearVisited();
+            resetBoard();
+        }
     }
-    if (button == GLFW_KEY_2 && action == GLFW_PRESS) {
-        clearVisited();
-        recursiveMaze();
-    }
-    if (button == GLFW_KEY_C && action == GLFW_PRESS) {
-        clearVisited();
-        clearObstacles();
-    }
-    if (button == GLFW_KEY_R && action == GLFW_PRESS) {
-        clearVisited();
-        resetBoard();
-    }
+
     if (button == GLFW_KEY_SPACE && action == GLFW_PRESS) {
         clearVisited();
         dijkstra->init(grid);
