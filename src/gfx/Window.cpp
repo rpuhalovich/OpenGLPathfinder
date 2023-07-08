@@ -84,21 +84,13 @@ void Window::processInput() {
     // Key events
     int newKeyState = s_KeyAction; // This is a trick to get only a single click/key press registered.
     if (newKeyState == GLFW_RELEASE && oldKeyState == GLFW_PRESS) {
-        if (s_key == GLFW_KEY_ESCAPE)
-            glfwSetWindowShouldClose(window, true);
-
-        if (s_key == GLFW_KEY_1)
-            notifyObserver(IGNORE_POS, GLFW_KEY_1, GLFW_PRESS);
-        if (s_key == GLFW_KEY_2)
-            notifyObserver(IGNORE_POS, GLFW_KEY_2, GLFW_PRESS);
-        if (s_key == GLFW_KEY_C)
-            notifyObserver(IGNORE_POS, GLFW_KEY_C, GLFW_PRESS);
-        if (s_key == GLFW_KEY_R)
-            notifyObserver(IGNORE_POS, GLFW_KEY_R, GLFW_PRESS);
-        if (s_key == GLFW_KEY_S)
-            notifyObserver(IGNORE_POS, GLFW_KEY_S, GLFW_PRESS);
-        if (s_key == GLFW_KEY_SPACE)
-            notifyObserver(IGNORE_POS, GLFW_KEY_SPACE, GLFW_PRESS);
+        if (s_key == GLFW_KEY_ESCAPE) glfwSetWindowShouldClose(window, true);
+        if (s_key == GLFW_KEY_1) notifyObserver(IGNORE_POS, GLFW_KEY_1, GLFW_PRESS);
+        if (s_key == GLFW_KEY_2) notifyObserver(IGNORE_POS, GLFW_KEY_2, GLFW_PRESS);
+        if (s_key == GLFW_KEY_C) notifyObserver(IGNORE_POS, GLFW_KEY_C, GLFW_PRESS);
+        if (s_key == GLFW_KEY_R) notifyObserver(IGNORE_POS, GLFW_KEY_R, GLFW_PRESS);
+        if (s_key == GLFW_KEY_S) notifyObserver(IGNORE_POS, GLFW_KEY_S, GLFW_PRESS);
+        if (s_key == GLFW_KEY_SPACE) notifyObserver(IGNORE_POS, GLFW_KEY_SPACE, GLFW_PRESS);
     }
     oldKeyState = newKeyState;
 

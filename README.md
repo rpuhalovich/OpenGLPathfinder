@@ -12,24 +12,16 @@ Writing a pathfinding visualizer has been something I had wanted to do for a whi
 
 ### To clone
 
-```
+```bash
 git clone --recursive https://github.com/rpuhalovich/OpenGLPathfinder.git
 cd OpenGLPathfinder
 ```
 
-### Build for Windows
+### Build on Macos
 
-```cmake -S . -B build -G"Visual Studio 16 2019"``` or ```scripts\build_visual_studio.bat```
-
-### Build for Mac
-
-```cmake -S . -B build -GXcode``` or ```./scripts/build_xcode.sh```
-
-### Build for Linux
-
-Install dependencies: ```sudo apt install -y libgl1-mesa-dev freeglut3-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libx11-dev```
-
-```cmake -S . -B build``` or ```./scripts/build_linux.sh```
+```bash
+make
+``
 
 ## Usage
 
@@ -48,7 +40,9 @@ Red Square: Finish node.
 Dark Blue Square: Path node.
 
 ### Controls
+
 #### Mouse
+
 Left Click: Toggle node between obstacle and unVisited.
 
 Right Click: Hold down to paint obstacles.
@@ -56,6 +50,7 @@ Right Click: Hold down to paint obstacles.
 Middle Click: Hold down to erase.
 
 #### Keyboard
+
 Space Bar: Begin Dijkstra's Algorithm.
 
 1: Random obstacles.
@@ -65,11 +60,3 @@ Space Bar: Begin Dijkstra's Algorithm.
 C: Clear obstacles.
 
 R: Reset the board.
-
-## TODO
-
-- Implement AStar.
-- Replace the use of vector with a priority queue for the unVisited nodes.
-- Some of the algorithms are not exactly the most efficient (not the point of this program but could still do with improvement). 
-- Track down that pesky 32 byte memory leak on application termination.
-- Others mentioned in the source code.
